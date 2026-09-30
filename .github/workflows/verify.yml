@@ -1,0 +1,40 @@
+name: Verify Faultline
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm run check
+      - run: npm test
+      - run: node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: local-benchmark
+          path: benchmark-result.json
+  browser:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    env:
+      FAULTLINE_BROWSER: ${{ matrix.browser }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install --prefix tests --ignore-scripts
+      - run: cd tests && npx playwright install --with-deps ${{ matrix.browser }}
+      - run: node tests/browser.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-${{ matrix.browser }}
+          path: test-results/

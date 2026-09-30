@@ -1,0 +1,250 @@
+TAP version 13
+# Subtest: static UI, bootstrap and CSP are served
+ok 1 - static UI, bootstrap and CSP are served
+  ---
+  duration_ms: 41.131527
+  type: 'test'
+  ...
+# Subtest: write without control token is rejected
+ok 2 - write without control token is rejected
+  ---
+  duration_ms: 7.500688
+  type: 'test'
+  ...
+# Subtest: non-ASCII control token is rejected without a server exception
+ok 3 - non-ASCII control token is rejected without a server exception
+  ---
+  duration_ms: 4.422181
+  type: 'test'
+  ...
+# Subtest: cross-site write is rejected even with a token
+ok 4 - cross-site write is rejected even with a token
+  ---
+  duration_ms: 4.801171
+  type: 'test'
+  ...
+# Subtest: DNS-rebinding Host is rejected
+ok 5 - DNS-rebinding Host is rejected
+  ---
+  duration_ms: 5.625633
+  type: 'test'
+  ...
+# Subtest: missing idempotency key is rejected
+ok 6 - missing idempotency key is rejected
+  ---
+  duration_ms: 4.509117
+  type: 'test'
+  ...
+# Subtest: malformed JSON and unsupported body fields fail explicitly
+ok 7 - malformed JSON and unsupported body fields fail explicitly
+  ---
+  duration_ms: 10.291531
+  type: 'test'
+  ...
+# Subtest: body size limit returns 413 without creating a task
+ok 8 - body size limit returns 413 without creating a task
+  ---
+  duration_ms: 4.380969
+  type: 'test'
+  ...
+# Subtest: three parallel HTTP submissions with same key create one task
+ok 9 - three parallel HTTP submissions with same key create one task
+  ---
+  duration_ms: 9.97171
+  type: 'test'
+  ...
+# Subtest: stale revision receives 409 and original data survives
+ok 10 - stale revision receives 409 and original data survives
+  ---
+  duration_ms: 7.565575
+  type: 'test'
+  ...
+# Subtest: snapshot supports conditional reads and validates pagination
+ok 11 - snapshot supports conditional reads and validates pagination
+  ---
+  duration_ms: 7.883153
+  type: 'test'
+  ...
+# Subtest: SSE resumes from a persisted cursor
+ok 12 - SSE resumes from a persisted cursor
+  ---
+  duration_ms: 255.907613
+  type: 'test'
+  ...
+# Subtest: evidence export contains a valid retained event chain
+ok 13 - evidence export contains a valid retained event chain
+  ---
+  duration_ms: 4.913221
+  type: 'test'
+  ...
+# Subtest: four independent processes drain 240 tasks with no missing or duplicate receipts
+ok 14 - four independent processes drain 240 tasks with no missing or duplicate receipts
+  ---
+  duration_ms: 9461.365875
+  type: 'test'
+  ...
+# Subtest: SIGKILL is real: expired attempt is replaced and only one receipt is committed
+ok 15 - SIGKILL is real: expired attempt is replaced and only one receipt is committed
+  ---
+  duration_ms: 12780.695412
+  type: 'test'
+  ...
+# Subtest: controller restart preserves tasks, pause state and idempotency records
+ok 16 - controller restart preserves tasks, pause state and idempotency records
+  ---
+  duration_ms: 9103.70893
+  type: 'test'
+  ...
+# Subtest: hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+ok 17 - hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+  ---
+  duration_ms: 9501.083825
+  type: 'test'
+  ...
+# Subtest: same intent creates one durable task across two connections
+ok 18 - same intent creates one durable task across two connections
+  ---
+  duration_ms: 6.44679
+  type: 'test'
+  ...
+# Subtest: same idempotency key with different content is a conflict
+ok 19 - same idempotency key with different content is a conflict
+  ---
+  duration_ms: 2.626546
+  type: 'test'
+  ...
+# Subtest: canonical defaults and property order identify the same request
+ok 20 - canonical defaults and property order identify the same request
+  ---
+  duration_ms: 3.188853
+  type: 'test'
+  ...
+# Subtest: invalid data does not overwrite or append a job
+ok 21 - invalid data does not overwrite or append a job
+  ---
+  duration_ms: 2.802201
+  type: 'test'
+  ...
+# Subtest: priority applies only to due jobs; delayed tasks cannot be claimed early
+ok 22 - priority applies only to due jobs; delayed tasks cannot be claimed early
+  ---
+  duration_ms: 4.511515
+  type: 'test'
+  ...
+# Subtest: two connections cannot claim the same live lease
+ok 23 - two connections cannot claim the same live lease
+  ---
+  duration_ms: 2.827699
+  type: 'test'
+  ...
+# Subtest: wrong owner and token cannot renew or commit
+ok 24 - wrong owner and token cannot renew or commit
+  ---
+  duration_ms: 5.275436
+  type: 'test'
+  ...
+# Subtest: lease expiry is recovered and a stale worker cannot overwrite a new owner
+ok 25 - lease expiry is recovered and a stale worker cannot overwrite a new owner
+  ---
+  duration_ms: 4.368659
+  type: 'test'
+  ...
+# Subtest: expired lease cannot be renewed or committed before a sweeper runs
+ok 26 - expired lease cannot be renewed or committed before a sweeper runs
+  ---
+  duration_ms: 2.209468
+  type: 'test'
+  ...
+# Subtest: heartbeat extends an active lease
+ok 27 - heartbeat extends an active lease
+  ---
+  duration_ms: 2.296709
+  type: 'test'
+  ...
+# Subtest: retry budget, exponential delay and jitter are enforced
+ok 28 - retry budget, exponential delay and jitter are enforced
+  ---
+  duration_ms: 4.534951
+  type: 'test'
+  ...
+# Subtest: revision conflict rejects a stale action without changing the job
+ok 29 - revision conflict rejects a stale action without changing the job
+  ---
+  duration_ms: 2.617853
+  type: 'test'
+  ...
+# Subtest: cancel fences in-flight work; repeated cancel is idempotent
+ok 30 - cancel fences in-flight work; repeated cancel is idempotent
+  ---
+  duration_ms: 2.246885
+  type: 'test'
+  ...
+# Subtest: dead-letter replay retains history and advances the generation
+ok 31 - dead-letter replay retains history and advances the generation
+  ---
+  duration_ms: 3.278057
+  type: 'test'
+  ...
+# Subtest: successful task cannot be replayed into duplicate side effects
+ok 32 - successful task cannot be replayed into duplicate side effects
+  ---
+  duration_ms: 2.23067
+  type: 'test'
+  ...
+# Subtest: pause prevents new claims but permits in-flight commits
+ok 33 - pause prevents new claims but permits in-flight commits
+  ---
+  duration_ms: 2.707077
+  type: 'test'
+  ...
+# Subtest: duplicate experiment invokes actual deduplication and yields one job
+ok 34 - duplicate experiment invokes actual deduplication and yields one job
+  ---
+  duration_ms: 2.379384
+  type: 'test'
+  ...
+# Subtest: receipt and success commit atomically, and duplicate completion is rejected
+ok 35 - receipt and success commit atomically, and duplicate completion is rejected
+  ---
+  duration_ms: 2.736842
+  type: 'test'
+  ...
+# Subtest: event chain detects modified payloads
+ok 36 - event chain detects modified payloads
+  ---
+  duration_ms: 1.728674
+  type: 'test'
+  ...
+# Subtest: retention preserves live jobs and advances the chain anchor
+ok 37 - retention preserves live jobs and advances the chain anchor
+  ---
+  duration_ms: 3.542475
+  type: 'test'
+  ...
+# Subtest: keyset pagination returns disjoint pages and supports state filters
+ok 38 - keyset pagination returns disjoint pages and supports state filters
+  ---
+  duration_ms: 11.728174
+  type: 'test'
+  ...
+# Subtest: SQL-looking labels remain data
+ok 39 - SQL-looking labels remain data
+  ---
+  duration_ms: 2.351161
+  type: 'test'
+  ...
+# Subtest: handlers return real summaries and reject invalid numeric input
+ok 40 - handlers return real summaries and reject invalid numeric input
+  ---
+  duration_ms: 0.455446
+  type: 'test'
+  ...
+1..40
+# tests 40
+# suites 0
+# pass 40
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 40943.000888

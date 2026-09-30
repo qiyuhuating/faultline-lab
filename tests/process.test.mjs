@@ -1,0 +1,115 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { startServer } from '../src/server.mjs';
+import { fork } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { Queue } from '../src/queue.mjs';
+
+async function until(predicate, timeout = 14000) {
+  const start = performance.now();
+  while (performance.now() - start < timeout) {
+    const result = predicate();
+    if (result) return result;
+    await sleep(30);
+  }
+  throw new Error('Timed out waiting for a real worker process.');
+}
+
+test('four independent processes drain 240 tasks with no missing or duplicate receipts', { timeout: 25000 }, async t => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-process-'));
+  const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 4, quiet: true });
+  t.after(async () => { await instance.close(); rmSync(directory, { recursive: true, force: true }); });
+  await until(() => instance.queue.snapshot().workers.filter(w => w.online).length === 4);
+  const ids = [];
+  for (let i = 0; i < 240; i++) ids.push(instance.queue.submit({ label: `race ${i}`, text: `${i}`, delayMs: 0 }, `process-job-${i}`).jobId);
+  await until(() => instance.queue.snapshot().counts.succeeded === 240);
+  assert.equal(instance.queue.db.prepare('SELECT COUNT(*) n FROM receipts').get().n, 240);
+  assert.equal(instance.queue.db.prepare("SELECT COUNT(*) n FROM jobs WHERE attempt!=1").get().n, 0);
+  const owners = instance.queue.db.prepare('SELECT DISTINCT worker_id FROM attempts').all();
+  assert.ok(owners.length >= 2, 'Multiple independent processes actually participate.');
+  assert.equal(instance.queue.evidence().integrity.valid, true);
+  assert.equal(new Set(ids).size, 240);
+});
+
+test('SIGKILL is real: expired attempt is replaced and only one receipt is committed', { timeout: 20000 }, async t => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-crash-'));
+  const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 3, quiet: true });
+  t.after(async () => { await instance.close(); rmSync(directory, { recursive: true, force: true }); });
+  const { jobIds } = instance.queue.experiment('crash', 'process-crash-intent');
+  const id = jobIds[0];
+  await until(() => instance.queue.detail(id).state === 'succeeded');
+  const job = instance.queue.detail(id);
+  assert.equal(job.attempt, 2);
+  assert.deepEqual(job.attempts.map(a => a.state), ['expired', 'succeeded']);
+  assert.notEqual(job.attempts[0].worker_id, job.attempts[1].worker_id);
+  assert.equal(job.receipts.length, 1);
+  assert.ok(instance.queue.events({ limit: 1000 }).some(e => e.type === 'worker.stopped' && e.data.reason === 'signal:SIGKILL'));
+  assert.equal(instance.queue.complete(id, job.attempts[0].worker_id, job.attempts[0].token, { stale: true }).accepted, false);
+  assert.equal(instance.queue.evidence().integrity.valid, true);
+});
+
+test('controller restart preserves tasks, pause state and idempotency records', { timeout: 15000 }, async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-restart-'));
+  const database = join(directory, 'queue.sqlite');
+  let instance;
+  try {
+    instance = await startServer({ port: 0, database, workers: 0, quiet: true });
+    const body = { label: 'survive restart', text: 'persistent', delayMs: 0 };
+    const first = instance.queue.submit(body, 'restart-create-key');
+    instance.queue.setPaused(true, 'restart-pause-key');
+    const oldToken = instance.token;
+    await instance.close();
+    instance = await startServer({ port: 0, database, workers: 2, quiet: true });
+    assert.notEqual(instance.token, oldToken);
+    assert.equal(instance.queue.snapshot().paused, true);
+    assert.equal(instance.queue.submit(body, 'restart-create-key').jobId, first.jobId);
+    instance.queue.setPaused(false, 'restart-resume-key');
+    await until(() => instance.queue.detail(first.jobId).state === 'succeeded');
+    assert.equal(instance.queue.snapshot().metrics.receipts, 1);
+  } finally {
+    await instance?.close();
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test('hard controller death disconnects orphan workers; a new controller resumes persisted jobs', { timeout: 15000 }, async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-parent-death-'));
+  const database = join(directory, 'queue.sqlite');
+  const child = fork(fileURLToPath(new URL('../src/server.mjs', import.meta.url)), ['--port=0', '--workers=1', `--db=${database}`], { stdio: ['ignore', 'pipe', 'pipe', 'ipc'], execArgv: [] });
+  let log = '';
+  child.stdout.on('data', chunk => { log += chunk; });
+  child.stderr.on('data', () => {});
+  let observer;
+  let restarted;
+  try {
+    const url = await until(() => /http:\/\/127\.0\.0\.1:\d+/.exec(log)?.[0]);
+    observer = new Queue(database);
+    await until(() => observer.snapshot().workers.some(w => w.online));
+    const workerId = observer.snapshot().workers[0].id;
+    const dead = new Promise(resolve => child.once('exit', resolve));
+    child.kill('SIGKILL');
+    await dead;
+    await until(() => observer.db.prepare('SELECT phase FROM workers WHERE id=?').get(workerId)?.phase === 'stopped', 5000);
+    const { jobId } = observer.submit({ label: 'after parent death', text: 'durable', delayMs: 0 }, 'hard-restart-key');
+    await sleep(150);
+    assert.equal(observer.detail(jobId).state, 'queued', 'No orphan process continues claiming.');
+    restarted = await startServer({ port: 0, database, workers: 2, quiet: true });
+    await until(() => observer.detail(jobId).state === 'succeeded');
+    assert.equal(observer.detail(jobId).receipts.length, 1);
+    assert.equal(observer.evidence().integrity.valid, true);
+    assert.ok(url.startsWith('http://127.0.0.1:'));
+  } finally {
+    if (child.exitCode === null && child.signalCode === null) {
+      const dead = new Promise(resolve => child.once('exit', resolve));
+      child.kill('SIGKILL');
+      await dead;
+    }
+    await restarted?.close();
+    observer?.close();
+    rmSync(directory, { recursive: true, force: true });
+  }
+});

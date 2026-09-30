@@ -1,0 +1,97 @@
+import assert from 'node:assert/strict';
+import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
+import { setTimeout as sleep } from 'node:timers/promises';
+import { startServer } from '../src/server.mjs';
+
+const playwright = process.env.FAULTLINE_PLAYWRIGHT ? await import(process.env.FAULTLINE_PLAYWRIGHT) : await import('playwright');
+const type = process.env.FAULTLINE_BROWSER ?? 'chromium';
+if (!['chromium', 'firefox', 'webkit'].includes(type)) throw new Error('Unsupported browser.');
+const directory = mkdtempSync(join(tmpdir(), 'faultline-browser-'));
+const artifacts = resolve('test-results', type);
+mkdirSync(artifacts, { recursive: true });
+const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 3, quiet: true });
+let browser;
+const results = [];
+try {
+  browser = await playwright[type].launch({ headless: true });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
+  const exceptions = [];
+  const securityErrors = [];
+  page.on('pageerror', error => exceptions.push(error.message));
+  page.on('console', message => { if (/Content Security Policy|Refused to/.test(message.text())) securityErrors.push(message.text()); });
+  await page.goto(instance.url);
+  await page.waitForFunction(() => document.querySelector('#connection').textContent.includes('LIVE'));
+  assert.match(await page.title(), /Faultline/);
+  results.push('connected dashboard');
+
+  await page.locator('[data-scenario="duplicate"]').click();
+  await page.waitForFunction(() => document.querySelector('#total-count').textContent === '1');
+  await page.waitForFunction(() => document.querySelector('#metric-done').textContent === '1');
+  assert.equal(await page.locator('#job-rows tr').count(), 1);
+  assert.equal(await page.locator('#metric-dedupe').textContent(), '2');
+  results.push('duplicate intent renders one job');
+
+  await page.locator('[data-scenario="dead"]').click();
+  await page.waitForFunction(() => [...document.querySelectorAll('.state-badge')].some(node => node.textContent === '死信'), { timeout: 15000 });
+  const dead = page.locator('#job-rows tr').filter({ hasText: 'Retry exhausted' });
+  await dead.locator('button').click();
+  await page.locator('#detail-dialog').waitFor({ state: 'visible' });
+  await page.getByRole('button', { name: '清除故障并重放 →' }).click();
+  await page.waitForFunction(() => document.querySelector('#detail-dialog .state-badge')?.textContent === '已成功', { timeout: 15000 });
+  assert.match(await page.locator('#detail-content').textContent(), /G1/);
+  results.push('dead letter can be replayed in the UI');
+  await page.locator('[data-close="detail-dialog"]').click();
+
+  await page.locator('#create-button').click();
+  const label = '<img src=x onerror="window.__xss=true">';
+  await page.locator('[name="label"]').fill(label);
+  await page.locator('[name="text"]').fill('1,2,3');
+  await page.locator('#submit-button').click();
+  await page.waitForFunction(expected => [...document.querySelectorAll('.job-name')].some(node => node.textContent === expected), label);
+  assert.equal(await page.evaluate(() => window.__xss), undefined);
+  assert.equal(await page.locator('#job-rows img').count(), 0);
+  results.push('untrusted label remains text');
+
+  const original = await page.locator('#total-count').textContent();
+  await page.locator('[data-state="succeeded"]').click();
+  await page.locator('[data-state=""]').click();
+  assert.equal(await page.locator('#total-count').textContent(), original);
+  results.push('filter switching retains the correct snapshot');
+
+  const downloadPromise = page.waitForEvent('download');
+  await page.locator('#export-button').click();
+  const download = await downloadPromise;
+  await download.saveAs(join(artifacts, 'evidence.json'));
+  results.push('evidence downloads');
+
+  await page.screenshot({ path: join(artifacts, 'desktop.png'), fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  await page.screenshot({ path: join(artifacts, 'mobile.png'), fullPage: true });
+  results.push('mobile layout has no page overflow');
+
+  const context = page.context();
+  await page.locator('#create-button').click();
+  await page.locator('[name="label"]').fill('draft survives');
+  await context.setOffline(true);
+  await page.locator('#submit-button').click();
+  await page.waitForFunction(() => document.querySelector('#form-error').textContent.includes('结果未确认'));
+  assert.equal(await page.locator('[name="label"]').inputValue(), 'draft survives');
+  await context.setOffline(false);
+  await sleep(800);
+  await page.locator('#submit-button').click();
+  await page.waitForFunction(() => !document.querySelector('#create-dialog').open);
+  results.push('offline write keeps draft and recovers');
+
+  assert.deepEqual(exceptions, []);
+  assert.deepEqual(securityErrors, []);
+  results.push('no JavaScript exceptions or CSP violations');
+  console.log(JSON.stringify({ browser: type, checks: results, passed: results.length }, null, 2));
+  writeFileSync(join(artifacts, 'browser-result.json'), `${JSON.stringify({ browser: type, checks: results, passed: results.length }, null, 2)}\n`);
+} finally {
+  await browser?.close();
+  await instance.close();
+  rmSync(directory, { recursive: true, force: true });
+}
