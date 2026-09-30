@@ -2,6 +2,11 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { Queue } from '../src/queue.mjs';
 import { evaluateExperiment } from '../public/proof.mjs';
+import { verifyEvidence } from '../public/evidence.mjs';
+import { digest } from '../src/validation.mjs';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 test('unfinished experiments remain pending; real completion passes their checks', () => {
   let now = 1700000000000;
@@ -66,4 +71,43 @@ test('expired experiment records are pruned together with their retained jobs', 
     queue.prune();
     assert.equal(queue.experiments().length, 0);
   } finally { queue.close(); }
+});
+
+test('portable verifier rejects changed payloads, wrong counts, gaps and missing structure', async () => {
+  const queue = new Queue(':memory:');
+  try {
+    queue.experiment('duplicate', 'portable-chain-key');
+    const evidence = queue.evidence();
+    assert.equal((await verifyEvidence(evidence, digest)).valid, true);
+    for (const change of [e => { e.events[0].data.label = 'tampered'; }, e => { e.integrity.count++; }, e => { e.events.splice(1, 1); }, e => { e.integrity = null; }]) {
+      const altered = structuredClone(evidence); change(altered);
+      await assert.rejects(() => verifyEvidence(altered, digest));
+    }
+  } finally { queue.close(); }
+});
+
+test('a concurrent commit cannot splice two database versions into one experiment proof', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-read-snapshot-'));
+  const path = join(directory, 'queue.sqlite');
+  const queue = new Queue(path), other = new Queue(path);
+  try {
+    queue.registerWorker('worker-a', 1, 1);
+    const { experimentId } = queue.experiment('duplicate', 'consistent-proof-key');
+    const claim = queue.claim('worker-a');
+    const original = queue.raw.bind(queue);
+    let injected = false;
+    queue.raw = id => {
+      const row = original(id);
+      if (!injected) { injected = true; other.complete(claim.id, 'worker-a', claim.token, { durable: true }); }
+      return row;
+    };
+    const report = queue.experimentReport(experimentId);
+    assert.equal(report.jobs[0].state, 'running');
+    assert.equal(report.jobs[0].attempts[0].state, 'running');
+    assert.equal(report.jobs[0].receipts.length, 0);
+    assert.equal(report.verdict.status, 'running');
+    assert.equal(queue.experimentReport(experimentId).verdict.status, 'pass');
+    assert.throws(() => queue.experimentReport('missing'), error => error.code === 'NOT_FOUND');
+    assert.equal(queue.evidence().integrity.valid, true, 'Failed reads release the read transaction.');
+  } finally { other.close(); queue.close(); rmSync(directory, { recursive: true, force: true }); }
 });

@@ -56,6 +56,20 @@ export class Queue {
     }
   }
 
+  readTransaction(fn) {
+    if (this.reading) return fn();
+    this.db.exec('BEGIN');
+    this.reading = true;
+    try {
+      const value = fn();
+      this.db.exec('COMMIT');
+      return value;
+    } catch (error) {
+      this.db.exec('ROLLBACK');
+      throw error;
+    } finally { this.reading = false; }
+  }
+
   metadata(name) { return this.db.prepare('SELECT value FROM meta WHERE key=?').get(name)?.value; }
 
   event(type, jobId, data, now = this.clock()) {
@@ -105,6 +119,7 @@ export class Queue {
     insist(['retry', 'crash', 'duplicate', 'dead', 'burst', 'fence', 'response-loss'].includes(name), 'VALIDATION', '实验不存在。');
     return this.transaction(() => this.idempotent('experiment', { name }, requestKey, () => {
       const experimentId = randomUUID();
+      const createdAt = this.clock();
       const startSeq = Number(this.metadata('event_seq'));
       const common = { text: 'Faultline / reproducible execution / 2026', delayMs: 700 };
       const definitions = {
@@ -127,7 +142,7 @@ export class Queue {
         }
       } else ids.push(this.insertJob(jobDefinition(definitions[name])));
       const jobIds = [...new Set(ids)];
-      this.db.prepare('INSERT INTO experiments VALUES (?, ?, ?, ?, ?, ?)').run(experimentId, name, this.clock(), startSeq, JSON.stringify(jobIds), ids.length);
+      this.db.prepare('INSERT INTO experiments VALUES (?, ?, ?, ?, ?, ?)').run(experimentId, name, createdAt, startSeq, JSON.stringify(jobIds), ids.length);
       this.event('experiment.started', null, { experimentId, name, submissions: ids.length, uniqueJobs: jobIds.length });
       return { experimentId, jobIds, submissions: ids.length };
     }));
@@ -298,6 +313,7 @@ export class Queue {
   }
 
   experimentReport(id) {
+    return this.readTransaction(() => {
     const stamp = `${this.metadata('event_seq')}:${Math.floor(this.clock() / 1000)}`;
     const cached = this.reportCache.get(id);
     if (cached?.stamp === stamp) return cached.report;
@@ -310,6 +326,7 @@ export class Queue {
     this.reportCache.set(id, { stamp, report });
     if (this.reportCache.size > 16) this.reportCache.delete(this.reportCache.keys().next().value);
     return report;
+    });
   }
 
   experiments(limit = 8) {
@@ -334,6 +351,7 @@ export class Queue {
   }
 
   snapshot({ state = '', before = Number.MAX_SAFE_INTEGER, limit = 40 } = {}) {
+    return this.readTransaction(() => {
     insist(state === '' || STATES.includes(state), 'VALIDATION', '状态筛选无效。');
     insist(Number.isSafeInteger(before) && before > 0, 'VALIDATION', '分页游标无效。');
     const rows = state ? this.db.prepare('SELECT * FROM jobs WHERE state=? AND seq<? ORDER BY seq DESC LIMIT ?').all(state, before, limit + 1)
@@ -358,9 +376,11 @@ export class Queue {
       series, events: this.events({ newest: true, limit: 12 }),
       experiments: this.experiments()
     };
+    });
   }
 
   evidence() {
+    return this.readTransaction(() => {
     const events = this.events({ limit: 60000 });
     const anchor = this.metadata('event_anchor');
     let previousHash = anchor;
@@ -374,6 +394,7 @@ export class Queue {
     }
     if (events.length && previousSeq !== Number(this.metadata('event_seq'))) valid = false;
     return { format: 'faultline-evidence-v1', generatedAt: this.clock(), integrity: { valid, count: events.length, anchor, head: previousHash }, events };
+    });
   }
 
   prune({ days = 30, maxEvents = 50000 } = {}) {

@@ -63,6 +63,7 @@ try {
   await page.locator('[data-scenario="fence"]').click();
   await page.waitForFunction(() => [...document.querySelectorAll('.report-row')].some(row => row.textContent.includes('Zombie worker') && row.textContent.includes('PASS')), null, { timeout: 20000 });
   await page.locator('.report-row').filter({ hasText: 'Zombie worker' }).click();
+  await page.waitForFunction(() => document.querySelector('#report-content')?.textContent.includes('commit.rejected'));
   assert.match(await page.locator('#report-content').textContent(), /旧 Worker 的真实写入被拒绝/);
   assert.match(await page.locator('#report-content').textContent(), /commit.rejected/);
   await page.locator('[data-close="report-dialog"]').click();
@@ -102,10 +103,8 @@ try {
   await download.saveAs(join(artifacts, 'evidence.json'));
   results.push('evidence downloads');
 
-  await page.screenshot({ path: join(artifacts, 'desktop.png'), fullPage: true, caret: 'initial' });
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-  await page.screenshot({ path: join(artifacts, 'mobile.png'), fullPage: true, caret: 'initial' });
   results.push('mobile layout has no page overflow');
 
   const context = page.context();
@@ -124,8 +123,18 @@ try {
   assert.deepEqual(exceptions, []);
   assert.deepEqual(securityErrors, []);
   results.push('no JavaScript exceptions or CSP violations');
+  // Playwright 1.62's WebKit screenshotter itself appends an inline `body {}`
+  // style to synchronize animations (coreBundle/inPagePrepareForScreenshots).
+  // Check all application interactions first, then isolate that known diagnostic
+  // in the screenshot-only phase without weakening the application's CSP.
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await page.screenshot({ path: join(artifacts, 'desktop.png'), fullPage: true, caret: 'initial' });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: join(artifacts, 'mobile.png'), fullPage: true, caret: 'initial' });
+  assert.equal(securityErrors.length, type === 'webkit' ? 2 : 0);
+  assert.ok(securityErrors.every(message => message === "Refused to apply a stylesheet because its hash, its nonce, or 'unsafe-inline' does not appear in the style-src directive of the Content Security Policy."));
   console.log(JSON.stringify({ browser: type, checks: results, passed: results.length }, null, 2));
-  writeFileSync(join(artifacts, 'browser-result.json'), `${JSON.stringify({ browser: type, checks: results, passed: results.length }, null, 2)}\n`);
+  writeFileSync(join(artifacts, 'browser-result.json'), `${JSON.stringify({ browser: type, checks: results, passed: results.length, screenshotHarnessCSPDiagnostics: securityErrors.length }, null, 2)}\n`);
 } finally {
   await browser?.close();
   await instance.close();

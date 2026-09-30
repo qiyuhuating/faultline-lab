@@ -1,0 +1,1936 @@
+{
+  "format": "faultline-recorded-traces-v1",
+  "recordedAt": 1790774825220,
+  "environment": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "workers": 3
+  },
+  "notice": "Recorded from real local worker processes. Playback does not execute or kill processes.",
+  "reports": [
+    {
+      "experiment": {
+        "id": "ae6823d3-b9fd-4515-9aa2-fc0eef19724b",
+        "scenario": "crash",
+        "createdAt": 1790774807679,
+        "startSeq": 0,
+        "submissions": 1,
+        "jobIds": [
+          "fa915a83-020c-4524-be62-c20b38f3600b"
+        ]
+      },
+      "jobs": [
+        {
+          "id": "fa915a83-020c-4524-be62-c20b38f3600b",
+          "seq": 1,
+          "kind": "digest",
+          "label": "Process crash · 租约恢复",
+          "state": "succeeded",
+          "priority": 0,
+          "attempt": 2,
+          "maxAttempts": 4,
+          "generation": 0,
+          "revision": 5,
+          "token": 2,
+          "owner": null,
+          "leaseUntil": null,
+          "runAt": 1790774810653,
+          "createdAt": 1790774807679,
+          "updatedAt": 1790774811355,
+          "completedAt": 1790774811355,
+          "error": {
+            "code": "LEASE_EXPIRED",
+            "message": "Worker 未在租约内完成或续约。"
+          },
+          "result": {
+            "bytes": 41,
+            "characters": 41,
+            "sha256": "93055c355d5a4018fd3e834800e9fd7d87916105a351177f831fd110c622d000",
+            "words": 6
+          },
+          "definition": {
+            "delayMs": 700,
+            "fault": {
+              "crashOnce": true,
+              "failFirst": 0,
+              "stallOnce": false
+            },
+            "kind": "digest",
+            "label": "Process crash · 租约恢复",
+            "maxAttempts": 4,
+            "priority": 0,
+            "scheduleMs": 0,
+            "text": "Faultline / reproducible execution / 2026"
+          },
+          "attempts": [
+            {
+              "job_id": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "generation": 0,
+              "number": 1,
+              "worker_id": "worker-3-eccf0275",
+              "token": 1,
+              "state": "expired",
+              "started_at": 1790774807718,
+              "ended_at": 1790774810148,
+              "error": "{\"code\":\"LEASE_EXPIRED\",\"message\":\"Worker 未在租约内完成或续约。\"}"
+            },
+            {
+              "job_id": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "generation": 0,
+              "number": 2,
+              "worker_id": "worker-2-05735eca",
+              "token": 2,
+              "state": "succeeded",
+              "started_at": 1790774810653,
+              "ended_at": 1790774811355,
+              "error": null
+            }
+          ],
+          "receipts": [
+            {
+              "generation": 0,
+              "token": 2,
+              "committed_at": 1790774811355
+            }
+          ],
+          "events": [
+            {
+              "seq": 1,
+              "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "type": "job.created",
+              "at": 1790774807679,
+              "data": {
+                "kind": "digest",
+                "label": "Process crash · 租约恢复",
+                "maxAttempts": 4
+              },
+              "previousHash": "GENESIS",
+              "hash": "fce02ea9e17320e21c38e4862ad4626cbf9c954f639fd098b8f6037bd9eba137"
+            },
+            {
+              "seq": 4,
+              "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "type": "lease.claimed",
+              "at": 1790774807718,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "token": 1,
+                "workerId": "worker-3-eccf0275"
+              },
+              "previousHash": "0383b6b19c45d66d2bea699111e785edf47f694e131585e5afdae7daee68344f",
+              "hash": "bd7b645582e89ce35b44a03a72f43526fd9ecf8826008f3d6dc93ec462250e9b"
+            },
+            {
+              "seq": 5,
+              "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "type": "worker.stopped",
+              "at": 1790774807719,
+              "data": {
+                "reason": "signal:SIGKILL",
+                "workerId": "worker-3-eccf0275"
+              },
+              "previousHash": "bd7b645582e89ce35b44a03a72f43526fd9ecf8826008f3d6dc93ec462250e9b",
+              "hash": "227fafb9bcd5d50222ecb81b64a818a6760782b3f80479af3b7c26e2ef198417"
+            },
+            {
+              "seq": 9,
+              "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "type": "lease.expired",
+              "at": 1790774810148,
+              "data": {
+                "attempt": 1,
+                "nextState": "retry_wait",
+                "token": 1,
+                "workerId": "worker-3-eccf0275"
+              },
+              "previousHash": "9e38dc952849b3ec5708bf0136664840b7b5662276ab18024cdd53b4cf4cf7fd",
+              "hash": "b483ba2dabaef090bd3edee17b87a6f1bff2c5d7f3cba93a30dce26746e44868"
+            },
+            {
+              "seq": 10,
+              "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "type": "lease.claimed",
+              "at": 1790774810653,
+              "data": {
+                "attempt": 2,
+                "generation": 0,
+                "token": 2,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "b483ba2dabaef090bd3edee17b87a6f1bff2c5d7f3cba93a30dce26746e44868",
+              "hash": "91c3c5c376397a2a180df00f20c139bb4daea0a7587195a981a31afaef078de2"
+            },
+            {
+              "seq": 11,
+              "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+              "type": "job.succeeded",
+              "at": 1790774811355,
+              "data": {
+                "attempt": 2,
+                "generation": 0,
+                "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+                "token": 2,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "91c3c5c376397a2a180df00f20c139bb4daea0a7587195a981a31afaef078de2",
+              "hash": "f5c940bf5e0d2b61ba3356b5965272286aa149e53541046f39dbfd5829fa2d95"
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "status": "pass",
+        "checks": [
+          {
+            "id": "exists",
+            "label": "任务记录完整",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "unique",
+            "label": "每个任务每轮最多一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "fencing",
+            "label": "收据来自获胜租约",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "reclaim",
+            "label": "过期尝试被新 Worker 接管",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "token",
+            "label": "新租约 token 严格递增",
+            "status": "pass",
+            "detail": "T1 → T2"
+          },
+          {
+            "id": "result",
+            "label": "恢复后只提交一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "kill",
+            "label": "记录了实际 SIGKILL 进程退出",
+            "status": "pass",
+            "detail": ""
+          }
+        ],
+        "scenario": {
+          "name": "Process crash",
+          "question": "进程消失后，是否换人接管？"
+        }
+      },
+      "serverTime": 1790774811409
+    },
+    {
+      "experiment": {
+        "id": "5d41351a-6e79-4f77-9b08-9ccc48f4db9c",
+        "scenario": "fence",
+        "createdAt": 1790774811413,
+        "startSeq": 11,
+        "submissions": 1,
+        "jobIds": [
+          "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2"
+        ]
+      },
+      "jobs": [
+        {
+          "id": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+          "seq": 2,
+          "kind": "digest",
+          "label": "Zombie worker · 旧提交拒绝",
+          "state": "succeeded",
+          "priority": 0,
+          "attempt": 2,
+          "maxAttempts": 4,
+          "generation": 0,
+          "revision": 5,
+          "token": 2,
+          "owner": null,
+          "leaseUntil": null,
+          "runAt": 1790774814433,
+          "createdAt": 1790774811413,
+          "updatedAt": 1790774815186,
+          "completedAt": 1790774815186,
+          "error": {
+            "code": "LEASE_EXPIRED",
+            "message": "Worker 未在租约内完成或续约。"
+          },
+          "result": {
+            "bytes": 41,
+            "characters": 41,
+            "sha256": "93055c355d5a4018fd3e834800e9fd7d87916105a351177f831fd110c622d000",
+            "words": 6
+          },
+          "definition": {
+            "delayMs": 700,
+            "fault": {
+              "crashOnce": false,
+              "failFirst": 0,
+              "stallOnce": true
+            },
+            "kind": "digest",
+            "label": "Zombie worker · 旧提交拒绝",
+            "maxAttempts": 4,
+            "priority": 0,
+            "scheduleMs": 0,
+            "text": "Faultline / reproducible execution / 2026"
+          },
+          "attempts": [
+            {
+              "job_id": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "generation": 0,
+              "number": 1,
+              "worker_id": "worker-2-05735eca",
+              "token": 1,
+              "state": "expired",
+              "started_at": 1790774811456,
+              "ended_at": 1790774813869,
+              "error": "{\"code\":\"LEASE_EXPIRED\",\"message\":\"Worker 未在租约内完成或续约。\"}"
+            },
+            {
+              "job_id": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "generation": 0,
+              "number": 2,
+              "worker_id": "worker-1-0f720bd0",
+              "token": 2,
+              "state": "succeeded",
+              "started_at": 1790774814483,
+              "ended_at": 1790774815186,
+              "error": null
+            }
+          ],
+          "receipts": [
+            {
+              "generation": 0,
+              "token": 2,
+              "committed_at": 1790774815186
+            }
+          ],
+          "events": [
+            {
+              "seq": 12,
+              "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "type": "job.created",
+              "at": 1790774811413,
+              "data": {
+                "kind": "digest",
+                "label": "Zombie worker · 旧提交拒绝",
+                "maxAttempts": 4
+              },
+              "previousHash": "f5c940bf5e0d2b61ba3356b5965272286aa149e53541046f39dbfd5829fa2d95",
+              "hash": "bbd5cafc76a88c0871acf4194bb4abbcc4eb586a18a8905b65bb189f29e93359"
+            },
+            {
+              "seq": 14,
+              "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "type": "lease.claimed",
+              "at": 1790774811456,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "token": 1,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "b0995da965bae96fac6e2ea1b6afabec80d0bcd571bdbf28c604b5c41465fb3c",
+              "hash": "44560e62482890540b1b65f5265507bfac89df97b06f2501c9189fd38e8e2613"
+            },
+            {
+              "seq": 15,
+              "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "type": "lease.expired",
+              "at": 1790774813869,
+              "data": {
+                "attempt": 1,
+                "nextState": "retry_wait",
+                "token": 1,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "44560e62482890540b1b65f5265507bfac89df97b06f2501c9189fd38e8e2613",
+              "hash": "f9c07338af3866b51d0af35976e278f08a6a106b05b15ba734476ed592e3315d"
+            },
+            {
+              "seq": 16,
+              "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "type": "lease.claimed",
+              "at": 1790774814483,
+              "data": {
+                "attempt": 2,
+                "generation": 0,
+                "token": 2,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "f9c07338af3866b51d0af35976e278f08a6a106b05b15ba734476ed592e3315d",
+              "hash": "9ef92eed9137648ae29731a082eda86ee3b2e94bacc33b7b8b51ca86d38e8fe7"
+            },
+            {
+              "seq": 17,
+              "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "type": "job.succeeded",
+              "at": 1790774815186,
+              "data": {
+                "attempt": 2,
+                "generation": 0,
+                "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+                "token": 2,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "9ef92eed9137648ae29731a082eda86ee3b2e94bacc33b7b8b51ca86d38e8fe7",
+              "hash": "deb44abe1e7030cfe3c4dd30c2928dedbb4cda0dafc9a7b1e480abb0006dba35"
+            },
+            {
+              "seq": 18,
+              "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+              "type": "commit.rejected",
+              "at": 1790774816359,
+              "data": {
+                "currentState": "succeeded",
+                "currentToken": 2,
+                "reason": "STALE_LEASE",
+                "token": 1,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "deb44abe1e7030cfe3c4dd30c2928dedbb4cda0dafc9a7b1e480abb0006dba35",
+              "hash": "93ee3be128315f1e12a00985ada0f883c16dfc53c17d7c82db4605dd05b07284"
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "status": "pass",
+        "checks": [
+          {
+            "id": "exists",
+            "label": "任务记录完整",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "unique",
+            "label": "每个任务每轮最多一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "fencing",
+            "label": "收据来自获胜租约",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "reclaim",
+            "label": "过期尝试被新 Worker 接管",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "token",
+            "label": "新租约 token 严格递增",
+            "status": "pass",
+            "detail": "T1 → T2"
+          },
+          {
+            "id": "result",
+            "label": "恢复后只提交一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "rejected",
+            "label": "旧 Worker 的真实写入被拒绝",
+            "status": "pass",
+            "detail": "T1 rejected / current T2"
+          }
+        ],
+        "scenario": {
+          "name": "Zombie worker",
+          "question": "过期的 Worker 苏醒后，是否被拒绝？"
+        }
+      },
+      "serverTime": 1790774816443
+    },
+    {
+      "experiment": {
+        "id": "89ce1a45-1c25-4a08-8d4b-2981897101f3",
+        "scenario": "retry",
+        "createdAt": 1790774816447,
+        "startSeq": 18,
+        "submissions": 1,
+        "jobIds": [
+          "d6745c4e-a526-4a40-be2e-baa783e6c554"
+        ]
+      },
+      "jobs": [
+        {
+          "id": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+          "seq": 3,
+          "kind": "digest",
+          "label": "Transient failure · 自动重试",
+          "state": "succeeded",
+          "priority": 0,
+          "attempt": 3,
+          "maxAttempts": 4,
+          "generation": 0,
+          "revision": 7,
+          "token": 3,
+          "owner": null,
+          "leaseUntil": null,
+          "runAt": 1790774819170,
+          "createdAt": 1790774816447,
+          "updatedAt": 1790774819873,
+          "completedAt": 1790774819873,
+          "error": {
+            "code": "INJECTED_FAILURE",
+            "message": "可控的瞬时失败，用于验证重试策略。"
+          },
+          "result": {
+            "bytes": 41,
+            "characters": 41,
+            "sha256": "93055c355d5a4018fd3e834800e9fd7d87916105a351177f831fd110c622d000",
+            "words": 6
+          },
+          "definition": {
+            "delayMs": 700,
+            "fault": {
+              "crashOnce": false,
+              "failFirst": 2,
+              "stallOnce": false
+            },
+            "kind": "digest",
+            "label": "Transient failure · 自动重试",
+            "maxAttempts": 4,
+            "priority": 0,
+            "scheduleMs": 0,
+            "text": "Faultline / reproducible execution / 2026"
+          },
+          "attempts": [
+            {
+              "job_id": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "generation": 0,
+              "number": 1,
+              "worker_id": "worker-2-05735eca",
+              "token": 1,
+              "state": "failed",
+              "started_at": 1790774816460,
+              "ended_at": 1790774817162,
+              "error": "{\"code\":\"INJECTED_FAILURE\",\"message\":\"可控的瞬时失败，用于验证重试策略。\"}"
+            },
+            {
+              "job_id": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "generation": 0,
+              "number": 2,
+              "worker_id": "worker-2-05735eca",
+              "token": 2,
+              "state": "failed",
+              "started_at": 1790774817666,
+              "ended_at": 1790774818368,
+              "error": "{\"code\":\"INJECTED_FAILURE\",\"message\":\"可控的瞬时失败，用于验证重试策略。\"}"
+            },
+            {
+              "job_id": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "generation": 0,
+              "number": 3,
+              "worker_id": "worker-2-05735eca",
+              "token": 3,
+              "state": "succeeded",
+              "started_at": 1790774819172,
+              "ended_at": 1790774819873,
+              "error": null
+            }
+          ],
+          "receipts": [
+            {
+              "generation": 0,
+              "token": 3,
+              "committed_at": 1790774819873
+            }
+          ],
+          "events": [
+            {
+              "seq": 19,
+              "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "type": "job.created",
+              "at": 1790774816447,
+              "data": {
+                "kind": "digest",
+                "label": "Transient failure · 自动重试",
+                "maxAttempts": 4
+              },
+              "previousHash": "93ee3be128315f1e12a00985ada0f883c16dfc53c17d7c82db4605dd05b07284",
+              "hash": "77872c8196df02aedd7ea6cb3996947dadb62b6d73c96e2464920cf3c98c90a4"
+            },
+            {
+              "seq": 21,
+              "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "type": "lease.claimed",
+              "at": 1790774816460,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "token": 1,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "dea1f910b56a976f2a1c9c040b247b7b132ed6db41c1db979014e4d4c6e01975",
+              "hash": "5f27600ff188083c6d83bef305c63086027af60735a63934222f7eed18093c61"
+            },
+            {
+              "seq": 22,
+              "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "type": "job.retry_scheduled",
+              "at": 1790774817162,
+              "data": {
+                "attempt": 1,
+                "error": {
+                  "code": "INJECTED_FAILURE",
+                  "message": "可控的瞬时失败，用于验证重试策略。"
+                },
+                "generation": 0,
+                "retryAt": 1790774817638,
+                "token": 1,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "5f27600ff188083c6d83bef305c63086027af60735a63934222f7eed18093c61",
+              "hash": "1cf08b97ca8813f15404054bc330135edab3908d3233f0c24526beeac90b9d45"
+            },
+            {
+              "seq": 23,
+              "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "type": "lease.claimed",
+              "at": 1790774817666,
+              "data": {
+                "attempt": 2,
+                "generation": 0,
+                "token": 2,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "1cf08b97ca8813f15404054bc330135edab3908d3233f0c24526beeac90b9d45",
+              "hash": "d769781f883b32fcc7a33c18588d74d1fb2a0ce4f4dc1a78db6ac68e15da33a2"
+            },
+            {
+              "seq": 24,
+              "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "type": "job.retry_scheduled",
+              "at": 1790774818368,
+              "data": {
+                "attempt": 2,
+                "error": {
+                  "code": "INJECTED_FAILURE",
+                  "message": "可控的瞬时失败，用于验证重试策略。"
+                },
+                "generation": 0,
+                "retryAt": 1790774819170,
+                "token": 2,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "d769781f883b32fcc7a33c18588d74d1fb2a0ce4f4dc1a78db6ac68e15da33a2",
+              "hash": "7323bad6cbb8eac0c81d3efc0f97414dd9fe1fa29a548cee713cfd62a1456400"
+            },
+            {
+              "seq": 25,
+              "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "type": "lease.claimed",
+              "at": 1790774819172,
+              "data": {
+                "attempt": 3,
+                "generation": 0,
+                "token": 3,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "7323bad6cbb8eac0c81d3efc0f97414dd9fe1fa29a548cee713cfd62a1456400",
+              "hash": "533a479786e7191c690ec2978cda81f77411505fa8c3c12074f2b8fb9a6e1f43"
+            },
+            {
+              "seq": 26,
+              "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+              "type": "job.succeeded",
+              "at": 1790774819873,
+              "data": {
+                "attempt": 3,
+                "generation": 0,
+                "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+                "token": 3,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "533a479786e7191c690ec2978cda81f77411505fa8c3c12074f2b8fb9a6e1f43",
+              "hash": "797a532fcd6d41fe457aac096031fca2a1dcaf3fab999b581252ae9f4251ff6e"
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "status": "pass",
+        "checks": [
+          {
+            "id": "exists",
+            "label": "任务记录完整",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "unique",
+            "label": "每个任务每轮最多一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "fencing",
+            "label": "收据来自获胜租约",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "retry",
+            "label": "两次失败后成功",
+            "status": "pass",
+            "detail": "failed → failed → succeeded"
+          },
+          {
+            "id": "result",
+            "label": "成功结果仅提交一次",
+            "status": "pass",
+            "detail": ""
+          }
+        ],
+        "scenario": {
+          "name": "Transient failure",
+          "question": "前两次失败，第三次是否提交？"
+        }
+      },
+      "serverTime": 1790774819971
+    },
+    {
+      "experiment": {
+        "id": "ce7146ed-2b82-4561-8e45-17336e78cb12",
+        "scenario": "duplicate",
+        "createdAt": 1790774819975,
+        "startSeq": 26,
+        "submissions": 3,
+        "jobIds": [
+          "a60e5847-5ab9-4891-8137-b29dce29a3d4"
+        ]
+      },
+      "jobs": [
+        {
+          "id": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+          "seq": 4,
+          "kind": "digest",
+          "label": "Repeated intent · 幂等去重",
+          "state": "succeeded",
+          "priority": 0,
+          "attempt": 1,
+          "maxAttempts": 4,
+          "generation": 0,
+          "revision": 3,
+          "token": 1,
+          "owner": null,
+          "leaseUntil": null,
+          "runAt": 1790774819976,
+          "createdAt": 1790774819976,
+          "updatedAt": 1790774820721,
+          "completedAt": 1790774820721,
+          "error": null,
+          "result": {
+            "bytes": 41,
+            "characters": 41,
+            "sha256": "93055c355d5a4018fd3e834800e9fd7d87916105a351177f831fd110c622d000",
+            "words": 6
+          },
+          "definition": {
+            "delayMs": 700,
+            "fault": {
+              "crashOnce": false,
+              "failFirst": 0,
+              "stallOnce": false
+            },
+            "kind": "digest",
+            "label": "Repeated intent · 幂等去重",
+            "maxAttempts": 4,
+            "priority": 0,
+            "scheduleMs": 0,
+            "text": "Faultline / reproducible execution / 2026"
+          },
+          "attempts": [
+            {
+              "job_id": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+              "generation": 0,
+              "number": 1,
+              "worker_id": "worker-1-0f720bd0",
+              "token": 1,
+              "state": "succeeded",
+              "started_at": 1790774820020,
+              "ended_at": 1790774820721,
+              "error": null
+            }
+          ],
+          "receipts": [
+            {
+              "generation": 0,
+              "token": 1,
+              "committed_at": 1790774820721
+            }
+          ],
+          "events": [
+            {
+              "seq": 27,
+              "jobId": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+              "type": "job.created",
+              "at": 1790774819976,
+              "data": {
+                "kind": "digest",
+                "label": "Repeated intent · 幂等去重",
+                "maxAttempts": 4
+              },
+              "previousHash": "797a532fcd6d41fe457aac096031fca2a1dcaf3fab999b581252ae9f4251ff6e",
+              "hash": "f75c7808275faedecc6d19c9fdc105c19c83ecea6e7d72f419b7e5b528691507"
+            },
+            {
+              "seq": 31,
+              "jobId": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+              "type": "lease.claimed",
+              "at": 1790774820020,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "token": 1,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "a5f117fdc8a653fd8372bd819beb2133e837ebecbdf5d97c09c33269c385a86f",
+              "hash": "d1b5839ee2dd1079f179b7fbf9ace541ae03c82854d83a5432ce0db943616a2a"
+            },
+            {
+              "seq": 32,
+              "jobId": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+              "type": "job.succeeded",
+              "at": 1790774820721,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+                "token": 1,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "d1b5839ee2dd1079f179b7fbf9ace541ae03c82854d83a5432ce0db943616a2a",
+              "hash": "2df4034b212ba3e744d1df7719bc7066f4addfa553cf507c78ff004680bdb437"
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "status": "pass",
+        "checks": [
+          {
+            "id": "exists",
+            "label": "任务记录完整",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "unique",
+            "label": "每个任务每轮最多一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "fencing",
+            "label": "收据来自获胜租约",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "dedupe",
+            "label": "三次提交只产生一个任务",
+            "status": "pass",
+            "detail": "3 requests / 1 job"
+          },
+          {
+            "id": "result",
+            "label": "单次执行，单张收据",
+            "status": "pass",
+            "detail": "1 attempt / 1 receipt"
+          }
+        ],
+        "scenario": {
+          "name": "Repeated intent",
+          "question": "三次请求，是否只创建一个任务？"
+        }
+      },
+      "serverTime": 1790774820783
+    },
+    {
+      "experiment": {
+        "id": "5378f767-bdb4-4afd-854e-15d90f7ac9fc",
+        "scenario": "dead",
+        "createdAt": 1790774820786,
+        "startSeq": 32,
+        "submissions": 1,
+        "jobIds": [
+          "6e507b8f-353e-4470-880b-5cd469d6458c"
+        ]
+      },
+      "jobs": [
+        {
+          "id": "6e507b8f-353e-4470-880b-5cd469d6458c",
+          "seq": 5,
+          "kind": "digest",
+          "label": "Retry exhausted · 死信",
+          "state": "dead",
+          "priority": 0,
+          "attempt": 3,
+          "maxAttempts": 3,
+          "generation": 0,
+          "revision": 7,
+          "token": 3,
+          "owner": null,
+          "leaseUntil": null,
+          "runAt": 1790774826332,
+          "createdAt": 1790774820787,
+          "updatedAt": 1790774824340,
+          "completedAt": 1790774824340,
+          "error": {
+            "code": "INJECTED_FAILURE",
+            "message": "可控的瞬时失败，用于验证重试策略。"
+          },
+          "result": null,
+          "definition": {
+            "delayMs": 700,
+            "fault": {
+              "crashOnce": false,
+              "failFirst": 10,
+              "stallOnce": false
+            },
+            "kind": "digest",
+            "label": "Retry exhausted · 死信",
+            "maxAttempts": 3,
+            "priority": 0,
+            "scheduleMs": 0,
+            "text": "Faultline / reproducible execution / 2026"
+          },
+          "attempts": [
+            {
+              "job_id": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "generation": 0,
+              "number": 1,
+              "worker_id": "worker-1-0f720bd0",
+              "token": 1,
+              "state": "failed",
+              "started_at": 1790774820822,
+              "ended_at": 1790774821523,
+              "error": "{\"code\":\"INJECTED_FAILURE\",\"message\":\"可控的瞬时失败，用于验证重试策略。\"}"
+            },
+            {
+              "job_id": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "generation": 0,
+              "number": 2,
+              "worker_id": "worker-2-05735eca",
+              "token": 2,
+              "state": "failed",
+              "started_at": 1790774822085,
+              "ended_at": 1790774822786,
+              "error": "{\"code\":\"INJECTED_FAILURE\",\"message\":\"可控的瞬时失败，用于验证重试策略。\"}"
+            },
+            {
+              "job_id": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "generation": 0,
+              "number": 3,
+              "worker_id": "worker-1-0f720bd0",
+              "token": 3,
+              "state": "failed",
+              "started_at": 1790774823638,
+              "ended_at": 1790774824340,
+              "error": "{\"code\":\"INJECTED_FAILURE\",\"message\":\"可控的瞬时失败，用于验证重试策略。\"}"
+            }
+          ],
+          "receipts": [],
+          "events": [
+            {
+              "seq": 33,
+              "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "type": "job.created",
+              "at": 1790774820787,
+              "data": {
+                "kind": "digest",
+                "label": "Retry exhausted · 死信",
+                "maxAttempts": 3
+              },
+              "previousHash": "2df4034b212ba3e744d1df7719bc7066f4addfa553cf507c78ff004680bdb437",
+              "hash": "52b99a55b75a76dcffc364d3fa4345c9fd4f940d1e1c0032f8e40411c0c68a09"
+            },
+            {
+              "seq": 35,
+              "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "type": "lease.claimed",
+              "at": 1790774820822,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "token": 1,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "65d47522cda18d2e8e3f05c93a7a9d47403febc085c8dcf6f017025534a23b0e",
+              "hash": "b298fc32aacd0c4272a3f3f8119ced6e15cb18d301cdb784096f71bab68bc7e4"
+            },
+            {
+              "seq": 36,
+              "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "type": "job.retry_scheduled",
+              "at": 1790774821523,
+              "data": {
+                "attempt": 1,
+                "error": {
+                  "code": "INJECTED_FAILURE",
+                  "message": "可控的瞬时失败，用于验证重试策略。"
+                },
+                "generation": 0,
+                "retryAt": 1790774822074,
+                "token": 1,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "b298fc32aacd0c4272a3f3f8119ced6e15cb18d301cdb784096f71bab68bc7e4",
+              "hash": "5a3d2008ad25edecd5023520286f7cfc069d7102183de8e5d107b89e3851b19c"
+            },
+            {
+              "seq": 37,
+              "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "type": "lease.claimed",
+              "at": 1790774822085,
+              "data": {
+                "attempt": 2,
+                "generation": 0,
+                "token": 2,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "5a3d2008ad25edecd5023520286f7cfc069d7102183de8e5d107b89e3851b19c",
+              "hash": "391c8feb0ee52f9d30b35ec9df842c4878e4d5923c14df40337450a3ed6fe961"
+            },
+            {
+              "seq": 38,
+              "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "type": "job.retry_scheduled",
+              "at": 1790774822786,
+              "data": {
+                "attempt": 2,
+                "error": {
+                  "code": "INJECTED_FAILURE",
+                  "message": "可控的瞬时失败，用于验证重试策略。"
+                },
+                "generation": 0,
+                "retryAt": 1790774823591,
+                "token": 2,
+                "workerId": "worker-2-05735eca"
+              },
+              "previousHash": "391c8feb0ee52f9d30b35ec9df842c4878e4d5923c14df40337450a3ed6fe961",
+              "hash": "7f8bf2ac0da390085ea4f0c25495d536a9ed6e972d39f8dd08a299601c892a32"
+            },
+            {
+              "seq": 39,
+              "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "type": "lease.claimed",
+              "at": 1790774823638,
+              "data": {
+                "attempt": 3,
+                "generation": 0,
+                "token": 3,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "7f8bf2ac0da390085ea4f0c25495d536a9ed6e972d39f8dd08a299601c892a32",
+              "hash": "664cb379fe7c863031428f4c97276f5c7473a1b7bfecb069618cc612c4b02572"
+            },
+            {
+              "seq": 40,
+              "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+              "type": "job.dead",
+              "at": 1790774824340,
+              "data": {
+                "attempt": 3,
+                "error": {
+                  "code": "INJECTED_FAILURE",
+                  "message": "可控的瞬时失败，用于验证重试策略。"
+                },
+                "generation": 0,
+                "retryAt": null,
+                "token": 3,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "664cb379fe7c863031428f4c97276f5c7473a1b7bfecb069618cc612c4b02572",
+              "hash": "8578c4ec0c1988abd62343cd0319fc99a4d563e844f3b9ebf9b4e610e57077e7"
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "status": "pass",
+        "checks": [
+          {
+            "id": "exists",
+            "label": "任务记录完整",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "unique",
+            "label": "每个任务每轮最多一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "fencing",
+            "label": "收据来自获胜租约",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "budget",
+            "label": "三次失败耗尽预算",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "no-result",
+            "label": "失败轮次没有成功收据",
+            "status": "pass",
+            "detail": ""
+          }
+        ],
+        "scenario": {
+          "name": "Dead letter",
+          "question": "重试预算是否真的有边界？"
+        }
+      },
+      "serverTime": 1790774824408
+    },
+    {
+      "experiment": {
+        "id": "884dae4a-54b9-489f-b0f5-6686d9a6fc23",
+        "scenario": "response-loss",
+        "createdAt": 1790774824411,
+        "startSeq": 40,
+        "submissions": 1,
+        "jobIds": [
+          "d3e90d2b-1b41-4cf1-bb3a-81dfed127894"
+        ]
+      },
+      "jobs": [
+        {
+          "id": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+          "seq": 6,
+          "kind": "digest",
+          "label": "Lost response · 写入结果确认",
+          "state": "succeeded",
+          "priority": 0,
+          "attempt": 1,
+          "maxAttempts": 4,
+          "generation": 0,
+          "revision": 3,
+          "token": 1,
+          "owner": null,
+          "leaseUntil": null,
+          "runAt": 1790774824411,
+          "createdAt": 1790774824411,
+          "updatedAt": 1790774825142,
+          "completedAt": 1790774825142,
+          "error": null,
+          "result": {
+            "bytes": 41,
+            "characters": 41,
+            "sha256": "93055c355d5a4018fd3e834800e9fd7d87916105a351177f831fd110c622d000",
+            "words": 6
+          },
+          "definition": {
+            "delayMs": 700,
+            "fault": {
+              "crashOnce": false,
+              "failFirst": 0,
+              "stallOnce": false
+            },
+            "kind": "digest",
+            "label": "Lost response · 写入结果确认",
+            "maxAttempts": 4,
+            "priority": 0,
+            "scheduleMs": 0,
+            "text": "Faultline / reproducible execution / 2026"
+          },
+          "attempts": [
+            {
+              "job_id": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+              "generation": 0,
+              "number": 1,
+              "worker_id": "worker-1-0f720bd0",
+              "token": 1,
+              "state": "succeeded",
+              "started_at": 1790774824441,
+              "ended_at": 1790774825142,
+              "error": null
+            }
+          ],
+          "receipts": [
+            {
+              "generation": 0,
+              "token": 1,
+              "committed_at": 1790774825142
+            }
+          ],
+          "events": [
+            {
+              "seq": 41,
+              "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+              "type": "job.created",
+              "at": 1790774824411,
+              "data": {
+                "kind": "digest",
+                "label": "Lost response · 写入结果确认",
+                "maxAttempts": 4
+              },
+              "previousHash": "8578c4ec0c1988abd62343cd0319fc99a4d563e844f3b9ebf9b4e610e57077e7",
+              "hash": "573ca83792647328d0aa0fbb84e6c7ede9fa1bd36070a35e1fad96fb608b6235"
+            },
+            {
+              "seq": 43,
+              "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+              "type": "response.dropped",
+              "at": 1790774824411,
+              "data": {
+                "experimentId": "884dae4a-54b9-489f-b0f5-6686d9a6fc23",
+                "reason": "injected-after-commit"
+              },
+              "previousHash": "a6566ad5925ffd012e3310fbb5cea38b43e8b013ce7f491f3f7c09619d76007b",
+              "hash": "8d976822c50dbab4a598c858bdbb6de4c5521f23cf52c853e5b8581062bc7924"
+            },
+            {
+              "seq": 44,
+              "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+              "type": "lease.claimed",
+              "at": 1790774824441,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "token": 1,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "8d976822c50dbab4a598c858bdbb6de4c5521f23cf52c853e5b8581062bc7924",
+              "hash": "5c452835db7e86c4f2f01c67f7c577dac540ba55b29aa4947206c9d7c6bb813e"
+            },
+            {
+              "seq": 45,
+              "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+              "type": "job.succeeded",
+              "at": 1790774825142,
+              "data": {
+                "attempt": 1,
+                "generation": 0,
+                "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+                "token": 1,
+                "workerId": "worker-1-0f720bd0"
+              },
+              "previousHash": "5c452835db7e86c4f2f01c67f7c577dac540ba55b29aa4947206c9d7c6bb813e",
+              "hash": "d393a93bfb8c4b13b45c2d0c63a3195900744b2d14a77b23e0159d88c0faa73b"
+            }
+          ]
+        }
+      ],
+      "verdict": {
+        "status": "pass",
+        "checks": [
+          {
+            "id": "exists",
+            "label": "任务记录完整",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "unique",
+            "label": "每个任务每轮最多一张收据",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "fencing",
+            "label": "收据来自获胜租约",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "loss",
+            "label": "服务端落盘后主动断开响应",
+            "status": "pass",
+            "detail": ""
+          },
+          {
+            "id": "result",
+            "label": "保留原任务与唯一结果",
+            "status": "pass",
+            "detail": ""
+          }
+        ],
+        "scenario": {
+          "name": "Lost response",
+          "question": "写入成功但响应丢失，是否可以确认原结果？"
+        }
+      },
+      "serverTime": 1790774825217
+    }
+  ],
+  "evidence": {
+    "format": "faultline-evidence-v1",
+    "generatedAt": 1790774825219,
+    "integrity": {
+      "valid": true,
+      "count": 45,
+      "anchor": "GENESIS",
+      "head": "d393a93bfb8c4b13b45c2d0c63a3195900744b2d14a77b23e0159d88c0faa73b"
+    },
+    "events": [
+      {
+        "seq": 1,
+        "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+        "type": "job.created",
+        "at": 1790774807679,
+        "data": {
+          "kind": "digest",
+          "label": "Process crash · 租约恢复",
+          "maxAttempts": 4
+        },
+        "previousHash": "GENESIS",
+        "hash": "fce02ea9e17320e21c38e4862ad4626cbf9c954f639fd098b8f6037bd9eba137"
+      },
+      {
+        "seq": 2,
+        "jobId": null,
+        "type": "experiment.started",
+        "at": 1790774807679,
+        "data": {
+          "experimentId": "ae6823d3-b9fd-4515-9aa2-fc0eef19724b",
+          "name": "crash",
+          "submissions": 1,
+          "uniqueJobs": 1
+        },
+        "previousHash": "fce02ea9e17320e21c38e4862ad4626cbf9c954f639fd098b8f6037bd9eba137",
+        "hash": "d9fa6746c8f48d43381551c2aa421c877fa3cc1f17ce30b51dc2d3d2f38bf4c8"
+      },
+      {
+        "seq": 3,
+        "jobId": null,
+        "type": "worker.started",
+        "at": 1790774807716,
+        "data": {
+          "pid": 15,
+          "slot": 3,
+          "workerId": "worker-3-eccf0275"
+        },
+        "previousHash": "d9fa6746c8f48d43381551c2aa421c877fa3cc1f17ce30b51dc2d3d2f38bf4c8",
+        "hash": "0383b6b19c45d66d2bea699111e785edf47f694e131585e5afdae7daee68344f"
+      },
+      {
+        "seq": 4,
+        "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+        "type": "lease.claimed",
+        "at": 1790774807718,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-3-eccf0275"
+        },
+        "previousHash": "0383b6b19c45d66d2bea699111e785edf47f694e131585e5afdae7daee68344f",
+        "hash": "bd7b645582e89ce35b44a03a72f43526fd9ecf8826008f3d6dc93ec462250e9b"
+      },
+      {
+        "seq": 5,
+        "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+        "type": "worker.stopped",
+        "at": 1790774807719,
+        "data": {
+          "reason": "signal:SIGKILL",
+          "workerId": "worker-3-eccf0275"
+        },
+        "previousHash": "bd7b645582e89ce35b44a03a72f43526fd9ecf8826008f3d6dc93ec462250e9b",
+        "hash": "227fafb9bcd5d50222ecb81b64a818a6760782b3f80479af3b7c26e2ef198417"
+      },
+      {
+        "seq": 6,
+        "jobId": null,
+        "type": "worker.started",
+        "at": 1790774807730,
+        "data": {
+          "pid": 14,
+          "slot": 2,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "227fafb9bcd5d50222ecb81b64a818a6760782b3f80479af3b7c26e2ef198417",
+        "hash": "5188f46bf185d173aeee54590e4ef961431ee179941de97f58f20a5c7db7b1f4"
+      },
+      {
+        "seq": 7,
+        "jobId": null,
+        "type": "worker.started",
+        "at": 1790774807732,
+        "data": {
+          "pid": 13,
+          "slot": 1,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "5188f46bf185d173aeee54590e4ef961431ee179941de97f58f20a5c7db7b1f4",
+        "hash": "06ecfd54dadf9f4338884f2db270dba7270dff086d81071d563975132400a114"
+      },
+      {
+        "seq": 8,
+        "jobId": null,
+        "type": "worker.started",
+        "at": 1790774808275,
+        "data": {
+          "pid": 37,
+          "slot": 3,
+          "workerId": "worker-3-aa759063"
+        },
+        "previousHash": "06ecfd54dadf9f4338884f2db270dba7270dff086d81071d563975132400a114",
+        "hash": "9e38dc952849b3ec5708bf0136664840b7b5662276ab18024cdd53b4cf4cf7fd"
+      },
+      {
+        "seq": 9,
+        "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+        "type": "lease.expired",
+        "at": 1790774810148,
+        "data": {
+          "attempt": 1,
+          "nextState": "retry_wait",
+          "token": 1,
+          "workerId": "worker-3-eccf0275"
+        },
+        "previousHash": "9e38dc952849b3ec5708bf0136664840b7b5662276ab18024cdd53b4cf4cf7fd",
+        "hash": "b483ba2dabaef090bd3edee17b87a6f1bff2c5d7f3cba93a30dce26746e44868"
+      },
+      {
+        "seq": 10,
+        "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+        "type": "lease.claimed",
+        "at": 1790774810653,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "token": 2,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "b483ba2dabaef090bd3edee17b87a6f1bff2c5d7f3cba93a30dce26746e44868",
+        "hash": "91c3c5c376397a2a180df00f20c139bb4daea0a7587195a981a31afaef078de2"
+      },
+      {
+        "seq": 11,
+        "jobId": "fa915a83-020c-4524-be62-c20b38f3600b",
+        "type": "job.succeeded",
+        "at": 1790774811355,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+          "token": 2,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "91c3c5c376397a2a180df00f20c139bb4daea0a7587195a981a31afaef078de2",
+        "hash": "f5c940bf5e0d2b61ba3356b5965272286aa149e53541046f39dbfd5829fa2d95"
+      },
+      {
+        "seq": 12,
+        "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+        "type": "job.created",
+        "at": 1790774811413,
+        "data": {
+          "kind": "digest",
+          "label": "Zombie worker · 旧提交拒绝",
+          "maxAttempts": 4
+        },
+        "previousHash": "f5c940bf5e0d2b61ba3356b5965272286aa149e53541046f39dbfd5829fa2d95",
+        "hash": "bbd5cafc76a88c0871acf4194bb4abbcc4eb586a18a8905b65bb189f29e93359"
+      },
+      {
+        "seq": 13,
+        "jobId": null,
+        "type": "experiment.started",
+        "at": 1790774811413,
+        "data": {
+          "experimentId": "5d41351a-6e79-4f77-9b08-9ccc48f4db9c",
+          "name": "fence",
+          "submissions": 1,
+          "uniqueJobs": 1
+        },
+        "previousHash": "bbd5cafc76a88c0871acf4194bb4abbcc4eb586a18a8905b65bb189f29e93359",
+        "hash": "b0995da965bae96fac6e2ea1b6afabec80d0bcd571bdbf28c604b5c41465fb3c"
+      },
+      {
+        "seq": 14,
+        "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+        "type": "lease.claimed",
+        "at": 1790774811456,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "b0995da965bae96fac6e2ea1b6afabec80d0bcd571bdbf28c604b5c41465fb3c",
+        "hash": "44560e62482890540b1b65f5265507bfac89df97b06f2501c9189fd38e8e2613"
+      },
+      {
+        "seq": 15,
+        "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+        "type": "lease.expired",
+        "at": 1790774813869,
+        "data": {
+          "attempt": 1,
+          "nextState": "retry_wait",
+          "token": 1,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "44560e62482890540b1b65f5265507bfac89df97b06f2501c9189fd38e8e2613",
+        "hash": "f9c07338af3866b51d0af35976e278f08a6a106b05b15ba734476ed592e3315d"
+      },
+      {
+        "seq": 16,
+        "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+        "type": "lease.claimed",
+        "at": 1790774814483,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "token": 2,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "f9c07338af3866b51d0af35976e278f08a6a106b05b15ba734476ed592e3315d",
+        "hash": "9ef92eed9137648ae29731a082eda86ee3b2e94bacc33b7b8b51ca86d38e8fe7"
+      },
+      {
+        "seq": 17,
+        "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+        "type": "job.succeeded",
+        "at": 1790774815186,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+          "token": 2,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "9ef92eed9137648ae29731a082eda86ee3b2e94bacc33b7b8b51ca86d38e8fe7",
+        "hash": "deb44abe1e7030cfe3c4dd30c2928dedbb4cda0dafc9a7b1e480abb0006dba35"
+      },
+      {
+        "seq": 18,
+        "jobId": "2a8701ad-cb05-4e8c-9e4f-64bcb021e0c2",
+        "type": "commit.rejected",
+        "at": 1790774816359,
+        "data": {
+          "currentState": "succeeded",
+          "currentToken": 2,
+          "reason": "STALE_LEASE",
+          "token": 1,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "deb44abe1e7030cfe3c4dd30c2928dedbb4cda0dafc9a7b1e480abb0006dba35",
+        "hash": "93ee3be128315f1e12a00985ada0f883c16dfc53c17d7c82db4605dd05b07284"
+      },
+      {
+        "seq": 19,
+        "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+        "type": "job.created",
+        "at": 1790774816447,
+        "data": {
+          "kind": "digest",
+          "label": "Transient failure · 自动重试",
+          "maxAttempts": 4
+        },
+        "previousHash": "93ee3be128315f1e12a00985ada0f883c16dfc53c17d7c82db4605dd05b07284",
+        "hash": "77872c8196df02aedd7ea6cb3996947dadb62b6d73c96e2464920cf3c98c90a4"
+      },
+      {
+        "seq": 20,
+        "jobId": null,
+        "type": "experiment.started",
+        "at": 1790774816447,
+        "data": {
+          "experimentId": "89ce1a45-1c25-4a08-8d4b-2981897101f3",
+          "name": "retry",
+          "submissions": 1,
+          "uniqueJobs": 1
+        },
+        "previousHash": "77872c8196df02aedd7ea6cb3996947dadb62b6d73c96e2464920cf3c98c90a4",
+        "hash": "dea1f910b56a976f2a1c9c040b247b7b132ed6db41c1db979014e4d4c6e01975"
+      },
+      {
+        "seq": 21,
+        "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+        "type": "lease.claimed",
+        "at": 1790774816460,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "dea1f910b56a976f2a1c9c040b247b7b132ed6db41c1db979014e4d4c6e01975",
+        "hash": "5f27600ff188083c6d83bef305c63086027af60735a63934222f7eed18093c61"
+      },
+      {
+        "seq": 22,
+        "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+        "type": "job.retry_scheduled",
+        "at": 1790774817162,
+        "data": {
+          "attempt": 1,
+          "error": {
+            "code": "INJECTED_FAILURE",
+            "message": "可控的瞬时失败，用于验证重试策略。"
+          },
+          "generation": 0,
+          "retryAt": 1790774817638,
+          "token": 1,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "5f27600ff188083c6d83bef305c63086027af60735a63934222f7eed18093c61",
+        "hash": "1cf08b97ca8813f15404054bc330135edab3908d3233f0c24526beeac90b9d45"
+      },
+      {
+        "seq": 23,
+        "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+        "type": "lease.claimed",
+        "at": 1790774817666,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "token": 2,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "1cf08b97ca8813f15404054bc330135edab3908d3233f0c24526beeac90b9d45",
+        "hash": "d769781f883b32fcc7a33c18588d74d1fb2a0ce4f4dc1a78db6ac68e15da33a2"
+      },
+      {
+        "seq": 24,
+        "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+        "type": "job.retry_scheduled",
+        "at": 1790774818368,
+        "data": {
+          "attempt": 2,
+          "error": {
+            "code": "INJECTED_FAILURE",
+            "message": "可控的瞬时失败，用于验证重试策略。"
+          },
+          "generation": 0,
+          "retryAt": 1790774819170,
+          "token": 2,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "d769781f883b32fcc7a33c18588d74d1fb2a0ce4f4dc1a78db6ac68e15da33a2",
+        "hash": "7323bad6cbb8eac0c81d3efc0f97414dd9fe1fa29a548cee713cfd62a1456400"
+      },
+      {
+        "seq": 25,
+        "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+        "type": "lease.claimed",
+        "at": 1790774819172,
+        "data": {
+          "attempt": 3,
+          "generation": 0,
+          "token": 3,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "7323bad6cbb8eac0c81d3efc0f97414dd9fe1fa29a548cee713cfd62a1456400",
+        "hash": "533a479786e7191c690ec2978cda81f77411505fa8c3c12074f2b8fb9a6e1f43"
+      },
+      {
+        "seq": 26,
+        "jobId": "d6745c4e-a526-4a40-be2e-baa783e6c554",
+        "type": "job.succeeded",
+        "at": 1790774819873,
+        "data": {
+          "attempt": 3,
+          "generation": 0,
+          "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+          "token": 3,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "533a479786e7191c690ec2978cda81f77411505fa8c3c12074f2b8fb9a6e1f43",
+        "hash": "797a532fcd6d41fe457aac096031fca2a1dcaf3fab999b581252ae9f4251ff6e"
+      },
+      {
+        "seq": 27,
+        "jobId": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+        "type": "job.created",
+        "at": 1790774819976,
+        "data": {
+          "kind": "digest",
+          "label": "Repeated intent · 幂等去重",
+          "maxAttempts": 4
+        },
+        "previousHash": "797a532fcd6d41fe457aac096031fca2a1dcaf3fab999b581252ae9f4251ff6e",
+        "hash": "f75c7808275faedecc6d19c9fdc105c19c83ecea6e7d72f419b7e5b528691507"
+      },
+      {
+        "seq": 28,
+        "jobId": null,
+        "type": "request.deduplicated",
+        "at": 1790774819976,
+        "data": {
+          "operation": "submit"
+        },
+        "previousHash": "f75c7808275faedecc6d19c9fdc105c19c83ecea6e7d72f419b7e5b528691507",
+        "hash": "d0af603820941aad8e09da557395d8f881db723facff2df224136f58c7474764"
+      },
+      {
+        "seq": 29,
+        "jobId": null,
+        "type": "request.deduplicated",
+        "at": 1790774819976,
+        "data": {
+          "operation": "submit"
+        },
+        "previousHash": "d0af603820941aad8e09da557395d8f881db723facff2df224136f58c7474764",
+        "hash": "71a3d2d4f21bae0ddec88cb7ef310975d7dd9b81327ec63f69bca8ac01d959a5"
+      },
+      {
+        "seq": 30,
+        "jobId": null,
+        "type": "experiment.started",
+        "at": 1790774819976,
+        "data": {
+          "experimentId": "ce7146ed-2b82-4561-8e45-17336e78cb12",
+          "name": "duplicate",
+          "submissions": 3,
+          "uniqueJobs": 1
+        },
+        "previousHash": "71a3d2d4f21bae0ddec88cb7ef310975d7dd9b81327ec63f69bca8ac01d959a5",
+        "hash": "a5f117fdc8a653fd8372bd819beb2133e837ebecbdf5d97c09c33269c385a86f"
+      },
+      {
+        "seq": 31,
+        "jobId": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+        "type": "lease.claimed",
+        "at": 1790774820020,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "a5f117fdc8a653fd8372bd819beb2133e837ebecbdf5d97c09c33269c385a86f",
+        "hash": "d1b5839ee2dd1079f179b7fbf9ace541ae03c82854d83a5432ce0db943616a2a"
+      },
+      {
+        "seq": 32,
+        "jobId": "a60e5847-5ab9-4891-8137-b29dce29a3d4",
+        "type": "job.succeeded",
+        "at": 1790774820721,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+          "token": 1,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "d1b5839ee2dd1079f179b7fbf9ace541ae03c82854d83a5432ce0db943616a2a",
+        "hash": "2df4034b212ba3e744d1df7719bc7066f4addfa553cf507c78ff004680bdb437"
+      },
+      {
+        "seq": 33,
+        "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+        "type": "job.created",
+        "at": 1790774820787,
+        "data": {
+          "kind": "digest",
+          "label": "Retry exhausted · 死信",
+          "maxAttempts": 3
+        },
+        "previousHash": "2df4034b212ba3e744d1df7719bc7066f4addfa553cf507c78ff004680bdb437",
+        "hash": "52b99a55b75a76dcffc364d3fa4345c9fd4f940d1e1c0032f8e40411c0c68a09"
+      },
+      {
+        "seq": 34,
+        "jobId": null,
+        "type": "experiment.started",
+        "at": 1790774820787,
+        "data": {
+          "experimentId": "5378f767-bdb4-4afd-854e-15d90f7ac9fc",
+          "name": "dead",
+          "submissions": 1,
+          "uniqueJobs": 1
+        },
+        "previousHash": "52b99a55b75a76dcffc364d3fa4345c9fd4f940d1e1c0032f8e40411c0c68a09",
+        "hash": "65d47522cda18d2e8e3f05c93a7a9d47403febc085c8dcf6f017025534a23b0e"
+      },
+      {
+        "seq": 35,
+        "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+        "type": "lease.claimed",
+        "at": 1790774820822,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "65d47522cda18d2e8e3f05c93a7a9d47403febc085c8dcf6f017025534a23b0e",
+        "hash": "b298fc32aacd0c4272a3f3f8119ced6e15cb18d301cdb784096f71bab68bc7e4"
+      },
+      {
+        "seq": 36,
+        "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+        "type": "job.retry_scheduled",
+        "at": 1790774821523,
+        "data": {
+          "attempt": 1,
+          "error": {
+            "code": "INJECTED_FAILURE",
+            "message": "可控的瞬时失败，用于验证重试策略。"
+          },
+          "generation": 0,
+          "retryAt": 1790774822074,
+          "token": 1,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "b298fc32aacd0c4272a3f3f8119ced6e15cb18d301cdb784096f71bab68bc7e4",
+        "hash": "5a3d2008ad25edecd5023520286f7cfc069d7102183de8e5d107b89e3851b19c"
+      },
+      {
+        "seq": 37,
+        "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+        "type": "lease.claimed",
+        "at": 1790774822085,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "token": 2,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "5a3d2008ad25edecd5023520286f7cfc069d7102183de8e5d107b89e3851b19c",
+        "hash": "391c8feb0ee52f9d30b35ec9df842c4878e4d5923c14df40337450a3ed6fe961"
+      },
+      {
+        "seq": 38,
+        "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+        "type": "job.retry_scheduled",
+        "at": 1790774822786,
+        "data": {
+          "attempt": 2,
+          "error": {
+            "code": "INJECTED_FAILURE",
+            "message": "可控的瞬时失败，用于验证重试策略。"
+          },
+          "generation": 0,
+          "retryAt": 1790774823591,
+          "token": 2,
+          "workerId": "worker-2-05735eca"
+        },
+        "previousHash": "391c8feb0ee52f9d30b35ec9df842c4878e4d5923c14df40337450a3ed6fe961",
+        "hash": "7f8bf2ac0da390085ea4f0c25495d536a9ed6e972d39f8dd08a299601c892a32"
+      },
+      {
+        "seq": 39,
+        "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+        "type": "lease.claimed",
+        "at": 1790774823638,
+        "data": {
+          "attempt": 3,
+          "generation": 0,
+          "token": 3,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "7f8bf2ac0da390085ea4f0c25495d536a9ed6e972d39f8dd08a299601c892a32",
+        "hash": "664cb379fe7c863031428f4c97276f5c7473a1b7bfecb069618cc612c4b02572"
+      },
+      {
+        "seq": 40,
+        "jobId": "6e507b8f-353e-4470-880b-5cd469d6458c",
+        "type": "job.dead",
+        "at": 1790774824340,
+        "data": {
+          "attempt": 3,
+          "error": {
+            "code": "INJECTED_FAILURE",
+            "message": "可控的瞬时失败，用于验证重试策略。"
+          },
+          "generation": 0,
+          "retryAt": null,
+          "token": 3,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "664cb379fe7c863031428f4c97276f5c7473a1b7bfecb069618cc612c4b02572",
+        "hash": "8578c4ec0c1988abd62343cd0319fc99a4d563e844f3b9ebf9b4e610e57077e7"
+      },
+      {
+        "seq": 41,
+        "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+        "type": "job.created",
+        "at": 1790774824411,
+        "data": {
+          "kind": "digest",
+          "label": "Lost response · 写入结果确认",
+          "maxAttempts": 4
+        },
+        "previousHash": "8578c4ec0c1988abd62343cd0319fc99a4d563e844f3b9ebf9b4e610e57077e7",
+        "hash": "573ca83792647328d0aa0fbb84e6c7ede9fa1bd36070a35e1fad96fb608b6235"
+      },
+      {
+        "seq": 42,
+        "jobId": null,
+        "type": "experiment.started",
+        "at": 1790774824411,
+        "data": {
+          "experimentId": "884dae4a-54b9-489f-b0f5-6686d9a6fc23",
+          "name": "response-loss",
+          "submissions": 1,
+          "uniqueJobs": 1
+        },
+        "previousHash": "573ca83792647328d0aa0fbb84e6c7ede9fa1bd36070a35e1fad96fb608b6235",
+        "hash": "a6566ad5925ffd012e3310fbb5cea38b43e8b013ce7f491f3f7c09619d76007b"
+      },
+      {
+        "seq": 43,
+        "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+        "type": "response.dropped",
+        "at": 1790774824411,
+        "data": {
+          "experimentId": "884dae4a-54b9-489f-b0f5-6686d9a6fc23",
+          "reason": "injected-after-commit"
+        },
+        "previousHash": "a6566ad5925ffd012e3310fbb5cea38b43e8b013ce7f491f3f7c09619d76007b",
+        "hash": "8d976822c50dbab4a598c858bdbb6de4c5521f23cf52c853e5b8581062bc7924"
+      },
+      {
+        "seq": 44,
+        "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+        "type": "lease.claimed",
+        "at": 1790774824441,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "8d976822c50dbab4a598c858bdbb6de4c5521f23cf52c853e5b8581062bc7924",
+        "hash": "5c452835db7e86c4f2f01c67f7c577dac540ba55b29aa4947206c9d7c6bb813e"
+      },
+      {
+        "seq": 45,
+        "jobId": "d3e90d2b-1b41-4cf1-bb3a-81dfed127894",
+        "type": "job.succeeded",
+        "at": 1790774825142,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+          "token": 1,
+          "workerId": "worker-1-0f720bd0"
+        },
+        "previousHash": "5c452835db7e86c4f2f01c67f7c577dac540ba55b29aa4947206c9d7c6bb813e",
+        "hash": "d393a93bfb8c4b13b45c2d0c63a3195900744b2d14a77b23e0159d88c0faa73b"
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@ function walk(path) {
   return readdirSync(path, { withFileTypes: true }).filter(entry => !['node_modules', 'evidence', '.git'].includes(entry.name)).flatMap(entry => entry.isDirectory() ? walk(join(path, entry.name)) : [join(path, entry.name)]);
 }
 let checked = 0;
-for (const folder of ['src', 'public', 'tools', 'tests']) {
+for (const folder of ['src', 'public', 'showcase', 'tools', 'tests']) {
   let files;
   try { files = walk(join(root, folder)); } catch { continue; }
   for (const path of files.filter(path => path.endsWith('.mjs'))) {
@@ -17,6 +17,8 @@ for (const folder of ['src', 'public', 'tools', 'tests']) {
     checked++;
   }
 }
-const frontend = readFileSync(join(root, 'public/app.mjs'), 'utf8');
-if (/\.innerHTML\s*=|insertAdjacentHTML|\beval\(/.test(frontend)) throw new Error('Unsafe frontend sink.');
+for (const folder of ['public', 'showcase']) for (const path of walk(join(root, folder)).filter(p => p.endsWith('.mjs'))) {
+  const frontend = readFileSync(path, 'utf8');
+  if (/\.innerHTML\s*=|insertAdjacentHTML|\beval\(|new Function\(/.test(frontend)) throw new Error(`Unsafe frontend sink: ${path}`);
+}
 console.log(`Syntax checked: ${checked} modules; frontend uses DOM text nodes.`);
