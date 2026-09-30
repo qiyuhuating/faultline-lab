@@ -34,12 +34,12 @@ try {
   results.push('duplicate intent renders one job');
 
   await page.locator('[data-scenario="dead"]').click();
-  await page.waitForFunction(() => [...document.querySelectorAll('.state-badge')].some(node => node.textContent === '死信'), { timeout: 15000 });
+  await page.waitForFunction(() => [...document.querySelectorAll('.state-badge')].some(node => node.textContent === '死信'), null, { timeout: 15000 });
   const dead = page.locator('#job-rows tr').filter({ hasText: 'Retry exhausted' });
   await dead.locator('button').click();
   await page.locator('#detail-dialog').waitFor({ state: 'visible' });
   await page.getByRole('button', { name: '清除故障并重放 →' }).click();
-  await page.waitForFunction(() => document.querySelector('#detail-dialog .state-badge')?.textContent === '已成功', { timeout: 15000 });
+  await page.waitForFunction(() => document.querySelector('#detail-dialog .state-badge')?.textContent === '已成功', null, { timeout: 15000 });
   assert.match(await page.locator('#detail-content').textContent(), /G1/);
   results.push('dead letter can be replayed in the UI');
   await page.locator('[data-close="detail-dialog"]').click();
@@ -60,16 +60,52 @@ try {
   assert.equal(await page.locator('#total-count').textContent(), original);
   results.push('filter switching retains the correct snapshot');
 
+  await page.locator('[data-scenario="fence"]').click();
+  await page.waitForFunction(() => [...document.querySelectorAll('.report-row')].some(row => row.textContent.includes('Zombie worker') && row.textContent.includes('PASS')), null, { timeout: 20000 });
+  await page.locator('.report-row').filter({ hasText: 'Zombie worker' }).click();
+  assert.match(await page.locator('#report-content').textContent(), /旧 Worker 的真实写入被拒绝/);
+  assert.match(await page.locator('#report-content').textContent(), /commit.rejected/);
+  await page.locator('[data-close="report-dialog"]').click();
+  results.push('real stale worker rejection has a passing causal report');
+
+  const beforeLostResponse = Number(await page.locator('#total-count').textContent());
+  await page.locator('[data-scenario="response-loss"]').click();
+  await page.waitForFunction(expected => Number(document.querySelector('#total-count').textContent) === expected, beforeLostResponse + 1);
+  await page.waitForFunction(() => [...document.querySelectorAll('.report-row')].some(row => row.textContent.includes('Lost response') && row.textContent.includes('PASS')));
+  assert.equal(Number(await page.locator('#total-count').textContent()), beforeLostResponse + 1);
+  results.push('write succeeds with a deliberately lost response; durable lookup confirms one job');
+
+  await page.locator('#create-button').click();
+  await page.locator('[name="label"]').fill('survives full reload');
+  await page.locator('[name="text"]').fill('draft remains here');
+  await page.reload();
+  await page.waitForFunction(() => document.querySelector('#connection').textContent.includes('LIVE'));
+  await page.locator('#create-button').click();
+  assert.equal(await page.locator('[name="label"]').inputValue(), 'survives full reload');
+  assert.equal(await page.locator('[name="text"]').inputValue(), 'draft remains here');
+  await page.locator('[data-close="create-dialog"]').first().click();
+  results.push('draft survives a full reload');
+
+  const ledgerCount = await page.locator('#job-rows tr').count();
+  await page.route('**/api/snapshot*', route => route.fulfill({ status: 200, contentType: 'application/json', body: '{"jobs":null}' }));
+  await page.locator('[data-state="succeeded"]').click();
+  await page.waitForFunction(() => !document.querySelector('#error-banner').hidden);
+  assert.equal(await page.locator('#job-rows tr').count(), ledgerCount);
+  await page.unroute('**/api/snapshot*');
+  await page.locator('[data-state=""]').click();
+  await page.waitForFunction(() => document.querySelector('#error-banner').hidden);
+  results.push('malformed snapshot preserves the last valid ledger and recovers');
+
   const downloadPromise = page.waitForEvent('download');
   await page.locator('#export-button').click();
   const download = await downloadPromise;
   await download.saveAs(join(artifacts, 'evidence.json'));
   results.push('evidence downloads');
 
-  await page.screenshot({ path: join(artifacts, 'desktop.png'), fullPage: true });
+  await page.screenshot({ path: join(artifacts, 'desktop.png'), fullPage: true, caret: 'initial' });
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
-  await page.screenshot({ path: join(artifacts, 'mobile.png'), fullPage: true });
+  await page.screenshot({ path: join(artifacts, 'mobile.png'), fullPage: true, caret: 'initial' });
   results.push('mobile layout has no page overflow');
 
   const context = page.context();

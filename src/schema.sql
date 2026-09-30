@@ -73,3 +73,11 @@ CREATE TABLE IF NOT EXISTS events (
   hash TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS events_by_job ON events(job_id, seq DESC);
+CREATE TABLE IF NOT EXISTS experiments (
+  id TEXT PRIMARY KEY,
+  scenario TEXT NOT NULL,
+  created_at INTEGER NOT NULL,
+  start_seq INTEGER NOT NULL,
+  job_ids TEXT NOT NULL,
+  submissions INTEGER NOT NULL
+);

@@ -3,6 +3,7 @@ import { readFileSync, mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { canonical, digest, insist, jobDefinition, key, revision, DomainError } from './validation.mjs';
+import { evaluateExperiment } from '../public/proof.mjs';
 
 const STATES = ['queued', 'running', 'retry_wait', 'succeeded', 'dead', 'cancelled'];
 const TERMINAL = new Set(['succeeded', 'dead', 'cancelled']);
@@ -29,6 +30,7 @@ export class Queue {
     this.db = new DatabaseSync(path, { timeout: 5000 });
     this.clock = clock;
     this.leaseMs = leaseMs;
+    this.reportCache = new Map();
     const meta = this.db.prepare("SELECT name FROM sqlite_master WHERE name='meta'").get();
     if (meta) {
       const version = this.db.prepare("SELECT value FROM meta WHERE key='schema_version'").get();
@@ -100,12 +102,16 @@ export class Queue {
   }
 
   experiment(name, requestKey) {
-    insist(['retry', 'crash', 'duplicate', 'dead', 'burst'].includes(name), 'VALIDATION', '实验不存在。');
+    insist(['retry', 'crash', 'duplicate', 'dead', 'burst', 'fence', 'response-loss'].includes(name), 'VALIDATION', '实验不存在。');
     return this.transaction(() => this.idempotent('experiment', { name }, requestKey, () => {
+      const experimentId = randomUUID();
+      const startSeq = Number(this.metadata('event_seq'));
       const common = { text: 'Faultline / reproducible execution / 2026', delayMs: 700 };
       const definitions = {
         retry: { ...common, label: 'Transient failure · 自动重试', fault: { failFirst: 2 } },
         crash: { ...common, label: 'Process crash · 租约恢复', fault: { crashOnce: true } },
+        fence: { ...common, label: 'Zombie worker · 旧提交拒绝', fault: { stallOnce: true } },
+        'response-loss': { ...common, label: 'Lost response · 写入结果确认' },
         duplicate: { ...common, label: 'Repeated intent · 幂等去重' },
         dead: { ...common, label: 'Retry exhausted · 死信', maxAttempts: 3, fault: { failFirst: 10 } }
       };
@@ -120,8 +126,10 @@ export class Queue {
           ids.push(submitted.jobId);
         }
       } else ids.push(this.insertJob(jobDefinition(definitions[name])));
-      this.event('experiment.started', null, { name, submissions: ids.length, uniqueJobs: new Set(ids).size });
-      return { jobIds: [...new Set(ids)], submissions: ids.length };
+      const jobIds = [...new Set(ids)];
+      this.db.prepare('INSERT INTO experiments VALUES (?, ?, ?, ?, ?, ?)').run(experimentId, name, this.clock(), startSeq, JSON.stringify(jobIds), ids.length);
+      this.event('experiment.started', null, { experimentId, name, submissions: ids.length, uniqueJobs: jobIds.length });
+      return { experimentId, jobIds, submissions: ids.length };
     }));
   }
 
@@ -188,7 +196,10 @@ export class Queue {
     return this.transaction(() => {
       const now = this.clock();
       const job = this.raw(id);
-      if (!this.owns(job, workerId, token, now)) return { accepted: false, reason: 'STALE_LEASE' };
+      if (!this.owns(job, workerId, token, now)) {
+        if (job) this.event('commit.rejected', id, { workerId, token, currentToken: job.lease_token, currentState: job.state, reason: 'STALE_LEASE' }, now);
+        return { accepted: false, reason: 'STALE_LEASE' };
+      }
       const encoded = canonical(result);
       // The built-in result receipt and state change commit in one transaction.
       this.db.prepare('INSERT INTO receipts VALUES (?, ?, ?, ?, ?)').run(id, job.generation, token, encoded, now);
@@ -212,7 +223,7 @@ export class Queue {
       this.db.prepare(`UPDATE jobs SET state=?, last_error=?, run_at=?, updated_at=?, completed_at=?,
         lease_owner=NULL, lease_until=NULL, revision=revision+1 WHERE id=?`)
         .run(dead ? 'dead' : 'retry_wait', JSON.stringify(safeError), runAt, now, dead ? now : null, id);
-      this.event(dead ? 'job.dead' : 'job.retry_scheduled', id, { attempt: job.attempt, workerId, token, error: safeError, retryAt: dead ? null : runAt }, now);
+      this.event(dead ? 'job.dead' : 'job.retry_scheduled', id, { attempt: job.attempt, generation: job.generation, workerId, token, error: safeError, retryAt: dead ? null : runAt }, now);
       return { accepted: true, state: dead ? 'dead' : 'retry_wait' };
     });
   }
@@ -235,7 +246,7 @@ export class Queue {
         insist(['dead', 'cancelled'].includes(job.state), 'INVALID_TRANSITION', '只有死信或已取消的任务可以重放。', 409);
         insist(job.generation < 20, 'REPLAY_LIMIT', '每个任务最多重放 20 次，请创建新任务。', 409);
         const definition = JSON.parse(job.definition);
-        if (clearFaults) definition.fault = { failFirst: 0, crashOnce: false };
+        if (clearFaults) definition.fault = { failFirst: 0, crashOnce: false, stallOnce: false };
         this.db.prepare(`UPDATE jobs SET state='queued', generation=generation+1, attempt=0,
           revision=revision+1, lease_token=lease_token+1, lease_owner=NULL, lease_until=NULL,
           completed_at=NULL, result=NULL, last_error=NULL, run_at=?, updated_at=?, definition=? WHERE id=?`)
@@ -282,8 +293,36 @@ export class Queue {
     if (!job) throw new DomainError('NOT_FOUND', '任务不存在。', 404);
     job.attempts = this.db.prepare('SELECT * FROM attempts WHERE job_id=? ORDER BY generation, number').all(id);
     job.receipts = this.db.prepare('SELECT generation, token, committed_at FROM receipts WHERE job_id=? ORDER BY generation').all(id);
-    job.events = this.events({ jobId: id, limit: 100 });
+    job.events = this.events({ jobId: id, limit: 500 });
     return job;
+  }
+
+  experimentReport(id) {
+    const stamp = `${this.metadata('event_seq')}:${Math.floor(this.clock() / 1000)}`;
+    const cached = this.reportCache.get(id);
+    if (cached?.stamp === stamp) return cached.report;
+    const row = this.db.prepare('SELECT * FROM experiments WHERE id=?').get(id);
+    if (!row) throw new DomainError('NOT_FOUND', '实验不存在或已超过保留期限。', 404);
+    const jobIds = JSON.parse(row.job_ids);
+    const jobs = jobIds.map(jobId => this.detail(jobId));
+    const experiment = { id, scenario: row.scenario, createdAt: row.created_at, startSeq: row.start_seq, submissions: row.submissions, jobIds };
+    const report = { experiment, jobs, verdict: evaluateExperiment(experiment, jobs, this.clock()), serverTime: this.clock() };
+    this.reportCache.set(id, { stamp, report });
+    if (this.reportCache.size > 16) this.reportCache.delete(this.reportCache.keys().next().value);
+    return report;
+  }
+
+  experiments(limit = 8) {
+    return this.db.prepare('SELECT id FROM experiments ORDER BY created_at DESC, rowid DESC LIMIT ?').all(limit).map(row => {
+      const report = this.experimentReport(row.id);
+      return { ...report, jobs: report.jobs.map(job => ({ id: job.id, state: job.state, generation: job.generation, revision: job.revision })) };
+    });
+  }
+
+  requestStatus(requestKey) {
+    key(requestKey);
+    const row = this.db.prepare('SELECT response FROM requests WHERE key=?').get(requestKey);
+    return { found: Boolean(row), result: row ? JSON.parse(row.response) : null, serverTime: this.clock() };
   }
 
   events({ after = 0, jobId = null, limit = 100, newest = false } = {}) {
@@ -316,7 +355,8 @@ export class Queue {
       serverTime: now, revision: Number(this.metadata('event_seq')), paused: this.metadata('paused') === 'true',
       jobs, counts, workers, nextBefore: rows.length > limit ? jobs.at(-1).seq : null,
       metrics: { completedLastMinute: recent.n, averageExecutionMs: Math.round(recent.avg ?? 0), receipts: this.db.prepare('SELECT COUNT(*) n FROM receipts').get().n, deduplicated: this.db.prepare("SELECT COUNT(*) n FROM events WHERE type='request.deduplicated'").get().n },
-      series, events: this.events({ newest: true, limit: 12 })
+      series, events: this.events({ newest: true, limit: 12 }),
+      experiments: this.experiments()
     };
   }
 
@@ -341,6 +381,7 @@ export class Queue {
       const cutoff = this.clock() - days * 86400000;
       const removed = this.db.prepare("DELETE FROM jobs WHERE id IN (SELECT id FROM jobs WHERE state IN ('succeeded','dead','cancelled') AND completed_at<? LIMIT 500)").run(cutoff).changes;
       this.db.prepare('DELETE FROM requests WHERE created_at<?').run(cutoff);
+      this.db.prepare("DELETE FROM experiments WHERE created_at<? OR EXISTS (SELECT 1 FROM json_each(experiments.job_ids) j WHERE NOT EXISTS (SELECT 1 FROM jobs WHERE id=j.value))").run(cutoff);
       this.db.prepare("DELETE FROM workers WHERE phase='stopped' AND last_seen<?").run(cutoff);
       const head = Number(this.metadata('event_seq'));
       const candidates = this.db.prepare('SELECT seq, at, hash FROM events ORDER BY seq LIMIT 5000').all();

@@ -50,14 +50,15 @@ export function jobDefinition(input) {
   const text = input.text ?? 'Reliable systems leave evidence.';
   insist(typeof text === 'string' && Buffer.byteLength(text) <= 12000, 'VALIDATION', '任务输入不可超过 12 KB。');
   const fault = input.fault ?? {};
-  object(fault, ['failFirst', 'crashOnce']);
+  object(fault, ['failFirst', 'crashOnce', 'stallOnce']);
   insist(fault.crashOnce === undefined || typeof fault.crashOnce === 'boolean', 'VALIDATION', 'crashOnce 必须是布尔值。');
+  insist(fault.stallOnce === undefined || typeof fault.stallOnce === 'boolean', 'VALIDATION', 'stallOnce 必须是布尔值。');
   return {
     kind, label: label.trim(), text,
     priority: integer(input.priority ?? 0, 0, 5, 'priority'),
     maxAttempts: integer(input.maxAttempts ?? 4, 1, 5, 'maxAttempts'),
     delayMs: integer(input.delayMs ?? 550, 0, 8000, 'delayMs'),
     scheduleMs: integer(input.scheduleMs ?? 0, 0, 60000, 'scheduleMs'),
-    fault: { failFirst: integer(fault.failFirst ?? 0, 0, 10, 'failFirst'), crashOnce: fault.crashOnce ?? false }
+    fault: { failFirst: integer(fault.failFirst ?? 0, 0, 10, 'failFirst'), crashOnce: fault.crashOnce ?? false, stallOnce: fault.stallOnce ?? false }
   };
 }

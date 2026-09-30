@@ -19,6 +19,22 @@ async function until(predicate, timeout = 14000) {
   throw new Error('Timed out waiting for a real worker process.');
 }
 
+test('a live stalled worker submits after takeover and is actually fenced out', { timeout: 15000 }, async t => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-zombie-'));
+  const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 3, quiet: true });
+  t.after(async () => { await instance.close(); rmSync(directory, { recursive: true, force: true }); });
+  const { experimentId, jobIds } = instance.queue.experiment('fence', 'real-zombie-worker-key');
+  await until(() => instance.queue.experimentReport(experimentId).verdict.status === 'pass');
+  const job = instance.queue.detail(jobIds[0]);
+  assert.equal(job.receipts.length, 1);
+  assert.deepEqual(job.attempts.map(a => a.state), ['expired', 'succeeded']);
+  const rejected = job.events.find(e => e.type === 'commit.rejected');
+  assert.equal(rejected.data.workerId, job.attempts[0].worker_id);
+  assert.equal(rejected.data.token, 1);
+  assert.equal(rejected.data.currentToken, 2);
+  assert.ok(job.events.find(e => e.type === 'job.succeeded').seq < rejected.seq, 'The obsolete process really wakes after the new owner commits.');
+});
+
 test('four independent processes drain 240 tasks with no missing or duplicate receipts', { timeout: 25000 }, async t => {
   const directory = mkdtempSync(join(tmpdir(), 'faultline-process-'));
   const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 4, quiet: true });

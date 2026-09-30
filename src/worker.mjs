@@ -1,6 +1,6 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 import { randomUUID } from 'node:crypto';
-import { Queue } from './queue.mjs';
+import { Queue, LEASE_MS } from './queue.mjs';
 import { execute } from './handlers.mjs';
 
 const [database, slotText] = process.argv.slice(2);
@@ -22,7 +22,7 @@ const heartbeat = setInterval(() => {
   try {
     const paused = queue.metadata('paused') === 'true';
     queue.heartbeat(id, current ? 'busy' : paused ? 'paused' : 'idle', current?.id ?? null);
-    if (current && !queue.renew(current.id, id, current.token)) current.lostLease = true;
+    if (current && !current.stalled && !queue.renew(current.id, id, current.token)) current.lostLease = true;
   } catch (error) {
     console.error(JSON.stringify({ worker: id, code: 'HEARTBEAT_FAILED', message: error.message }));
   }
@@ -37,6 +37,12 @@ try {
       if (definition.fault.crashOnce && current.generation === 0 && current.attempt === 1) {
         // An actual OS process dies; no timer rewrites the job into success.
         process.kill(process.pid, 'SIGKILL');
+      }
+      if (definition.fault.stallOnce && current.generation === 0 && current.attempt === 1) {
+        // A real process remains alive but deliberately stops renewing its job.
+        // Its late commit must reach the database and be rejected by fencing.
+        current.stalled = true;
+        await sleep(LEASE_MS + 1800);
       }
       await sleep(definition.delayMs);
       if (current.lostLease) continue;
@@ -57,4 +63,7 @@ try {
   clearInterval(heartbeat);
   queue.stopWorker(id);
   queue.close();
+  // A disconnect listener keeps the IPC channel referenced. Explicitly close it
+  // after cleanup so graceful shutdown does not wait for the forced-kill timer.
+  if (process.connected) process.disconnect();
 }

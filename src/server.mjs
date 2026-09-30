@@ -13,6 +13,7 @@ const DEFAULT_DATABASE = fileURLToPath(new URL('../data/faultline.sqlite', impor
 const STATIC = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/app.mjs', ['app.mjs', 'text/javascript; charset=utf-8']],
+  ['/proof.mjs', ['proof.mjs', 'text/javascript; charset=utf-8']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
   ['/favicon.svg', ['favicon.svg', 'image/svg+xml']]
 ]);
@@ -101,6 +102,10 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
           response.setHeader('ETag', etag);
           if (request.headers['if-none-match'] === etag) response.writeHead(304).end();
           else json(response, 200, snapshot);
+        } else if (/^\/api\/requests\/[\w.:\-]{8,128}$/.test(path)) {
+          json(response, 200, queue.requestStatus(path.split('/').at(-1)));
+        } else if (/^\/api\/experiments\/[0-9a-f-]{36}$/.test(path)) {
+          json(response, 200, queue.experimentReport(path.split('/').at(-1)));
         } else if (/^\/api\/jobs\/[0-9a-f-]{36}$/.test(path)) {
           json(response, 200, { job: queue.detail(path.split('/').at(-1)), serverTime: Date.now() });
         } else if (path === '/api/evidence') {
@@ -153,7 +158,11 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
       if (path === '/api/jobs') json(response, 201, queue.submit(body, requestKey));
       else if (path === '/api/experiments') {
         object(body, ['scenario']);
-        json(response, 201, queue.experiment(body.scenario, requestKey));
+        const result = queue.experiment(body.scenario, requestKey);
+        if (body.scenario === 'response-loss' && !result.deduplicated) {
+          queue.transaction(() => queue.event('response.dropped', result.jobIds[0], { experimentId: result.experimentId, reason: 'injected-after-commit' }));
+          response.destroy();
+        } else json(response, 201, result);
       } else if (/^\/api\/jobs\/[0-9a-f-]{36}\/transitions$/.test(path)) {
         object(body, ['action', 'expectedRevision', 'clearFaults']);
         json(response, 200, queue.transition(path.split('/')[3], body.action, body.expectedRevision, requestKey, { clearFaults: body.clearFaults ?? false }));

@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 function walk(path) {
-  return readdirSync(path, { withFileTypes: true }).flatMap(entry => entry.isDirectory() ? walk(join(path, entry.name)) : [join(path, entry.name)]);
+  return readdirSync(path, { withFileTypes: true }).filter(entry => !['node_modules', 'evidence', '.git'].includes(entry.name)).flatMap(entry => entry.isDirectory() ? walk(join(path, entry.name)) : [join(path, entry.name)]);
 }
 let checked = 0;
 for (const folder of ['src', 'public', 'tools', 'tests']) {

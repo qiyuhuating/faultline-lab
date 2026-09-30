@@ -7,7 +7,25 @@ const node = (tag, className = '', text = '') => {
   return element;
 };
 const names = { queued: '等待领取', running: '运行中', retry_wait: '等待重试', succeeded: '已成功', dead: '死信', cancelled: '已取消' };
-const state = { token: '', snapshot: null, filter: '', before: null, source: null, detailId: null, detailRequest: 0, serverAt: 0, localAt: 0, failures: 0, nextRead: 0, etags: new Map(), bodies: new Map(), intents: new Map() };
+const state = { token: '', snapshot: null, filter: '', before: null, source: null, detailId: null, detailRequest: 0, reportId: null, serverAt: 0, localAt: 0, failures: 0, nextRead: 0, etags: new Map(), bodies: new Map(), intents: new Map() };
+const STORAGE = 'faultline.session.v1';
+const draftFields = ['label', 'kind', 'text', 'delayMs', 'maxAttempts', 'priority', 'failFirst'];
+let storageWarning = false;
+function persistSession() {
+  const draft = Object.fromEntries(draftFields.map(name => [name, $('create-form').elements.namedItem(name).value]));
+  try { sessionStorage.setItem(STORAGE, JSON.stringify({ version: 1, draft, intents: [...state.intents].slice(-8) })); }
+  catch { if (!storageWarning) { storageWarning = true; toast('浏览器无法保存草稿；本页输入仍保留，请先完成或复制后再刷新。'); } }
+}
+function restoreSession() {
+  try {
+    const stored = sessionStorage.getItem(STORAGE);
+    if (!stored || stored.length > 160000) return;
+    const data = JSON.parse(stored);
+    if (data.version !== 1) return;
+    for (const name of draftFields) if (typeof data.draft?.[name] === 'string' && data.draft[name].length <= 12000) $('create-form').elements.namedItem(name).value = data.draft[name];
+    if (Array.isArray(data.intents)) for (const pair of data.intents.slice(-8)) if (Array.isArray(pair) && typeof pair[0] === 'string' && pair[0].length <= 14000 && typeof pair[1] === 'string' && /^[0-9a-f-]{36}$/.test(pair[1])) state.intents.set(pair[0], pair[1]);
+  } catch { toast('已忽略无法读取的浏览器草稿，后端记录未受影响。'); }
+}
 const jobRows = new Map();
 const eventRows = new Map();
 let reading = false;
@@ -73,7 +91,7 @@ async function write(path, body) {
   if (!state.token) throw new Error('请等待引擎连接后再提交。');
   const signature = `${path}:${JSON.stringify(body)}`;
   let intent = state.intents.get(signature);
-  if (!intent) { intent = crypto.randomUUID(); state.intents.set(signature, intent); }
+  if (!intent) { intent = crypto.randomUUID(); state.intents.set(signature, intent); persistSession(); }
   let response;
   try {
     response = await request(path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Control-Token': state.token, 'Idempotency-Key': intent }, body: JSON.stringify(body) });
@@ -83,16 +101,30 @@ async function write(path, body) {
       if (data.error?.code === 'CONTROL_TOKEN_REQUIRED') {
         state.token = '';
         bootstrap();
-      } else state.intents.delete(signature);
+      } else { state.intents.delete(signature); persistSession(); }
       const error = new Error(data.error?.message ?? '提交未完成。');
       error.confirmed = true;
       throw error;
     }
     state.intents.delete(signature);
+    persistSession();
     scheduleRead();
     return data;
   } catch (error) {
     if (error.confirmed) throw error;
+    // A successful write can lose only its response. Resolve by durable request
+    // lookup, never by automatically issuing another POST.
+    try {
+      const lookup = await request(`/api/requests/${intent}`);
+      const confirmed = await lookup.json();
+      if (lookup.ok && confirmed.found && confirmed.result) {
+        state.intents.delete(signature);
+        persistSession();
+        scheduleRead();
+        toast('响应丢失，已通过持久化请求记录确认操作完成。');
+        return { ...confirmed.result, recovered: true };
+      }
+    } catch { /* A failed read cannot prove that a write failed. */ }
     throw new Error('结果未确认，请核对任务状态。再次提交相同内容会复用本次幂等键。');
   }
 }
@@ -124,6 +156,7 @@ async function refresh() {
       connection(true);
       banner();
       if (state.detailId && $('detail-dialog').open) await refreshDetail(state.detailId);
+      if (state.reportId && $('report-dialog').open) await refreshReport(state.reportId);
       return;
     }
     if (!response.ok) throw new Error('无法读取最新状态。');
@@ -140,6 +173,7 @@ async function refresh() {
     banner();
     render(snapshot);
     if (state.detailId && $('detail-dialog').open) await refreshDetail(state.detailId);
+    if (state.reportId && $('report-dialog').open) await refreshReport(state.reportId);
   } catch (error) { failedRead(error); }
   finally {
     reading = false;
@@ -232,6 +266,8 @@ const descriptions = {
   'experiment.started': ['experiment', data => `${data.name} · ${data.submissions} 次提交 / ${data.uniqueJobs} 个任务`],
   'job.replayed': ['replayed', data => `开始第 ${data.generation} 次重放 · 保留之前的执行历史`],
   'job.cancelled': ['cancelled', () => '旧租约已撤销，后续提交将被拒绝'],
+  'commit.rejected': ['fenced_out', data => `旧 T${data.token} 被拒绝 · 当前 T${data.currentToken}`],
+  'response.dropped': ['response_lost', () => '写入已落盘，响应连接已主动中断'],
   'queue.paused': ['paused', () => '停止领取新任务 · 在途任务继续完成'],
   'queue.resumed': ['resumed', () => '恢复领取新任务']
 };
@@ -274,7 +310,7 @@ function render(snapshot) {
   const max = Math.max(1, ...snapshot.series.map(sample => sample.completed));
   const bars = snapshot.series.map(sample => {
     const bar = node('div', `bar${sample.completed ? ' live' : ''}`);
-    bar.style.height = `${Math.max(3, Math.round(sample.completed / max * 50))}px`;
+    bar.classList.add(`height-${Math.max(3, Math.round(sample.completed / max * 50))}`);
     bar.title = `${time(sample.at)} · ${sample.completed} completions`;
     return bar;
   });
@@ -282,6 +318,87 @@ function render(snapshot) {
   renderJobs(snapshot.jobs);
   renderWorkers(snapshot.workers);
   renderEvents(snapshot.events);
+  renderReports(snapshot.experiments ?? []);
+}
+
+let reportSignature = '';
+function renderReports(reports) {
+  const signature = JSON.stringify(reports.map(r => [r.experiment.id, r.verdict]));
+  if (signature !== reportSignature) {
+    reportSignature = signature;
+    const rows = reports.map(report => {
+      const root = node('button', 'report-row');
+      root.dataset.experimentId = report.experiment.id;
+      root.type = 'button';
+      const text = node('span');
+      text.append(node('strong', '', report.verdict.scenario.name), node('small', '', `${short(report.experiment.id)} · ${report.jobs.length} TASK${report.jobs.length === 1 ? '' : 'S'} · ${time(report.experiment.createdAt)}`));
+      root.append(node('span', `verdict ${report.verdict.status}`, report.verdict.status.toUpperCase()), text, node('span', 'report-arrow', '查看证据 ↗'));
+      root.addEventListener('click', () => openReport(report.experiment.id));
+      return root;
+    });
+    $('report-list').replaceChildren(...rows);
+    $('report-empty').hidden = reports.length > 0;
+  }
+}
+
+async function openReport(id) {
+  state.reportId = id;
+  put('report-title', '正在读取实验记录…');
+  $('report-content').replaceChildren();
+  $('report-actions').replaceChildren();
+  $('report-dialog').showModal();
+  await refreshReport(id);
+}
+async function refreshReport(id) {
+  try {
+    const response = await request(`/api/experiments/${id}`);
+    const report = await response.json();
+    if (!response.ok) throw new Error(report.error?.message ?? '实验报告读取失败。');
+    if (state.reportId === id && $('report-dialog').open) showReport(report);
+  } catch (error) { if (state.reportId === id) toast(error.message); }
+}
+
+let shownReportSignature = '';
+function showReport(report) {
+  const { serverTime: _serverTime, ...content } = report;
+  const signature = JSON.stringify(content);
+  if (signature === shownReportSignature && $('report-content').childElementCount) return;
+  shownReportSignature = signature;
+  put('report-title', report.verdict.scenario.name);
+  const question = node('p', 'dialog-subtitle', report.verdict.scenario.question);
+  const checks = node('div', 'proof-checks');
+  for (const check of report.verdict.checks) {
+    const row = node('div', `proof-check ${check.status}`);
+    const text = node('span');
+    text.append(node('strong', '', check.label));
+    if (check.detail) text.append(node('small', '', check.detail));
+    row.append(node('span', 'check-icon', check.status === 'pass' ? '✓' : check.status === 'fail' ? '×' : '↻'), text, node('code', '', check.status.toUpperCase()));
+    checks.append(row);
+  }
+  const timeline = node('div', 'proof-timeline');
+  const events = report.jobs.flatMap(job => job.events).sort((a, b) => a.seq - b.seq);
+  for (const event of events) {
+    const line = node('div', 'proof-event');
+    line.append(node('code', '', `+${((event.at - report.experiment.createdAt) / 1000).toFixed(2)}s`), node('strong', '', event.type), node('span', '', event.data.token ? `TOKEN ${event.data.token}` : short(event.jobId)));
+    timeline.append(line);
+  }
+  $('report-content').replaceChildren(question, checks, node('h3', 'trace-title', 'CAUSAL TIMELINE / 持久化事件'), timeline);
+  const actions = report.jobs.slice(0, 4).map(job => {
+    const button = node('button', 'secondary', `追踪 ${short(job.id)} ↗`);
+    button.addEventListener('click', () => { $('report-dialog').close(); openDetail(job.id); });
+    return button;
+  });
+  const download = node('button', 'primary', '下载本次实验 JSON ↓');
+  download.addEventListener('click', () => downloadJSON(report, `faultline-${report.experiment.scenario}-${short(report.experiment.id)}.json`));
+  $('report-actions').replaceChildren(...actions, download);
+}
+
+function downloadJSON(value, filename) {
+  const link = node('a');
+  link.href = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }));
+  link.download = filename;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
 }
 
 async function openDetail(id) {
@@ -412,6 +529,8 @@ $('create-button').addEventListener('click', () => $('create-dialog').showModal(
 $('how-button').addEventListener('click', () => $('how-dialog').showModal());
 for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => $(button.dataset.close).close());
 $('detail-dialog').addEventListener('close', () => { state.detailId = null; state.detailRequest++; });
+$('report-dialog').addEventListener('close', () => { state.reportId = null; });
+$('create-form').addEventListener('input', persistSession);
 
 $('create-form').addEventListener('submit', async event => {
   event.preventDefault();
@@ -466,5 +585,6 @@ window.addEventListener('pageshow', event => { if (event.persisted) bootstrap();
 window.addEventListener('pagehide', () => state.source?.close());
 window.addEventListener('online', () => bootstrap());
 window.addEventListener('offline', () => { connection(false); banner('网络已断开，输入草稿与已显示记录会保留。'); });
+restoreSession();
 updateFilters();
 bootstrap();

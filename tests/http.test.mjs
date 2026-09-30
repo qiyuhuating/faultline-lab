@@ -17,6 +17,22 @@ after(async () => { await instance.close(); rmSync(directory, { recursive: true,
 const headers = () => ({ 'Content-Type': 'application/json', 'X-Control-Token': instance.token, 'Idempotency-Key': randomUUID() });
 const post = (path, body, extra = {}) => fetch(`${instance.url}${path}`, { method: 'POST', headers: { ...headers(), ...extra }, body: JSON.stringify(body) });
 
+test('committed POST with a lost response is resolved from its durable request key', async () => {
+  const requestKey = randomUUID();
+  const before = instance.queue.snapshot().counts.queued;
+  await assert.rejects(() => post('/api/experiments', { scenario: 'response-loss' }, { 'Idempotency-Key': requestKey }));
+  const status = await (await fetch(`${instance.url}/api/requests/${requestKey}`)).json();
+  assert.equal(status.found, true);
+  assert.equal(status.result.jobIds.length, 1);
+  assert.equal(instance.queue.snapshot().counts.queued, before + 1);
+  const replay = await post('/api/experiments', { scenario: 'response-loss' }, { 'Idempotency-Key': requestKey });
+  assert.equal(replay.status, 201);
+  assert.equal((await replay.json()).experimentId, status.result.experimentId);
+  const report = await (await fetch(`${instance.url}/api/experiments/${status.result.experimentId}`)).json();
+  assert.ok(report.jobs[0].events.some(e => e.type === 'response.dropped'));
+  assert.equal(report.verdict.status, 'running');
+});
+
 test('static UI, bootstrap and CSP are served', async () => {
   const response = await fetch(instance.url);
   assert.equal(response.status, 200);
