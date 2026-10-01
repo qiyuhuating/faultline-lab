@@ -1,0 +1,13 @@
+{
+  "browser": "webkit",
+  "checks": [
+    "six real traces load and their event chain is independently verified",
+    "every final frame matches actual receipts; stale commit is rejected",
+    "playback advances actual event frames and pause is stable",
+    "mobile player has no page overflow",
+    "modified evidence fails closed and disables playback",
+    "no application exceptions or CSP violations"
+  ],
+  "passed": 6,
+  "screenshotHarnessCSPDiagnostics": 2
+}

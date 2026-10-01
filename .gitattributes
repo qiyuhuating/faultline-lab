@@ -5,3 +5,5 @@
 docs/** linguist-documentation
 tests/** linguist-vendored
 test-results/** linguist-generated
+tests export-ignore
+tests/** export-ignore

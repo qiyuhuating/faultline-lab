@@ -14,12 +14,12 @@ Base: `http://127.0.0.1:8787`。所有响应为 JSON，SSE 与静态资源除外
 | --- | --- |
 | GET `/api/bootstrap` | version、controlToken、serverTime、leaseMs、workerCount、mode |
 | GET `/api/snapshot?state=dead&before=123` | 最近 40 条 jobs、nextBefore、全库 counts、workers、metrics、series、最近事件、serverTime、revision；支持 ETag / 304 |
-| GET `/api/jobs/:id` | job 完整定义、attempts、receipts、最近 100 个事件及 serverTime |
+| GET `/api/jobs/:id` | job 完整定义、attempts、receipts、最近 500 个事件及 serverTime |
 | GET `/api/events?after=12` | SSE，事件 ID 为持久化 seq；支持 Last-Event-ID；游标过旧或超前返回 reset 事件 |
 | GET `/api/evidence` | 保留事件的链校验结果与导出数据 |
 | POST `/api/jobs` | 新建任务；返回 jobId、deduplicated |
 | POST `/api/jobs/:id/transitions` | action、expectedRevision、clearFaults；返回 jobId、revision、deduplicated |
-| POST `/api/experiments` | scenario: retry / crash / duplicate / dead / burst |
+| POST `/api/experiments` | scenario: retry / crash / duplicate / dead / burst / fence / response-loss |
 | POST `/api/control` | paused: boolean；在途任务不被中止 |
 
 ## 新建任务
@@ -74,3 +74,17 @@ cancel 只接受 queued/running/retry_wait；replay 只接受 dead/cancelled。s
 | 500 | SERVER_ERROR |
 
 客户端对未收到完整成功/业务失败响应的写入应当视为“结果未确认”，读取状态并复用原幂等键进行显式重试，不可随机生成新键自动重发。
+
+## 实验与未知结果确认（v1.0.0）
+
+POST `/api/experiments` 支持 retry、crash、duplicate、dead、burst、fence、response-loss。成功结果含 experimentId、jobIds、submissions、deduplicated。
+
+GET `/api/experiments/:id` 返回 experiment、完整 jobs、verdict 和 serverTime。verdict.status 为 running/pass/fail；各 checks 含 id、label、status 和 detail。fence 的旧提交应在实验开始后 15 秒内出现，否则验收失败。人工取消或改变实验任务会改变验收结论，不会始终显示 PASS。
+
+snapshot.experiments 仅包含最近 8 次实验的摘要和断言，不传完整输入、尝试和事件。需要详情时单独读取报告接口。完整任务详情保留最多 500 个任务关联事件；如果数据已被保留策略裁剪，不应将缺失证据视为完整历史。
+
+GET `/api/requests/:idempotencyKey` 返回 `{found,result,serverTime}`。found=true 可确认原写入；found=false 不能证明一个正在传输的写入没有成功。查询不自动执行请求。当前前端在超时、网络异常或 5xx 后尝试这一只读确认；仍未确认则保留原键。
+
+fault.stallOnce 默认 false，必须为 boolean；首次 generation 的首次执行停止续租，等待超过租约后真实尝试提交。clearFaults=true 会同时清除 failFirst、crashOnce 和 stallOnce。
+
+所有 deadline 与状态判断由本机服务端拥有。展示时前端以 serverTime + performance.now() 的流逝估算时间，避免浏览器本身的 Date.now() 跳变影响呈现。主机时钟异常仍需独立运维策略。

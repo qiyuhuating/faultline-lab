@@ -1,5 +1,6 @@
 data/
 node_modules/
 test-results/
+release-output/
 *.log
 .DS_Store

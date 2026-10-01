@@ -1,62 +1,62 @@
 # Faultline v1.0.0 — verification record
 
-Date: 2026-09-30. Scope: local task engine, HTTP API and source-level frontend checks.
+Updated 2026-10-01. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
 
-## Completed gates
+## Completed acceptance gates
 
-| Gate | Evidence | Result |
+| Gate | Executed evidence | Result |
 | --- | --- | --- |
-| Input validation and persistence | Unknown fields, invalid types, oversize payloads; no failed write mutation | PASS |
-| Durable idempotency | Two DB connections, three parallel HTTP requests, restart, content conflict | PASS |
-| Fencing and lease recovery | Wrong owner/token, expired lease, cancellation, old completion after takeover | PASS |
-| Transaction boundary | Receipt insert aborted by SQLite trigger; state and receipt rolled back together | PASS |
-| Retry and dead letter | Budget, due time, jitter range, explicit replay generation and retained history | PASS |
-| Process competition | 240 tasks / 4 independent OS processes, 240 receipts, one attempt per task | PASS |
-| Real process crash | SIGKILL exit event; expired attempt then successful new owner; one receipt | PASS |
-| Controller restart | Persistent task, pause state and request keys; rotated local control token | PASS |
-| Hard controller death | Parent SIGKILL closes IPC; orphan workers stop claiming; new controller completes persisted work | PASS |
-| HTTP boundary | Host/Origin/control token, body limit, malformed JSON, revision conflict | PASS |
-| Observation | SSE cursor resume, ETag / 304, keyset pagination, event-chain tamper detection | PASS |
-| Retention | Live task preserved; terminal history removed; retained-chain anchor valid | PASS |
-| Source checks | JavaScript syntax; no frontend innerHTML, insertAdjacentHTML or eval sink | PASS |
-| Source-only archive | Extracted source runs without test package; static files, HTTP numeric job and real crash recovery | PASS |
+| Validation and persistence | Invalid types, unknown fields, oversize bodies; failed writes preserve records | PASS |
+| Durable idempotency | Separate SQLite connections, three simultaneous HTTP submissions, restart and content conflicts | PASS |
+| Fencing | Old owners, expired leases, cancellation and a real worker waking after takeover and submitting its result | PASS |
+| Atomic internal effect | SQLite trigger aborts receipt insertion; receipt and successful state roll back together | PASS |
+| Retry and replay | Budget, due time, jitter, dead letter, new generation and retained attempts | PASS |
+| Independent processes | 240 tasks / 4 OS processes; 240 receipts and one attempt per task | PASS |
+| Real crash and restart | SIGKILL, lease expiry, replacement owner, supervisor restart and parent-death IPC cleanup | PASS |
+| Lost HTTP response | Durable write succeeds, socket closes before response; original request key confirms one job through GET | PASS |
+| Consistent evidence | SQLite read transactions preserve a report snapshot while another connection commits | PASS |
+| HTTP observation | Host/Origin/control-token checks, revision conflicts, ETag/304, SSE resume and bounded pagination | PASS |
+| Retention and tampering | Live work retained, old history pruned with a valid anchor; modified chain rejected | PASS |
+| Live dashboard | Three browsers: full reload draft, offline recovery, malformed snapshot recovery, replay, text-safe labels and mobile overflow | PASS |
+| Public trace player | Three browsers: six verified traces, frame playback, stale commit, mobile layout and tamper stops playback | PASS |
+| Source-only distribution | Extracted frontend/backend source starts without tests and recovers an actual SIGKILL experiment | PASS |
 
-Automated core suite: **40 tests, 40 passed, 0 failed, 0 skipped**. Runtime: Node v24.19.0, SQLite 3.53.3, Linux x64. Reproduction: `node --test tests/*.test.mjs`.
+**Core: 48 tests passed, 0 failed, 0 skipped.** Latest local TAP is `tests/evidence/batch-02/core-run-final.tap`. Runtime: Node 24.19.0, SQLite 3.53.3, Linux x64. Reproduce with `node --test tests/*.test.mjs`.
 
-Raw TAP is delivered in the independent test package, under `tests/evidence/batch-01/`. It comes from the final verification run; this document does not claim GitHub Actions have already run.
+**Browsers: 19 checks per browser × 3 = 57 passed checks.** Each browser ran 13 live-dashboard checks and six public-player checks. Chromium, Firefox and WebKit all passed in [verification run 36722199184](https://github.com/qiyuhuating/faultline-lab/actions/runs/36722199184), at commit `a98a9ee4bc4c6d9060e8bf88301f0ac8bfdaaf45`. Its core job passed too. Exact JSON results, runtime dependency locks and desktop/mobile PNGs are in the independent test ZIP. Final release automation requires its own verified commit to pass the same workflow again.
+
+The live public page was deployed by [Pages run 36722505389](https://github.com/qiyuhuating/faultline-lab/actions/runs/36722505389) and inspected after deployment. It loads 45 recorded events, verifies their chain in WebCrypto and shows six experiments. `docs/media/` contains actual browser captures.
+
+## Failure history is retained
+
+| Batch | Outcome and corrective action |
+| --- | --- |
+| Local batch 01 | Earlier 40-test baseline and source-only smoke; superseded by expanded acceptance |
+| CI run 36717526502 | WebKit screenshot harness triggered CSP; application policy remained strict |
+| CI run 36719615396 | Chromium asserted an asynchronously loaded report too early; added a DOM-based wait. WebKit harness issue reproduced |
+| CI run 36722199184 | Core plus all three browser jobs passed; exact downloaded artifacts retained as local batch 03 |
+| Release verification | Raw TAP, runtime versions, screenshots, JSON and completed CI run metadata collected automatically into `ci-run-NNNN/` |
+
+WebKit's Playwright screenshot preparation inserts an inline stylesheet even when animation synchronization is disabled. Both browser suites check application CSP errors **before** screenshots, then separately require exactly the two known stylesheet diagnostics from their two WebKit captures. Other browsers require zero. Application exceptions and application CSP failures remain failures; `unsafe-inline` was not added to production policy.
+
+The release collector saves every completed main-branch verification batch up to the releasing run, including failed runs. An expired upstream artifact or evidence budget limit is recorded explicitly rather than fabricated. Each batch keeps its repeated files together. SHA-256 checksums and a per-package entry manifest accompany the three release ZIPs. Source contains frontend and backend; tests contain test code and evidence; web contains only the seven deployable player files.
 
 ## Measured microbenchmark
 
-Command: `node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json`.
+`node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json`
 
-| Property | Measured value |
+| Property | Recorded local result |
 | --- | --- |
+| Workload | 500 tiny SHA-256 tasks, no external I/O, delayMs=0 |
 | Workers | 4 independent processes |
-| Input workload | 500 tiny SHA-256 tasks, no external I/O, delayMs=0 |
-| Submission time | 156 ms |
-| Total submission + completion time | 714 ms |
-| End-to-end local rate | 700.3 jobs/s |
+| Submission / total elapsed | 156 ms / 714 ms |
+| Local end-to-end rate | 700.3 jobs/s |
 | Succeeded / receipts / attempts | 500 / 500 / 500 |
-| Event-chain consistency | Valid |
-| SQLite mode | WAL, synchronous=FULL |
-| Environment | Linux x64, Node 24.19.0, SQLite 3.53.3, 8 available CPUs |
+| Durability / chain | WAL, synchronous=FULL / valid |
+| Environment | Node 24.19.0, SQLite 3.53.3, Linux x64, 8 available CPUs |
 
-Raw result: `docs/benchmarks/local-2026-09-30.json`. This single-host microbenchmark uses the in-process submission primitive and tiny pure computation. It is **not HTTP QPS, external delivery throughput, production capacity or a latency SLA**. Benchmark time includes worker startup and job submission; poll completion adds measurement granularity.
+Original result: `docs/benchmarks/local-2026-09-30.json`. CI reruns retain their separate measurements. This is a single-host microbenchmark using the internal submission primitive and tiny computation, including worker startup and polling granularity. It is not HTTP QPS, external delivery capacity or a production SLA.
 
-## Remaining verification
+## Practical scope
 
-**Browser regression has not been executed in this environment.** Playwright is available as a test library, but its browser binaries are absent. Source syntax and unsafe-sink checks have run; they do not prove rendering or interaction correctness.
-
-The delivered `tests/browser.mjs` and `.github/workflows/verify.yml` cover Chromium, Firefox and WebKit. The scripted checks include connection, dedupe, dead-letter replay, text-safe labels, filter switching, export, mobile overflow, offline draft recovery, JavaScript exceptions and CSP violations. Their presence is not a passing test result.
-
-Before presenting it as browser-accepted: install the browser test dependency, run the browser suite, inspect desktop/mobile images and retain the JSON result. CI configuration is delivered, not published or executed on a remote repository.
-
-## Practical boundaries
-
-- No public hosting, accounts, tenant isolation or production deployment acceptance.
-- No claim of arbitrary external exactly-once side effects or distributed HA.
-- Local Host/Origin/control-token checks are not identity authentication.
-- A database administrator can recompute the event chain; it checks consistency, not independent authenticity.
-- Host clock adjustment, prolonged disk blocking, disk-full behavior and very large retained-event exports require additional targeted validation.
-
-The project is ready for local engine demonstrations and further browser acceptance. Resume wording in `PORTFOLIO.md` only claims the completed gates above.
+The local control token is not account authentication. Internal receipts have a transactional guarantee; arbitrary external effects do not have an exactly-once guarantee. A database administrator can recompute the event chain. Distributed HA, tenant isolation, host clock jumps, disk-full injection and a production deployment are outside this release's acceptance scope.

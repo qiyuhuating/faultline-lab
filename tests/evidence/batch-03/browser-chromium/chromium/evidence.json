@@ -1,0 +1,518 @@
+{
+  "format": "faultline-evidence-v1",
+  "generatedAt": 1790775124944,
+  "integrity": {
+    "valid": true,
+    "count": 36,
+    "anchor": "GENESIS",
+    "head": "5f694c20128c94bcf7588642fe13cd61d40394a3b9853ccabc15fc846890b3e0"
+  },
+  "events": [
+    {
+      "seq": 1,
+      "jobId": null,
+      "type": "worker.started",
+      "at": 1790775110715,
+      "data": {
+        "pid": 3125,
+        "slot": 2,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "GENESIS",
+      "hash": "b1d57689992301d39cb88adb5facf71d8e800c0fa1d56c2e3047f23e69c7d71d"
+    },
+    {
+      "seq": 2,
+      "jobId": null,
+      "type": "worker.started",
+      "at": 1790775110724,
+      "data": {
+        "pid": 3124,
+        "slot": 1,
+        "workerId": "worker-1-6a50925a"
+      },
+      "previousHash": "b1d57689992301d39cb88adb5facf71d8e800c0fa1d56c2e3047f23e69c7d71d",
+      "hash": "0690442348e8cb62c4715cf8268d454b0a0312e5160152d1cc903b1bf375e1e7"
+    },
+    {
+      "seq": 3,
+      "jobId": null,
+      "type": "worker.started",
+      "at": 1790775110736,
+      "data": {
+        "pid": 3126,
+        "slot": 3,
+        "workerId": "worker-3-e2a1b0f6"
+      },
+      "previousHash": "0690442348e8cb62c4715cf8268d454b0a0312e5160152d1cc903b1bf375e1e7",
+      "hash": "72fbfc5306e7240597756393d9b63797216b5a06184edb71cec2e99f6385c8cd"
+    },
+    {
+      "seq": 4,
+      "jobId": "b3b75d9f-f3a9-410c-a865-881647a6e5c8",
+      "type": "job.created",
+      "at": 1790775111183,
+      "data": {
+        "kind": "digest",
+        "label": "Repeated intent · 幂等去重",
+        "maxAttempts": 4
+      },
+      "previousHash": "72fbfc5306e7240597756393d9b63797216b5a06184edb71cec2e99f6385c8cd",
+      "hash": "3521c5b0d2c95ab5c58814a34a518c865fb503d2a5704e64dc48e4cabcac331a"
+    },
+    {
+      "seq": 5,
+      "jobId": null,
+      "type": "request.deduplicated",
+      "at": 1790775111184,
+      "data": {
+        "operation": "submit"
+      },
+      "previousHash": "3521c5b0d2c95ab5c58814a34a518c865fb503d2a5704e64dc48e4cabcac331a",
+      "hash": "c29c884465b2b64b63b538611dd600d23e43e3d1ed7ea8e61e375dac6bc7ca5c"
+    },
+    {
+      "seq": 6,
+      "jobId": null,
+      "type": "request.deduplicated",
+      "at": 1790775111184,
+      "data": {
+        "operation": "submit"
+      },
+      "previousHash": "c29c884465b2b64b63b538611dd600d23e43e3d1ed7ea8e61e375dac6bc7ca5c",
+      "hash": "e3c4f5a16ea996698492a79863d3fc1491e9bf3e05b2ac82053d7b1c821ada9d"
+    },
+    {
+      "seq": 7,
+      "jobId": null,
+      "type": "experiment.started",
+      "at": 1790775111184,
+      "data": {
+        "experimentId": "cfe9ff5c-67d5-47cc-9bbb-a77386b24a62",
+        "name": "duplicate",
+        "submissions": 3,
+        "uniqueJobs": 1
+      },
+      "previousHash": "e3c4f5a16ea996698492a79863d3fc1491e9bf3e05b2ac82053d7b1c821ada9d",
+      "hash": "4fc653beeb8c9f8fd55bc3775a712d6a41b566d70aace9c07e296efc6136daec"
+    },
+    {
+      "seq": 8,
+      "jobId": "b3b75d9f-f3a9-410c-a865-881647a6e5c8",
+      "type": "lease.claimed",
+      "at": 1790775111221,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "token": 1,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "4fc653beeb8c9f8fd55bc3775a712d6a41b566d70aace9c07e296efc6136daec",
+      "hash": "ef6b9c51d628de24a225dd74205106387dd07faf091f1720bce786e7569e1649"
+    },
+    {
+      "seq": 9,
+      "jobId": "b3b75d9f-f3a9-410c-a865-881647a6e5c8",
+      "type": "job.succeeded",
+      "at": 1790775111923,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+        "token": 1,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "ef6b9c51d628de24a225dd74205106387dd07faf091f1720bce786e7569e1649",
+      "hash": "d9697cc89701328f37a2592a936395650e9284e7b5efe2379e177996b1826094"
+    },
+    {
+      "seq": 10,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "job.created",
+      "at": 1790775112278,
+      "data": {
+        "kind": "digest",
+        "label": "Retry exhausted · 死信",
+        "maxAttempts": 3
+      },
+      "previousHash": "d9697cc89701328f37a2592a936395650e9284e7b5efe2379e177996b1826094",
+      "hash": "9e27bebadcf2f4680a26d697e82fa97c29b59b98deb06098cbb9cc337b8abe84"
+    },
+    {
+      "seq": 11,
+      "jobId": null,
+      "type": "experiment.started",
+      "at": 1790775112278,
+      "data": {
+        "experimentId": "9fbffb95-841f-4588-b9f9-778af8ec3b77",
+        "name": "dead",
+        "submissions": 1,
+        "uniqueJobs": 1
+      },
+      "previousHash": "9e27bebadcf2f4680a26d697e82fa97c29b59b98deb06098cbb9cc337b8abe84",
+      "hash": "ceceefd1d98412acaaacfa8f04bc9ee70fc4bf3e6816ad48baf562adec861094"
+    },
+    {
+      "seq": 12,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "lease.claimed",
+      "at": 1790775112326,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "token": 1,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "ceceefd1d98412acaaacfa8f04bc9ee70fc4bf3e6816ad48baf562adec861094",
+      "hash": "d9355890c139687fe2812172127528216fdc53b953287af4ba4d2898da20956c"
+    },
+    {
+      "seq": 13,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "job.retry_scheduled",
+      "at": 1790775113028,
+      "data": {
+        "attempt": 1,
+        "error": {
+          "code": "INJECTED_FAILURE",
+          "message": "可控的瞬时失败，用于验证重试策略。"
+        },
+        "generation": 0,
+        "retryAt": 1790775113440,
+        "token": 1,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "d9355890c139687fe2812172127528216fdc53b953287af4ba4d2898da20956c",
+      "hash": "455c248cf8821dd0438aa57fc77be8cc1af4ca7be8ac435d91a5823a8bd83a9b"
+    },
+    {
+      "seq": 14,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "lease.claimed",
+      "at": 1790775113445,
+      "data": {
+        "attempt": 2,
+        "generation": 0,
+        "token": 2,
+        "workerId": "worker-1-6a50925a"
+      },
+      "previousHash": "455c248cf8821dd0438aa57fc77be8cc1af4ca7be8ac435d91a5823a8bd83a9b",
+      "hash": "95e12b88ff84a9f776c429e64ac6772f3eb22fb9acda7d332713822ca73be3f8"
+    },
+    {
+      "seq": 15,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "job.retry_scheduled",
+      "at": 1790775114147,
+      "data": {
+        "attempt": 2,
+        "error": {
+          "code": "INJECTED_FAILURE",
+          "message": "可控的瞬时失败，用于验证重试策略。"
+        },
+        "generation": 0,
+        "retryAt": 1790775115211,
+        "token": 2,
+        "workerId": "worker-1-6a50925a"
+      },
+      "previousHash": "95e12b88ff84a9f776c429e64ac6772f3eb22fb9acda7d332713822ca73be3f8",
+      "hash": "5f570e02fa39ed7c600a788543b1adc0a29c697ca5abfe6efb05719517bdceb4"
+    },
+    {
+      "seq": 16,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "lease.claimed",
+      "at": 1790775115243,
+      "data": {
+        "attempt": 3,
+        "generation": 0,
+        "token": 3,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "5f570e02fa39ed7c600a788543b1adc0a29c697ca5abfe6efb05719517bdceb4",
+      "hash": "dc3e8ce9493d8e582746795a109eec19bb55044406b64ddb909883999a24a87b"
+    },
+    {
+      "seq": 17,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "job.dead",
+      "at": 1790775115944,
+      "data": {
+        "attempt": 3,
+        "error": {
+          "code": "INJECTED_FAILURE",
+          "message": "可控的瞬时失败，用于验证重试策略。"
+        },
+        "generation": 0,
+        "retryAt": null,
+        "token": 3,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "dc3e8ce9493d8e582746795a109eec19bb55044406b64ddb909883999a24a87b",
+      "hash": "888a9462b69f96a9b3edf317d156efedcccbc9c9675c6892520dbc4166616247"
+    },
+    {
+      "seq": 18,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "job.replayed",
+      "at": 1790775116417,
+      "data": {
+        "clearFaults": true,
+        "generation": 1,
+        "previousRevision": 7,
+        "previousState": "dead"
+      },
+      "previousHash": "888a9462b69f96a9b3edf317d156efedcccbc9c9675c6892520dbc4166616247",
+      "hash": "e6429ac98d5bf817c8391883251d52d3fe4a150701c6f12be3c416cd5faa4cbc"
+    },
+    {
+      "seq": 19,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "lease.claimed",
+      "at": 1790775116448,
+      "data": {
+        "attempt": 1,
+        "generation": 1,
+        "token": 5,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "e6429ac98d5bf817c8391883251d52d3fe4a150701c6f12be3c416cd5faa4cbc",
+      "hash": "773f4ab2ee186def3a453b04368b491d86889b00797f27322b2b74cda9aebcfb"
+    },
+    {
+      "seq": 20,
+      "jobId": "147a20cb-157f-4a01-9be9-eece64112a40",
+      "type": "job.succeeded",
+      "at": 1790775117150,
+      "data": {
+        "attempt": 1,
+        "generation": 1,
+        "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+        "token": 5,
+        "workerId": "worker-2-852a0349"
+      },
+      "previousHash": "773f4ab2ee186def3a453b04368b491d86889b00797f27322b2b74cda9aebcfb",
+      "hash": "93649bf69553f8f2e15e97e10c8498bff7e6bc96de3de7a14b9bc516f197aad2"
+    },
+    {
+      "seq": 21,
+      "jobId": "645018e9-a47e-45ae-b49a-fee6760d33b4",
+      "type": "job.created",
+      "at": 1790775117679,
+      "data": {
+        "kind": "digest",
+        "label": "<img src=x onerror=\"window.__xss=true\">",
+        "maxAttempts": 4
+      },
+      "previousHash": "93649bf69553f8f2e15e97e10c8498bff7e6bc96de3de7a14b9bc516f197aad2",
+      "hash": "08d8a273b714e31722d9a46bfe79d73509400075bf28b97e3be2fdbd4d6f43d0"
+    },
+    {
+      "seq": 22,
+      "jobId": "645018e9-a47e-45ae-b49a-fee6760d33b4",
+      "type": "lease.claimed",
+      "at": 1790775117681,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "token": 1,
+        "workerId": "worker-3-e2a1b0f6"
+      },
+      "previousHash": "08d8a273b714e31722d9a46bfe79d73509400075bf28b97e3be2fdbd4d6f43d0",
+      "hash": "523e55004f907c7b433ab1043afeaffd7bf2087f466fd260cd9aa3738d96493a"
+    },
+    {
+      "seq": 23,
+      "jobId": "818837df-bb08-4abd-a570-1d51bd162129",
+      "type": "job.created",
+      "at": 1790775118161,
+      "data": {
+        "kind": "digest",
+        "label": "Zombie worker · 旧提交拒绝",
+        "maxAttempts": 4
+      },
+      "previousHash": "523e55004f907c7b433ab1043afeaffd7bf2087f466fd260cd9aa3738d96493a",
+      "hash": "ba8863b95b57f37e8c21d00cfcf57182f254a0ffb6b3a6d4112369bde71edcb8"
+    },
+    {
+      "seq": 24,
+      "jobId": null,
+      "type": "experiment.started",
+      "at": 1790775118161,
+      "data": {
+        "experimentId": "63995f09-3b2a-42a6-9ea0-7edb30810d5c",
+        "name": "fence",
+        "submissions": 1,
+        "uniqueJobs": 1
+      },
+      "previousHash": "ba8863b95b57f37e8c21d00cfcf57182f254a0ffb6b3a6d4112369bde71edcb8",
+      "hash": "43359737a5264a9f6ceb723d06d83a67166399fa65a8c22b9ff99afde4710e53"
+    },
+    {
+      "seq": 25,
+      "jobId": "818837df-bb08-4abd-a570-1d51bd162129",
+      "type": "lease.claimed",
+      "at": 1790775118170,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "token": 1,
+        "workerId": "worker-1-6a50925a"
+      },
+      "previousHash": "43359737a5264a9f6ceb723d06d83a67166399fa65a8c22b9ff99afde4710e53",
+      "hash": "2111d6c8cbede6ad7dc44de2c0bf4b99cad7f08e7c4637c63e62c6d5cf4c22c1"
+    },
+    {
+      "seq": 26,
+      "jobId": "645018e9-a47e-45ae-b49a-fee6760d33b4",
+      "type": "job.succeeded",
+      "at": 1790775118234,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "resultHash": "83b9730445802eb35257c4c9f4b4d1eedd5436c203bbf6697cfde030d8e40593",
+        "token": 1,
+        "workerId": "worker-3-e2a1b0f6"
+      },
+      "previousHash": "2111d6c8cbede6ad7dc44de2c0bf4b99cad7f08e7c4637c63e62c6d5cf4c22c1",
+      "hash": "cfec016028e9ddce5913e6a0aa0eb5fddbc2b384c8201aeb17e9220d0612a6e0"
+    },
+    {
+      "seq": 27,
+      "jobId": "818837df-bb08-4abd-a570-1d51bd162129",
+      "type": "lease.expired",
+      "at": 1790775120570,
+      "data": {
+        "attempt": 1,
+        "nextState": "retry_wait",
+        "token": 1,
+        "workerId": "worker-1-6a50925a"
+      },
+      "previousHash": "cfec016028e9ddce5913e6a0aa0eb5fddbc2b384c8201aeb17e9220d0612a6e0",
+      "hash": "38d02d10984b0772d605227628f9af3c898a9124a3505459a736dd88d007f9ab"
+    },
+    {
+      "seq": 28,
+      "jobId": "818837df-bb08-4abd-a570-1d51bd162129",
+      "type": "lease.claimed",
+      "at": 1790775121154,
+      "data": {
+        "attempt": 2,
+        "generation": 0,
+        "token": 2,
+        "workerId": "worker-3-e2a1b0f6"
+      },
+      "previousHash": "38d02d10984b0772d605227628f9af3c898a9124a3505459a736dd88d007f9ab",
+      "hash": "03d830a49d1eb59fa164d83604de939415e0a6327f8209ec28c87d0e23854b2e"
+    },
+    {
+      "seq": 29,
+      "jobId": "818837df-bb08-4abd-a570-1d51bd162129",
+      "type": "job.succeeded",
+      "at": 1790775121856,
+      "data": {
+        "attempt": 2,
+        "generation": 0,
+        "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+        "token": 2,
+        "workerId": "worker-3-e2a1b0f6"
+      },
+      "previousHash": "03d830a49d1eb59fa164d83604de939415e0a6327f8209ec28c87d0e23854b2e",
+      "hash": "a1344b2f7514d1f29db84c927e013606b7256aeb8663521e3fac4038544edb83"
+    },
+    {
+      "seq": 30,
+      "jobId": "818837df-bb08-4abd-a570-1d51bd162129",
+      "type": "commit.rejected",
+      "at": 1790775123073,
+      "data": {
+        "currentState": "succeeded",
+        "currentToken": 2,
+        "reason": "STALE_LEASE",
+        "token": 1,
+        "workerId": "worker-1-6a50925a"
+      },
+      "previousHash": "a1344b2f7514d1f29db84c927e013606b7256aeb8663521e3fac4038544edb83",
+      "hash": "ab62549fd78dbda464e8ad5acc759aa9efb2b2b2aab218f843f39f4c972c18f9"
+    },
+    {
+      "seq": 31,
+      "jobId": "29be92ff-5e0f-486f-9131-01211dd7369f",
+      "type": "job.created",
+      "at": 1790775123598,
+      "data": {
+        "kind": "digest",
+        "label": "Lost response · 写入结果确认",
+        "maxAttempts": 4
+      },
+      "previousHash": "ab62549fd78dbda464e8ad5acc759aa9efb2b2b2aab218f843f39f4c972c18f9",
+      "hash": "9ddad0025ccb495bbcef0f4244ffd604d73e4bb1bb5919e4986ac210932f0b6f"
+    },
+    {
+      "seq": 32,
+      "jobId": null,
+      "type": "experiment.started",
+      "at": 1790775123599,
+      "data": {
+        "experimentId": "29c598db-bbd4-49e0-bafe-d78a7aac80cf",
+        "name": "response-loss",
+        "submissions": 1,
+        "uniqueJobs": 1
+      },
+      "previousHash": "9ddad0025ccb495bbcef0f4244ffd604d73e4bb1bb5919e4986ac210932f0b6f",
+      "hash": "4d1c05e3b334c532e48a4de2cfc88a05f909b0919e38bbbc44a3e9634f1cd04a"
+    },
+    {
+      "seq": 33,
+      "jobId": "29be92ff-5e0f-486f-9131-01211dd7369f",
+      "type": "response.dropped",
+      "at": 1790775123600,
+      "data": {
+        "experimentId": "29c598db-bbd4-49e0-bafe-d78a7aac80cf",
+        "reason": "injected-after-commit"
+      },
+      "previousHash": "4d1c05e3b334c532e48a4de2cfc88a05f909b0919e38bbbc44a3e9634f1cd04a",
+      "hash": "8946467c2970ddd5031e754b25394f4ab34c6d76a0122d0dc6398d019a057432"
+    },
+    {
+      "seq": 34,
+      "jobId": null,
+      "type": "request.deduplicated",
+      "at": 1790775123601,
+      "data": {
+        "operation": "experiment"
+      },
+      "previousHash": "8946467c2970ddd5031e754b25394f4ab34c6d76a0122d0dc6398d019a057432",
+      "hash": "6a6ef465f62e7fcb60cc7bfc98b3defd8aeeb6d38df20277f5a3d393e9a4f9a6"
+    },
+    {
+      "seq": 35,
+      "jobId": "29be92ff-5e0f-486f-9131-01211dd7369f",
+      "type": "lease.claimed",
+      "at": 1790775123666,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "token": 1,
+        "workerId": "worker-3-e2a1b0f6"
+      },
+      "previousHash": "6a6ef465f62e7fcb60cc7bfc98b3defd8aeeb6d38df20277f5a3d393e9a4f9a6",
+      "hash": "e6dbed92653a0f20e9ce91f48dd0fc12140f7d5ca74c56b55234fb76ba8ee4d4"
+    },
+    {
+      "seq": 36,
+      "jobId": "29be92ff-5e0f-486f-9131-01211dd7369f",
+      "type": "job.succeeded",
+      "at": 1790775124368,
+      "data": {
+        "attempt": 1,
+        "generation": 0,
+        "resultHash": "aa9aa41c1d5f68ec270a76483ffba2a9f647f1a93923f09b74e5b8d12d4bb16d",
+        "token": 1,
+        "workerId": "worker-3-e2a1b0f6"
+      },
+      "previousHash": "e6dbed92653a0f20e9ce91f48dd0fc12140f7d5ca74c56b55234fb76ba8ee4d4",
+      "hash": "5f694c20128c94bcf7588642fe13cd61d40394a3b9853ccabc15fc846890b3e0"
+    }
+  ]
+}

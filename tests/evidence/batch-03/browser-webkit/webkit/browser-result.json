@@ -1,0 +1,20 @@
+{
+  "browser": "webkit",
+  "checks": [
+    "connected dashboard",
+    "duplicate intent renders one job",
+    "dead letter can be replayed in the UI",
+    "untrusted label remains text",
+    "filter switching retains the correct snapshot",
+    "real stale worker rejection has a passing causal report",
+    "write succeeds with a deliberately lost response; durable lookup confirms one job",
+    "draft survives a full reload",
+    "malformed snapshot preserves the last valid ledger and recovers",
+    "evidence downloads",
+    "mobile layout has no page overflow",
+    "offline write keeps draft and recovers",
+    "no JavaScript exceptions or CSP violations"
+  ],
+  "passed": 13,
+  "screenshotHarnessCSPDiagnostics": 2
+}

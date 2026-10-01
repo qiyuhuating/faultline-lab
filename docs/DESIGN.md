@@ -71,7 +71,7 @@ stateDiagram-v2
 
 Node 的 SQLite 接口为同步调用。所有数据库事务短小，计算交给独立进程；数据库仍是单写者，繁重查询仍可能阻塞 API 事件循环。这种选择降低部署门槛并让一致性协议容易复现，不构成高吞吐集群实现。
 
-任务列表最多 40 条，使用 seq keyset 分页。事件详情最多 100 条，尝试记录最多 21 个 generation × 5 次。页面按任务 ID 更新变化行，SSE 连接最多 12 条，慢客户端触发背压时断开重连。
+任务列表最多 40 条，使用 seq keyset 分页。事件详情最多 500 条，尝试记录最多 21 个 generation × 5 次。页面按任务 ID 更新变化行，SSE 连接最多 12 条，慢客户端触发背压时断开重连。
 
 保留任务上限 10,000；终态/请求记录默认 30 天；事件目标 50,000 条，服务器每十分钟分批清理。超过保留限可能暂时积累；`node tools/retention.mjs` 可执行完整清理。活跃任务不被删除。
 
@@ -79,6 +79,16 @@ Node 的 SQLite 接口为同步调用。所有数据库事务短小，计算交�
 
 ## 下一步的依据
 
-优先完成浏览器回归、故障时间参数化和异步数据库访问；在确有跨机调度需求时，再考虑 PostgreSQL 事务领取与真实认证。没有测量结果前，不以新增中间件替代已验证的语义。
+进一步工作以故障时间参数化和数据库访问测量为依据；在确有跨机调度需求时，再考虑 PostgreSQL 事务领取与真实认证。没有测量结果前，不以新增中间件替代已验证的语义。
 
 参考：[Node 24 SQLite 文档](https://nodejs.org/download/release/latest-v24.x/docs/api/sqlite.html)、[SQLite WAL](https://sqlite.org/wal.html)、[SQLite Transactions](https://sqlite.org/lang_transaction.html)。Node 24 的 SQLite 模块仍标为 release candidate；本次固定使用 Node 24.19.0。
+
+## 实验报告与公开轨迹
+
+实验编号与任务 ID 在同一写事务中保存。报告通过 SQLite 只读事务获得统一版本，避免成功状态来自新版本、收据却来自旧版本而给出错误的验收结论。快照仅传最近 8 份报告摘要，输入及完整时间线按需读取。报告缓存最多 16 条，并按事件 revision 与时间片失效。
+
+Zombie 实验使用真实 Worker 故意停止任务续租，再实际调用 complete；旧提交在数据库边界被拒绝并形成 commit.rejected。Lost response 实验在 request 记录提交后切断 HTTP 响应；客户端通过 `/api/requests/:key` 读取原结果。
+
+公开页只部署静态 showcase。六份记录来自 tools/record-traces.mjs 的真实 HTTP/多进程执行。回放器校验全局链、比对显示事件并复算验收断言。它不拥有后台执行能力，也没有伪造实时 Worker。详见三份 ADR。
+
+已完成浏览器回归；下一步只有在测量表明同步查询阻塞时才引入异步存储层。跨机调度、真实身份、多租户和外部消息交付是明确独立的部署目标。

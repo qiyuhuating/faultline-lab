@@ -1,0 +1,79 @@
+name: Release verified packages
+on:
+  workflow_run:
+    workflows: ['Verify Faultline']
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: faultline-release
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      VERIFY_RUN_ID: ${{ github.event.workflow_run.id }}
+      FAULTLINE_COMMIT: ${{ github.event.workflow_run.head_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Determine release version
+        id: version
+        run: |
+          version=$(node -p "JSON.parse(require('fs').readFileSync('package.json')).version")
+          echo "tag=v${version}" >> "$GITHUB_OUTPUT"
+          if gh release view "v${version}" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Collect every completed test batch
+        if: steps.version.outputs.exists == 'false'
+        run: node tools/collect-ci.mjs
+      - name: Build separated source, tests and web ZIPs
+        if: steps.version.outputs.exists == 'false'
+        run: |
+          node tools/package.mjs
+          for archive in release-output/*.zip; do unzip -t "$archive"; done
+          unzip -q release-output/faultline-source-*.zip -d /tmp/faultline-package-smoke
+          cd /tmp/faultline-package-smoke/faultline
+          node tools/check.mjs
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { setTimeout as sleep } from 'node:timers/promises';
+          import { startServer } from './src/server.mjs';
+          const app = await startServer({ port: 0, workers: 2, quiet: true });
+          try {
+            assert.equal((await fetch(app.url)).status, 200);
+            const crash = app.queue.experiment('crash', 'release-source-smoke').jobIds[0];
+            const deadline = performance.now() + 12000;
+            while (app.queue.detail(crash).state !== 'succeeded') {
+              assert.ok(performance.now() < deadline, 'extracted source recovers the real crash');
+              await sleep(30);
+            }
+            assert.equal(app.queue.detail(crash).attempt, 2);
+            assert.equal(app.queue.detail(crash).receipts.length, 1);
+            assert.equal(app.queue.evidence().integrity.valid, true);
+          } finally { await app.close(); }
+          NODE
+      - name: Publish release on the verified commit
+        if: steps.version.outputs.exists == 'false'
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" release-output/*.zip release-output/SHA256SUMS.txt release-output/manifest.json \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$FAULTLINE_COMMIT" \
+            --title "Faultline ${{ steps.version.outputs.tag }} — Recovery, made visible" \
+            --notes-file docs/RELEASE.md
+      - uses: actions/upload-artifact@v4
+        if: steps.version.outputs.exists == 'false'
+        with:
+          name: faultline-release-packages
+          path: release-output/

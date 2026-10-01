@@ -1,0 +1,10 @@
+{
+  "sourceOnlyArchive": true,
+  "staticFiles": 4,
+  "httpJob": "succeeded",
+  "numericMean": 4,
+  "realCrash": "recovered",
+  "crashAttempts": 2,
+  "totalReceipts": 2,
+  "integrityValid": true
+}
