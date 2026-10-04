@@ -35,6 +35,10 @@ export class RetentionService {
       if (last) {
         removedEvents = this.store.run('DELETE FROM events WHERE seq<=?', last.seq).changes;
         this.store.run("UPDATE meta SET value=? WHERE key='event_anchor'", last.hash);
+        this.store.run(
+          "INSERT INTO meta(key,value) VALUES ('event_anchor_seq',?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+          String(last.seq),
+        );
       }
       return { removedJobs: removed, removedEvents };
     });

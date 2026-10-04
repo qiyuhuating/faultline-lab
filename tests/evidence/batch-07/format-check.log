@@ -1,0 +1,6 @@
+
+> faultline-lab@1.2.0 format:check
+> prettier --check "src/**/*.ts" "tests/types/*.ts" "tools/check-architecture.mjs" "tools/doctor.mjs" "tools/verify-lab.mjs" "tests/model/**/*.mjs" "tests/model-runner.mjs" "tests/model.test.mjs" "tests/diagnostics.test.mjs" "tests/verification.test.mjs"
+
+Checking formatting...
+All matched files use Prettier code style!

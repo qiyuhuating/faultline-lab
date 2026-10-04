@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "completedSeeds": 128,
+  "transitions": 32768,
+  "coverage": {
+    "claim": 2128,
+    "renew": 2049,
+    "complete": 2110,
+    "fail": 2052,
+    "advance": 2084,
+    "recover": 1949,
+    "cancel": 2073,
+    "replay": 2029,
+    "pause": 2030,
+    "deduplicate": 2045,
+    "conflict": 1993,
+    "reopen": 2048,
+    "stop-worker": 2024,
+    "restart-worker": 2036,
+    "replay-intent": 2073,
+    "new-intent": 2045
+  },
+  "report": "/workspace/scratch/f5f176fc7345/faultline/tests/evidence/batch-07/model-campaign.json"
+}

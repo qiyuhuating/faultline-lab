@@ -1,0 +1,142 @@
+{
+  "format": "faultline-diagnostics-v1",
+  "generatedAt": 1791115646115,
+  "verdict": "pass",
+  "checks": [
+    {
+      "id": "sqlite",
+      "label": "SQLite 页与索引完整",
+      "status": "pass",
+      "evidence": {
+        "issues": []
+      }
+    },
+    {
+      "id": "foreign-keys",
+      "label": "关联记录没有孤儿",
+      "status": "pass",
+      "evidence": {
+        "violations": 0
+      }
+    },
+    {
+      "id": "job-lifecycle",
+      "label": "状态、租约与完成结果一致",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "receipt-state",
+      "label": "成功状态与本轮唯一收据对应",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "receipt-owner",
+      "label": "收据来自成功的获胜尝试",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "running-attempt",
+      "label": "运行尝试和当前租约相互对应",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "attempt-receipt",
+      "label": "成功尝试没有遗失收据",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "json-records",
+      "label": "持久化 JSON 结构可读取",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "attempt-lifecycle",
+      "label": "尝试状态与结束时间一致",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "request-records",
+      "label": "持久化请求结果可读取",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "event-chain",
+      "label": "事件链内容与保留区间完整",
+      "status": "pass",
+      "evidence": {
+        "valid": true,
+        "count": 129,
+        "anchorSequence": 0,
+        "headSequence": 129,
+        "rangeSource": "stored"
+      }
+    },
+    {
+      "id": "expired-leases",
+      "label": "过期租约等待接管",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    },
+    {
+      "id": "offline-owners",
+      "label": "活跃租约的 Worker 最近仍在线",
+      "status": "pass",
+      "evidence": {
+        "sampleIds": [],
+        "sampleLimit": 20,
+        "atLeast": 0
+      }
+    }
+  ],
+  "counts": {
+    "jobs": 31,
+    "attempts": 38,
+    "receipts": 30,
+    "events": 129
+  },
+  "notice": "只读一致性诊断；不修复数据，不证明外部副作用或第三方真实性。"
+}

@@ -1,0 +1,39 @@
+{
+  "format": "faultline-boundary-regression-v1",
+  "baselineCommit": "6740453f29e828f272718f8dedff1fdf553f8413",
+  "action": "submit a durable job, then DELETE FROM events",
+  "before": {
+    "headSequence": 1,
+    "evidence": {
+      "format": "faultline-evidence-v1",
+      "generatedAt": 1791115324570,
+      "integrity": {
+        "valid": true,
+        "count": 0,
+        "anchor": "GENESIS",
+        "head": "GENESIS"
+      },
+      "events": []
+    }
+  },
+  "after": {
+    "headSequence": 1,
+    "evidence": {
+      "format": "faultline-evidence-v1",
+      "generatedAt": 1791115324572,
+      "integrity": {
+        "valid": false,
+        "count": 0,
+        "anchor": "GENESIS",
+        "head": "GENESIS",
+        "range": {
+          "anchorSequence": 0,
+          "headSequence": 1,
+          "source": "stored"
+        }
+      },
+      "events": []
+    }
+  },
+  "notice": "Consistency defect, not a third-party tamper-proof guarantee."
+}

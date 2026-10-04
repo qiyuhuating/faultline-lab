@@ -1,0 +1,10 @@
+crash: PASS
+fence: PASS
+retry: PASS
+duplicate: PASS
+dead: PASS
+response-loss: PASS
+burst: PASS
+in-flight cancel / revision: PASS
+controller restart: PASS
+PASS / 21767 ms / /workspace/scratch/f5f176fc7345/faultline/tests/evidence/batch-07/live-verification/run-2026-10-04T12-07-04-353Z-5e883235

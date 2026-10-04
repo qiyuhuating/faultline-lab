@@ -183,6 +183,8 @@ export async function startServer({
             job: queue.detail(path.split('/').at(-1)!),
             serverTime: Date.now(),
           });
+        } else if (path === '/api/diagnostics') {
+          json(response, 200, queue.diagnostics());
         } else if (path === '/api/evidence') {
           response.setHeader(
             'Content-Disposition',

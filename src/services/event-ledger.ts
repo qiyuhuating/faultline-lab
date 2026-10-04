@@ -1,5 +1,6 @@
 import type { SqliteStore } from '../storage/sqlite-store.ts';
 import type { Clock, Event, EventRow, EventsQuery, JsonObject } from '../domain/types.ts';
+import { inspectChain } from '../domain/event-chain.ts';
 import { canonical, digest, jsonObject, parseJSON } from '../validation.ts';
 
 export class EventLedger {
@@ -64,38 +65,38 @@ export class EventLedger {
     }));
   }
 
+  private *stream(): Generator<Event> {
+    for (const row of this.store.iterate<EventRow>('SELECT * FROM events ORDER BY seq')) {
+      yield {
+        seq: row.seq,
+        jobId: row.job_id,
+        type: row.type,
+        at: row.at,
+        data: jsonObject(parseJSON(row.data)),
+        previousHash: row.previous_hash,
+        hash: row.hash,
+      };
+    }
+  }
+  private integrity(events: Iterable<Event>) {
+    const stored = this.store.metadata('event_anchor_seq');
+    return inspectChain(
+      events,
+      this.store.metadata('event_anchor')!,
+      stored === undefined ? undefined : Number(stored),
+      Number(this.store.metadata('event_seq')),
+    );
+  }
+  inspect() {
+    return this.store.readTransaction(() => this.integrity(this.stream()));
+  }
   evidence() {
     return this.store.readTransaction(() => {
       const events = this.events({ limit: 60000 });
-      const anchor = this.store.metadata('event_anchor')!;
-      let previousHash = anchor;
-      let previousSeq = null;
-      let valid = true;
-      for (const event of events) {
-        const expected = digest(
-          canonical({
-            seq: event.seq,
-            jobId: event.jobId,
-            type: event.type,
-            at: event.at,
-            data: event.data,
-            previousHash: event.previousHash,
-          }),
-        );
-        if (
-          event.previousHash !== previousHash ||
-          event.hash !== expected ||
-          (previousSeq !== null && event.seq !== previousSeq + 1)
-        )
-          valid = false;
-        previousHash = event.hash;
-        previousSeq = event.seq;
-      }
-      if (events.length && previousSeq !== Number(this.store.metadata('event_seq'))) valid = false;
       return {
         format: 'faultline-evidence-v1',
         generatedAt: this.clock(),
-        integrity: { valid, count: events.length, anchor, head: previousHash },
+        integrity: this.integrity(events),
         events,
       };
     });

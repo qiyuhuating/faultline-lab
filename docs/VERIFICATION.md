@@ -1,8 +1,43 @@
-# Faultline v1.1.0 — verification record
+# Faultline v1.2.0 — verification record
 
 Updated 2026-10-04. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
 
-## v1.1.0 architecture and type acceptance
+## v1.2.0 specification and diagnostic acceptance
+
+Local final acceptance is `tests/evidence/batch-07/core-final.tap`: **87 passed, zero failed/skipped** on Node 24.19.0 / SQLite 3.53.3. Strict compilation now covers 19 backend modules. Twelve negative compile contracts, AST architecture checks and formatting pass. The Queue remains a 5,309-byte composition facade; diagnostics have their own service rather than adding business logic to it.
+
+| Gate | Executed evidence | Boundary |
+| --- | --- | --- |
+| Independent model | 128 seeds × 256 = 32,768 commands; all 16 command types exercised; per-run trace hashes | Two actual connections with sequential interleaving, not exhaustive parallel proof |
+| Checker self-tests | Wrong stale renew/complete and bypassed revision are rejected; same seed and failed prefix reproduce | Tests of the checker, not production mutations |
+| Read-only Doctor | 14 regressions: unchanged logical records, missing database, legacy schema, lost receipt, fake winner, lease warnings, JSON failures and report privacy | No repair/recovery/migration; O(n) manual inspection |
+| Event-tail regression | Frozen v1.1.0 incorrectly accepts empty events at durable seq 1; revised version rejects | Consistency, not administrator-resistant authenticity |
+| Live HTTP acceptance | Seven real-process scenarios plus dead replay, in-flight cancellation/conflict, controller restart and semantic diagnosis | Isolated local database and internal receipts |
+| Diagnostic browser UI | Three additional checks per browser: valid read-only report/download, malformed refresh preserves report, semantic corruption reports FAIL | Existing application exception/CSP assertions include the new interactions |
+| Publication | Core, model, live verification and three browser jobs must all pass on one exact commit | Source-only extracted crash recovery also required |
+
+The full local campaign is `batch-07/model-campaign.json`; final v1.2.0 HTTP reports, chain export and diagnosis are in `batch-07/live-verification/`. All repeated attempts stay within that batch. The incomplete first model fixture used native SQLite null-prototype rows incorrectly; another early fixture incorrectly expected detection after an administrator rewrote a self-consistent anchor. Both were corrected and remain explicitly labeled test-harness failures. They are separate from the actual event-tail implementation defect.
+
+A local browser launch could not run because Chromium was absent; its environment error is retained and is not counted as acceptance. GitHub installs and executes Chromium, Firefox and WebKit. Each engine runs **16 live checks + six static-player checks = 22**, for **66 total**. The release is created only after these exact-commit gates succeed, and its test archive collects original logs and digest-verified artifacts for every completed verification batch.
+
+WebKit screenshot preparation creates three known inline-stylesheet diagnostics from live desktop/mobile/diagnostic captures and two from static-player captures. Application exception and CSP assertions run before captures; afterward each suite requires exactly its known count, with zero in Chromium/Firefox. Production CSP is unchanged. These are screenshot-tool artifacts, not waived application violations.
+
+Reproduce the main new gates after merging source and tests:
+
+```sh
+npm ci --ignore-scripts
+npm run check
+npm run test:types
+npm run format:check
+npm test
+npm run test:model -- --seed=1001 --seeds=128 --steps=256 --output=test-results/model/report.json
+npm run verify:lab
+npm run doctor -- data/faultline.sqlite --json
+```
+
+Doctor requires an existing database; start the application first if none exists. `verify:lab` creates and removes its own temporary database, retaining unique reports under test-results. Source contains the operator tools; the independent oracle and test fixtures remain in the test ZIP. See [ADR 006](adr/006-executable-reliability-and-diagnostics.md).
+
+## Historical v1.1.0 architecture and type acceptance
 
 The entire 17-module backend passes TypeScript 5.9.3 strict compilation. Twelve compile-only negative cases require rejection of ownerless/deadlineless running jobs, missing successful results, live leases in successful state, unreduced owners, incorrect write outcome fields, cancel/replay option confusion and invalid API commands. Removing an expected rejection fails compilation.
 
@@ -10,7 +45,7 @@ The AST gate checks dependency directions, runtime cycles, explicit any, type-ch
 
 CI reruns compiler, architecture, compile contracts, formatting, all core tests and 19 checks in each of three browsers on the exact publishing commit. The release extracts source without the independent test set, checks that source separately and runs a real process-crash recovery. CI logs and artifacts are collected with all prior batches by the release job. Original v1.0.1 results below remain as historical evidence.
 
-## Completed acceptance gates
+## Historical v1.0.1 completed acceptance gates
 
 | Gate | Executed evidence | Result |
 | --- | --- | --- |
@@ -29,7 +64,7 @@ CI reruns compiler, architecture, compile contracts, formatting, all core tests 
 | Public trace player | Three browsers: six verified traces, frame playback, stale commit, mobile layout and tamper stops playback | PASS |
 | Source-only distribution | Extracted frontend/backend source starts without tests and recovers an actual SIGKILL experiment | PASS |
 
-**Core: 61 tests passed, 0 failed, 0 skipped.** Latest local TAP is `tests/evidence/batch-05/core-final.tap`. Runtime: Node 24.19.0, SQLite 3.53.3, Linux x64. Reproduce with `node --test tests/*.test.mjs`.
+**v1.0.1 core: 61 tests passed, 0 failed, 0 skipped.** Historical local TAP is `tests/evidence/batch-05/core-final.tap`. Runtime: Node 24.19.0, SQLite 3.53.3, Linux x64. Reproduce with `node --test tests/*.test.mjs`.
 
 **Browser baseline: 19 checks per browser × 3 = 57 passed checks.** Each browser ran 13 live-dashboard checks and six public-player checks. Chromium, Firefox and WebKit all passed in [verification run 36722199184](https://github.com/qiyuhuating/faultline-lab/actions/runs/36722199184), at commit `a98a9ee4bc4c6d9060e8bf88301f0ac8bfdaaf45`. Its core job passed too. Exact JSON results, runtime dependency locks and desktop/mobile PNGs are in the independent test ZIP. Final release automation requires its own verified commit to pass the same workflow again.
 
@@ -45,7 +80,7 @@ The live public page was deployed by [Pages run 36722505389](https://github.com/
 | CI run 36722199184 | Core plus all three browser jobs passed; exact downloaded artifacts retained as local batch 03 |
 | Release verification | Raw TAP, runtime versions, screenshots, JSON and completed CI run metadata collected automatically into `ci-run-NNNN/` |
 
-WebKit's Playwright screenshot preparation inserts an inline stylesheet even when animation synchronization is disabled. Both browser suites check application CSP errors **before** screenshots, then separately require exactly the two known stylesheet diagnostics from their two WebKit captures. Other browsers require zero. Application exceptions and application CSP failures remain failures; `unsafe-inline` was not added to production policy.
+WebKit's Playwright screenshot preparation inserts an inline stylesheet even when animation synchronization is disabled. Both browser suites check application CSP errors **before** screenshots, then separately required exactly the two known stylesheet diagnostics from their two WebKit captures in the historical v1.0/v1.1 suites. Other browsers require zero. Application exceptions and application CSP failures remain failures; `unsafe-inline` was not added to production policy.
 
 The release collector saves every completed main-branch verification batch up to the releasing run, including failed runs. An expired upstream artifact or evidence budget limit is recorded explicitly rather than fabricated. Each batch keeps its repeated files together. SHA-256 checksums and a per-package entry manifest accompany the three release ZIPs. Source contains frontend and backend; tests contain test code and evidence; web contains only the seven deployable player files.
 

@@ -17,6 +17,7 @@ Base: `http://127.0.0.1:8787`。所有响应为 JSON，SSE 与静态资源除外
 | GET `/api/jobs/:id` | job 完整定义、attempts、receipts、最近 500 个事件及 serverTime |
 | GET `/api/events?after=12` | SSE，事件 ID 为持久化 seq；支持 Last-Event-ID；游标过旧或超前返回 reset 事件 |
 | GET `/api/evidence` | 保留事件的链校验结果与导出数据 |
+| GET `/api/diagnostics` | 同一只读快照的语义诊断；HTTP 200 下仍可能 verdict=fail |
 | POST `/api/jobs` | 新建任务；返回 jobId、deduplicated |
 | POST `/api/jobs/:id/transitions` | action、expectedRevision、clearFaults；返回 jobId、revision、deduplicated |
 | POST `/api/experiments` | scenario: retry / crash / duplicate / dead / burst / fence / response-loss |
@@ -98,3 +99,13 @@ fault.stallOnce 默认 false，必须为 boolean；首次 generation 的首次�
 | 503 | SHUTTING_DOWN | Connection closes; reconnect after restart and resolve the original request key |
 
 A task detail is assembled in one read transaction. Snapshot ETag is a weak hash of observable content; serverTime annotations alone do not invalidate it, while lease renewals, offline changes, metric windows, retention and proof changes do. revision continues to denote the persisted event sequence, not an all-fields snapshot version.
+
+## Read-only diagnosis and evidence ranges (v1.2.0)
+
+GET `/api/diagnostics` returns `format: faultline-diagnostics-v1`, `generatedAt`, `verdict: pass | warn | fail`, `counts: {jobs,attempts,receipts,events}`, `checks` and `notice`. Each check has an id, label, status and structured evidence. Any failed check makes verdict fail; otherwise a warning makes verdict warn. Identifiers are sampled up to 20, with `atLeast` explicitly denoting a lower bound rather than a total. Reports omit task inputs, control tokens and database paths. Expired leases and stopped owners are warnings and do not trigger recovery. This expensive inspection is manual, not part of snapshot polling.
+
+An HTTP 200 means the report was obtained, not that data passed. Transport/storage failures use existing machine errors. Consumers must validate report format and distinguish transport failure from a domain verdict. The frontend preserves the last valid report if refresh fails.
+
+`faultline-evidence-v1` remains compatible and gains optional `integrity.range: {anchorSequence, headSequence, source}`. New/stored ranges require consecutive events covering the exact interval `(anchorSequence, headSequence]`. Empty is valid only at equal boundaries. Source is `stored`, `genesis`, `legacy-inferred` or `unknown`; an unknown empty pruned range fails verification. Nonempty legacy recordings without range metadata remain accepted as consistency evidence. Inferred legacy boundaries are explicitly warnings in Doctor. No metadata is an independent authenticity signature.
+
+Successful results must be JSON objects at runtime as well as in TypeScript. Stale ownership is rejected before accepting a result; invalid result objects roll back the still-current completion transaction.

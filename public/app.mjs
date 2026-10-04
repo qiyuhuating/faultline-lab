@@ -525,6 +525,48 @@ for (const button of document.querySelectorAll('[data-state]')) button.addEventL
 });
 $('older-button').addEventListener('click', () => { state.before = state.snapshot?.nextBefore ?? null; refresh(); });
 $('latest-button').addEventListener('click', () => { state.before = null; refresh(); });
+let diagnosticsReport = null;
+let diagnosticsRequest = 0;
+function validDiagnostics(report) {
+  if (report?.format !== 'faultline-diagnostics-v1' || !Number.isSafeInteger(report.generatedAt) || !['pass', 'warn', 'fail'].includes(report.verdict) || !Array.isArray(report.checks) || report.checks.length < 1 || report.checks.length > 30 || !report.counts || typeof report.notice !== 'string') return false;
+  if (!['jobs', 'attempts', 'receipts', 'events'].every(key => Number.isSafeInteger(report.counts[key]) && report.counts[key] >= 0)) return false;
+  if (!report.checks.every(check => typeof check.id === 'string' && typeof check.label === 'string' && check.label.length <= 160 && ['pass', 'warn', 'fail'].includes(check.status) && check.evidence && typeof check.evidence === 'object' && !Array.isArray(check.evidence))) return false;
+  const verdict = report.checks.some(check => check.status === 'fail') ? 'fail' : report.checks.some(check => check.status === 'warn') ? 'warn' : 'pass';
+  return report.verdict === verdict;
+}
+async function inspectDiagnostics() {
+  const current = ++diagnosticsRequest;
+  $('diagnostics-button').disabled = true; $('diagnostics-refresh').disabled = true;
+  if (!$('diagnostics-dialog').open) $('diagnostics-dialog').showModal();
+  put('diagnostics-status', '正在检查本次读取快照…');
+  try {
+    const response = await request('/api/diagnostics');
+    if (!response.ok) throw new Error('诊断请求未完成。');
+    const report = await response.json();
+    if (!validDiagnostics(report)) throw new Error('诊断数据不完整。');
+    if (current !== diagnosticsRequest || !$('diagnostics-dialog').open) return;
+    diagnosticsReport = report;
+    const summary = node('div', 'diagnostic-summary');
+    summary.append(node('span', `verdict ${report.verdict === 'warn' ? 'running' : report.verdict}`, report.verdict.toUpperCase()), node('span', '', `${report.counts.jobs} tasks / ${report.counts.receipts} receipts / ${report.counts.events} events`));
+    const checks = node('div', 'proof-checks');
+    for (const check of report.checks) {
+      const row = node('div', `proof-check ${check.status === 'warn' ? 'pending' : check.status}`);
+      const body = node('div'); body.append(node('strong', '', check.label));
+      const evidence = node('details'); evidence.append(node('summary', '', '查看核对结果'), node('pre', '', JSON.stringify(check.evidence, null, 2)));body.append(evidence);
+      row.append(node('span', 'check-icon', check.status === 'pass' ? '✓' : check.status === 'warn' ? '!' : '×'), body, node('code', '', check.status.toUpperCase()));checks.append(row);
+    }
+    $('diagnostics-content').replaceChildren(summary, checks, node('p', 'receipt-note', report.notice));
+    put('diagnostics-status', `读取于 ${time(report.generatedAt)} · ${report.verdict === 'pass' ? '所有核对项通过' : report.verdict === 'warn' ? '存在等待处理或兼容性提醒' : '存在一致性错误，请查看失败项'}`);
+    $('diagnostics-download').disabled = false;
+  } catch (error) {
+    if (current === diagnosticsRequest) put('diagnostics-status', `${error.message}请重试。${diagnosticsReport ? '上次报告保留，时间不会更新。' : ''}`);
+  } finally { $('diagnostics-button').disabled = false; $('diagnostics-refresh').disabled = false; }
+}
+$('diagnostics-button').addEventListener('click', inspectDiagnostics);
+$('diagnostics-refresh').addEventListener('click', inspectDiagnostics);
+$('diagnostics-download').addEventListener('click', () => { if (diagnosticsReport) downloadJSON(diagnosticsReport, 'faultline-diagnostics.json'); });
+$('diagnostics-dialog').addEventListener('close', () => { diagnosticsRequest++; });
+
 $('create-button').addEventListener('click', () => $('create-dialog').showModal());
 $('how-button').addEventListener('click', () => $('how-dialog').showModal());
 for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => $(button.dataset.close).close());

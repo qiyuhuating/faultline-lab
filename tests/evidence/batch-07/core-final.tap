@@ -1,0 +1,532 @@
+TAP version 13
+# Subtest: v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+ok 1 - v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+  ---
+  duration_ms: 13.971147
+  type: 'test'
+  ...
+# Subtest: audit failure after repository completion rolls back receipt, state and attempt together
+ok 2 - audit failure after repository completion rolls back receipt, state and attempt together
+  ---
+  duration_ms: 7.97842
+  type: 'test'
+  ...
+# Subtest: experiment ledger failure rolls back nested idempotency, jobs and experiment record
+ok 3 - experiment ledger failure rolls back nested idempotency, jobs and experiment record
+  ---
+  duration_ms: 10.687042
+  type: 'test'
+  ...
+# Subtest: inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+ok 4 - inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+  ---
+  duration_ms: 7.052772
+  type: 'test'
+  ...
+# Subtest: read-only doctor checks a healthy database without changing any logical record
+ok 5 - read-only doctor checks a healthy database without changing any logical record
+  ---
+  duration_ms: 34.288731
+  type: 'test'
+  ...
+# Subtest: read-only doctor does not create a missing database or its parent directory
+ok 6 - read-only doctor does not create a missing database or its parent directory
+  ---
+  duration_ms: 4.383326
+  type: 'test'
+  ...
+# Subtest: read-only doctor leaves legacy schema metadata untouched
+ok 7 - read-only doctor leaves legacy schema metadata untouched
+  ---
+  duration_ms: 7.202114
+  type: 'test'
+  ...
+# Subtest: missing successful receipt is detected even while event hashes remain valid
+ok 8 - missing successful receipt is detected even while event hashes remain valid
+  ---
+  duration_ms: 17.92155
+  type: 'test'
+  ...
+# Subtest: a receipt from a losing token and a dangling running attempt fail distinct checks
+ok 9 - a receipt from a losing token and a dangling running attempt fail distinct checks
+  ---
+  duration_ms: 9.307464
+  type: 'test'
+  ...
+# Subtest: expired leases warn without recovering or consuming attempts
+ok 10 - expired leases warn without recovering or consuming attempts
+  ---
+  duration_ms: 11.019582
+  type: 'test'
+  ...
+# Subtest: deleting every retained event cannot be mistaken for an empty valid ledger
+ok 11 - deleting every retained event cannot be mistaken for an empty valid ledger
+  ---
+  duration_ms: 7.142083
+  type: 'test'
+  ...
+# Subtest: an exactly pruned empty chain stays valid and the next append keeps its boundary
+ok 12 - an exactly pruned empty chain stays valid and the next append keeps its boundary
+  ---
+  duration_ms: 5.451854
+  type: 'test'
+  ...
+# Subtest: unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+ok 13 - unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+  ---
+  duration_ms: 6.147887
+  type: 'test'
+  ...
+# Subtest: portable evidence rejects forged range start and truncated tail even with matching counts
+ok 14 - portable evidence rejects forged range start and truncated tail even with matching counts
+  ---
+  duration_ms: 10.171968
+  type: 'test'
+  ...
+# Subtest: malformed event JSON is diagnosed as failure rather than rewritten
+ok 15 - malformed event JSON is diagnosed as failure rather than rewritten
+  ---
+  duration_ms: 5.715231
+  type: 'test'
+  ...
+# Subtest: untyped callers cannot commit a result that violates the typed successful state
+ok 16 - untyped callers cannot commit a result that violates the typed successful state
+  ---
+  duration_ms: 5.254111
+  type: 'test'
+  ...
+# Subtest: HTTP diagnostics is observation only and exposes no inputs, control token or database path
+ok 17 - HTTP diagnostics is observation only and exposes no inputs, control token or database path
+  ---
+  duration_ms: 71.245899
+  type: 'test'
+  ...
+# Subtest: nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+ok 18 - nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+  ---
+  duration_ms: 6.46794
+  type: 'test'
+  ...
+# Subtest: committed POST with a lost response is resolved from its durable request key
+ok 19 - committed POST with a lost response is resolved from its durable request key
+  ---
+  duration_ms: 112.328996
+  type: 'test'
+  ...
+# Subtest: static UI, bootstrap and CSP are served
+ok 20 - static UI, bootstrap and CSP are served
+  ---
+  duration_ms: 20.075547
+  type: 'test'
+  ...
+# Subtest: write without control token is rejected
+ok 21 - write without control token is rejected
+  ---
+  duration_ms: 3.433625
+  type: 'test'
+  ...
+# Subtest: non-ASCII control token is rejected without a server exception
+ok 22 - non-ASCII control token is rejected without a server exception
+  ---
+  duration_ms: 5.356859
+  type: 'test'
+  ...
+# Subtest: cross-site write is rejected even with a token
+ok 23 - cross-site write is rejected even with a token
+  ---
+  duration_ms: 3.308117
+  type: 'test'
+  ...
+# Subtest: DNS-rebinding Host is rejected
+ok 24 - DNS-rebinding Host is rejected
+  ---
+  duration_ms: 7.404344
+  type: 'test'
+  ...
+# Subtest: missing idempotency key is rejected
+ok 25 - missing idempotency key is rejected
+  ---
+  duration_ms: 5.003826
+  type: 'test'
+  ...
+# Subtest: malformed JSON and unsupported body fields fail explicitly
+ok 26 - malformed JSON and unsupported body fields fail explicitly
+  ---
+  duration_ms: 6.886968
+  type: 'test'
+  ...
+# Subtest: body size limit returns 413 without creating a task
+ok 27 - body size limit returns 413 without creating a task
+  ---
+  duration_ms: 8.19293
+  type: 'test'
+  ...
+# Subtest: three parallel HTTP submissions with same key create one task
+ok 28 - three parallel HTTP submissions with same key create one task
+  ---
+  duration_ms: 18.594219
+  type: 'test'
+  ...
+# Subtest: stale revision receives 409 and original data survives
+ok 29 - stale revision receives 409 and original data survives
+  ---
+  duration_ms: 11.718539
+  type: 'test'
+  ...
+# Subtest: snapshot supports conditional reads and validates pagination
+ok 30 - snapshot supports conditional reads and validates pagination
+  ---
+  duration_ms: 28.638337
+  type: 'test'
+  ...
+# Subtest: SSE resumes from a persisted cursor
+ok 31 - SSE resumes from a persisted cursor
+  ---
+  duration_ms: 255.148456
+  type: 'test'
+  ...
+# Subtest: evidence export contains a valid retained event chain
+ok 32 - evidence export contains a valid retained event chain
+  ---
+  duration_ms: 4.362604
+  type: 'test'
+  ...
+# Subtest: independent state oracle checks 16 deterministic seeds across connections and restart
+ok 33 - independent state oracle checks 16 deterministic seeds across connections and restart
+  ---
+  duration_ms: 1568.071199
+  type: 'test'
+  ...
+# Subtest: the independent oracle detects a worker accepting every stale renewal
+ok 34 - the independent oracle detects a worker accepting every stale renewal
+  ---
+  duration_ms: 11.469857
+  type: 'test'
+  ...
+# Subtest: the independent oracle detects successful responses fabricated for stale commits
+ok 35 - the independent oracle detects successful responses fabricated for stale commits
+  ---
+  duration_ms: 4.094611
+  type: 'test'
+  ...
+# Subtest: a seed reproduces the same logical transcript despite different UUIDs
+ok 36 - a seed reproduces the same logical transcript despite different UUIDs
+  ---
+  duration_ms: 445.277791
+  type: 'test'
+  ...
+# Subtest: the independent oracle detects a service bypassing expectedRevision
+ok 37 - the independent oracle detects a service bypassing expectedRevision
+  ---
+  duration_ms: 63.355216
+  type: 'test'
+  ...
+# Subtest: a failed campaign preserves a repeatable command prefix and reproduction command
+ok 38 - a failed campaign preserves a repeatable command prefix and reproduction command
+  ---
+  duration_ms: 18.477835
+  type: 'test'
+  ...
+# Subtest: a live stalled worker submits after takeover and is actually fenced out
+ok 39 - a live stalled worker submits after takeover and is actually fenced out
+  ---
+  duration_ms: 5322.384018
+  type: 'test'
+  ...
+# Subtest: four independent processes drain 240 tasks with no missing or duplicate receipts
+ok 40 - four independent processes drain 240 tasks with no missing or duplicate receipts
+  ---
+  duration_ms: 699.692804
+  type: 'test'
+  ...
+# Subtest: SIGKILL is real: expired attempt is replaced and only one receipt is committed
+ok 41 - SIGKILL is real: expired attempt is replaced and only one receipt is committed
+  ---
+  duration_ms: 3911.570376
+  type: 'test'
+  ...
+# Subtest: controller restart preserves tasks, pause state and idempotency records
+ok 42 - controller restart preserves tasks, pause state and idempotency records
+  ---
+  duration_ms: 326.341459
+  type: 'test'
+  ...
+# Subtest: hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+ok 43 - hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+  ---
+  duration_ms: 912.910686
+  type: 'test'
+  ...
+# Subtest: unfinished experiments remain pending; real completion passes their checks
+ok 44 - unfinished experiments remain pending; real completion passes their checks
+  ---
+  duration_ms: 14.656408
+  type: 'test'
+  ...
+# Subtest: dead-letter proof remains available after a successful new generation
+ok 45 - dead-letter proof remains available after a successful new generation
+  ---
+  duration_ms: 20.503519
+  type: 'test'
+  ...
+# Subtest: missing stale-worker rejection becomes a failed proof, never an endless green pending state
+ok 46 - missing stale-worker rejection becomes a failed proof, never an endless green pending state
+  ---
+  duration_ms: 1.780174
+  type: 'test'
+  ...
+# Subtest: expired experiment records are pruned together with their retained jobs
+ok 47 - expired experiment records are pruned together with their retained jobs
+  ---
+  duration_ms: 7.307226
+  type: 'test'
+  ...
+# Subtest: portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+ok 48 - portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+  ---
+  duration_ms: 5.644306
+  type: 'test'
+  ...
+# Subtest: a concurrent commit cannot splice two database versions into one experiment proof
+ok 49 - a concurrent commit cannot splice two database versions into one experiment proof
+  ---
+  duration_ms: 14.063603
+  type: 'test'
+  ...
+# Subtest: same intent creates one durable task across two connections
+ok 50 - same intent creates one durable task across two connections
+  ---
+  duration_ms: 14.866847
+  type: 'test'
+  ...
+# Subtest: same idempotency key with different content is a conflict
+ok 51 - same idempotency key with different content is a conflict
+  ---
+  duration_ms: 18.877325
+  type: 'test'
+  ...
+# Subtest: canonical defaults and property order identify the same request
+ok 52 - canonical defaults and property order identify the same request
+  ---
+  duration_ms: 4.957731
+  type: 'test'
+  ...
+# Subtest: invalid data does not overwrite or append a job
+ok 53 - invalid data does not overwrite or append a job
+  ---
+  duration_ms: 7.31041
+  type: 'test'
+  ...
+# Subtest: priority applies only to due jobs; delayed tasks cannot be claimed early
+ok 54 - priority applies only to due jobs; delayed tasks cannot be claimed early
+  ---
+  duration_ms: 10.45282
+  type: 'test'
+  ...
+# Subtest: two connections cannot claim the same live lease
+ok 55 - two connections cannot claim the same live lease
+  ---
+  duration_ms: 5.726292
+  type: 'test'
+  ...
+# Subtest: wrong owner and token cannot renew or commit
+ok 56 - wrong owner and token cannot renew or commit
+  ---
+  duration_ms: 4.981305
+  type: 'test'
+  ...
+# Subtest: lease expiry is recovered and a stale worker cannot overwrite a new owner
+ok 57 - lease expiry is recovered and a stale worker cannot overwrite a new owner
+  ---
+  duration_ms: 7.384864
+  type: 'test'
+  ...
+# Subtest: expired lease cannot be renewed or committed before a sweeper runs
+ok 58 - expired lease cannot be renewed or committed before a sweeper runs
+  ---
+  duration_ms: 4.629987
+  type: 'test'
+  ...
+# Subtest: heartbeat extends an active lease
+ok 59 - heartbeat extends an active lease
+  ---
+  duration_ms: 3.816491
+  type: 'test'
+  ...
+# Subtest: retry budget, exponential delay and jitter are enforced
+ok 60 - retry budget, exponential delay and jitter are enforced
+  ---
+  duration_ms: 8.801908
+  type: 'test'
+  ...
+# Subtest: revision conflict rejects a stale action without changing the job
+ok 61 - revision conflict rejects a stale action without changing the job
+  ---
+  duration_ms: 6.60071
+  type: 'test'
+  ...
+# Subtest: cancel fences in-flight work; repeated cancel is idempotent
+ok 62 - cancel fences in-flight work; repeated cancel is idempotent
+  ---
+  duration_ms: 6.830334
+  type: 'test'
+  ...
+# Subtest: dead-letter replay retains history and advances the generation
+ok 63 - dead-letter replay retains history and advances the generation
+  ---
+  duration_ms: 8.435592
+  type: 'test'
+  ...
+# Subtest: successful task cannot be replayed into duplicate side effects
+ok 64 - successful task cannot be replayed into duplicate side effects
+  ---
+  duration_ms: 6.005921
+  type: 'test'
+  ...
+# Subtest: pause prevents new claims but permits in-flight commits
+ok 65 - pause prevents new claims but permits in-flight commits
+  ---
+  duration_ms: 11.018452
+  type: 'test'
+  ...
+# Subtest: duplicate experiment invokes actual deduplication and yields one job
+ok 66 - duplicate experiment invokes actual deduplication and yields one job
+  ---
+  duration_ms: 7.18324
+  type: 'test'
+  ...
+# Subtest: receipt and success commit atomically, and duplicate completion is rejected
+ok 67 - receipt and success commit atomically, and duplicate completion is rejected
+  ---
+  duration_ms: 21.871945
+  type: 'test'
+  ...
+# Subtest: event chain detects modified payloads
+ok 68 - event chain detects modified payloads
+  ---
+  duration_ms: 8.184279
+  type: 'test'
+  ...
+# Subtest: retention preserves live jobs and advances the chain anchor
+ok 69 - retention preserves live jobs and advances the chain anchor
+  ---
+  duration_ms: 7.094404
+  type: 'test'
+  ...
+# Subtest: keyset pagination returns disjoint pages and supports state filters
+ok 70 - keyset pagination returns disjoint pages and supports state filters
+  ---
+  duration_ms: 32.773328
+  type: 'test'
+  ...
+# Subtest: SQL-looking labels remain data
+ok 71 - SQL-looking labels remain data
+  ---
+  duration_ms: 3.588578
+  type: 'test'
+  ...
+# Subtest: handlers return real summaries and reject invalid numeric input
+ok 72 - handlers return real summaries and reject invalid numeric input
+  ---
+  duration_ms: 0.592633
+  type: 'test'
+  ...
+# Subtest: a real SQLite writer lock cannot renew a lease that expires while waiting
+ok 73 - a real SQLite writer lock cannot renew a lease that expires while waiting
+  ---
+  duration_ms: 1717.771826
+  type: 'test'
+  ...
+# Subtest: SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+ok 74 - SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+  ---
+  duration_ms: 7.143251
+  type: 'test'
+  ...
+# Subtest: a standalone task detail cannot splice running state with a concurrently committed receipt
+ok 75 - a standalone task detail cannot splice running state with a concurrently committed receipt
+  ---
+  duration_ms: 4.740475
+  type: 'test'
+  ...
+# Subtest: pruning invalidates a cached experiment even in the same clock bucket
+ok 76 - pruning invalidates a cached experiment even in the same clock bucket
+  ---
+  duration_ms: 5.499156
+  type: 'test'
+  ...
+# Subtest: conditional snapshots observe workers going offline without a new event
+ok 77 - conditional snapshots observe workers going offline without a new event
+  ---
+  duration_ms: 39.314922
+  type: 'test'
+  ...
+# Subtest: conditional snapshots observe retention without an appended event
+ok 78 - conditional snapshots observe retention without an appended event
+  ---
+  duration_ms: 17.278587
+  type: 'test'
+  ...
+# Subtest: concurrent close calls await the same completed shutdown
+ok 79 - concurrent close calls await the same completed shutdown
+  ---
+  duration_ms: 6.779006
+  type: 'test'
+  ...
+# Subtest: a request whose body finishes during shutdown is rejected without a durable write
+ok 80 - a request whose body finishes during shutdown is rejected without a durable write
+  ---
+  duration_ms: 10.742901
+  type: 'test'
+  ...
+# Subtest: failed port binding closes the real SQLite file handles
+ok 81 - failed port binding closes the real SQLite file handles
+  ---
+  duration_ms: 4.304549
+  type: 'test'
+  ...
+# Subtest: a real worker storage-commit error is not reported as a handler failure
+ok 82 - a real worker storage-commit error is not reported as a handler failure
+  ---
+  duration_ms: 3696.78603
+  type: 'test'
+  ...
+# Subtest: HTTP page exhaustion returns STORAGE_FULL and the same request key can recover
+ok 83 - HTTP page exhaustion returns STORAGE_FULL and the same request key can recover
+  ---
+  duration_ms: 14.612767
+  type: 'test'
+  ...
+# Subtest: HTTP writer contention returns STORAGE_BUSY without saving a false success
+ok 84 - HTTP writer contention returns STORAGE_BUSY without saving a false success
+  ---
+  duration_ms: 810.250776
+  type: 'test'
+  ...
+# Subtest: worker-stop metadata failure still releases processes, IPC and SQLite
+ok 85 - worker-stop metadata failure still releases processes, IPC and SQLite
+  ---
+  duration_ms: 432.218037
+  type: 'test'
+  ...
+# Subtest: invalid live-verification configuration does not start workers or create artifacts
+ok 86 - invalid live-verification configuration does not start workers or create artifacts
+  ---
+  duration_ms: 3.306345
+  type: 'test'
+  ...
+# Subtest: a real experiment deadline retains a failed report and shuts down its server and workers
+ok 87 - a real experiment deadline retains a failed report and shuts down its server and workers
+  ---
+  duration_ms: 212.660599
+  type: 'test'
+  ...
+1..87
+# tests 87
+# suites 0
+# pass 87
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11498.190858

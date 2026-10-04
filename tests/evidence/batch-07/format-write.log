@@ -1,0 +1,33 @@
+
+> faultline-lab@1.2.0 format
+> prettier --write "src/**/*.ts" "tests/types/*.ts" "tools/check-architecture.mjs" "tools/doctor.mjs" "tools/verify-lab.mjs" "tests/model/**/*.mjs" "tests/model-runner.mjs" "tests/model.test.mjs" "tests/diagnostics.test.mjs" "tests/verification.test.mjs"
+
+src/domain/event-chain.ts 91ms (unchanged)
+src/domain/job.ts 25ms (unchanged)
+src/domain/types.ts 37ms (unchanged)
+src/handlers.ts 10ms (unchanged)
+src/queue.ts 24ms (unchanged)
+src/server.ts 71ms (unchanged)
+src/services/diagnostics-service.ts 20ms (unchanged)
+src/services/event-ledger.ts 17ms (unchanged)
+src/services/experiment-service.ts 28ms (unchanged)
+src/services/job-service.ts 12ms (unchanged)
+src/services/lease-service.ts 32ms (unchanged)
+src/services/query-service.ts 18ms (unchanged)
+src/services/request-store.ts 5ms (unchanged)
+src/services/retention-service.ts 6ms (unchanged)
+src/services/worker-registry.ts 5ms (unchanged)
+src/storage/job-repository.ts 8ms (unchanged)
+src/storage/sqlite-store.ts 18ms (unchanged)
+src/validation.ts 18ms (unchanged)
+src/worker.ts 12ms (unchanged)
+tests/types/contracts.ts 7ms (unchanged)
+tools/check-architecture.mjs 46ms (unchanged)
+tools/doctor.mjs 6ms
+tools/verify-lab.mjs 40ms
+tests/model/oracle.mjs 12ms
+tests/model/runner.mjs 20ms
+tests/model-runner.mjs 4ms
+tests/model.test.mjs 7ms
+tests/diagnostics.test.mjs 22ms
+tests/verification.test.mjs 5ms

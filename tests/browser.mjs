@@ -120,18 +120,52 @@ try {
   await page.waitForFunction(() => !document.querySelector('#create-dialog').open);
   results.push('offline write keeps draft and recovers');
 
+  await page.waitForFunction(() => [...document.querySelectorAll('#job-rows tr')].some(row => row.textContent.includes('draft survives') && row.querySelector('.state-badge')?.textContent === '已成功'));
+  const revisionBeforeDoctor = instance.queue.metadata('event_seq');
+  await page.locator('#diagnostics-button').click();
+  await page.waitForFunction(() => document.querySelector('#diagnostics-status')?.textContent.includes('所有核对项通过'));
+  assert.equal(instance.queue.metadata('event_seq'), revisionBeforeDoctor);
+  assert.match(await page.locator('#diagnostics-content').textContent(), /收据来自成功的获胜尝试/);
+  const diagnosticDownload = page.waitForEvent('download');
+  await page.locator('#diagnostics-download').click();
+  await (await diagnosticDownload).saveAs(join(artifacts, 'diagnostics.json'));
+  results.push('read-only semantic diagnostics renders and downloads without changing the ledger');
+  const preservedDoctor = await page.locator('#diagnostics-content').textContent();
+  await page.route('**/api/diagnostics', route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ format: 'faultline-diagnostics-v1', generatedAt: Date.now(), verdict: 'pass', checks: [] }) }));
+  await page.locator('#diagnostics-refresh').click();
+  await page.waitForFunction(() => document.querySelector('#diagnostics-status')?.textContent.includes('上次报告保留'));
+  assert.equal(await page.locator('#diagnostics-content').textContent(), preservedDoctor);
+  await page.unroute('**/api/diagnostics');
+  results.push('malformed diagnostics preserves the previous report and allows an explicit retry');
+  const receipt = instance.queue.db.prepare('SELECT * FROM receipts LIMIT 1').get();
+  instance.queue.db.prepare('DELETE FROM receipts WHERE job_id=? AND generation=?').run(receipt.job_id, receipt.generation);
+  try {
+    await page.locator('#diagnostics-refresh').click();
+    await page.waitForFunction(() => document.querySelector('#diagnostics-status')?.textContent.includes('一致性错误'));
+    assert.ok(await page.locator('#diagnostics-content .proof-check.fail').count() >= 2);
+  } finally {
+    instance.queue.db.prepare('INSERT INTO receipts VALUES (?,?,?,?,?)').run(receipt.job_id, receipt.generation, receipt.token, receipt.result, receipt.committed_at);
+  }
+  await page.locator('#diagnostics-refresh').click();
+  await page.waitForFunction(() => document.querySelector('#diagnostics-status')?.textContent.includes('所有核对项通过'));
+  await page.locator('[data-close="diagnostics-dialog"]').click();
+  results.push('semantic corruption is shown as failure and a corrected snapshot recovers');
+
   assert.deepEqual(exceptions, []);
   assert.deepEqual(securityErrors, []);
   results.push('no JavaScript exceptions or CSP violations');
-  // Playwright 1.62's WebKit screenshotter itself appends an inline `body {}`
-  // style to synchronize animations (coreBundle/inPagePrepareForScreenshots).
+  // Playwright 1.62 WebKit injects an inline stylesheet for each capture.
   // Check all application interactions first, then isolate that known diagnostic
   // in the screenshot-only phase without weakening the application's CSP.
   await page.setViewportSize({ width: 1440, height: 1100 });
   await page.screenshot({ path: join(artifacts, 'desktop.png'), fullPage: true, caret: 'initial' });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.screenshot({ path: join(artifacts, 'mobile.png'), fullPage: true, caret: 'initial' });
-  assert.equal(securityErrors.length, type === 'webkit' ? 2 : 0);
+  await page.setViewportSize({ width: 1440, height: 1100 });
+  await page.locator('#diagnostics-button').click();
+  await page.waitForFunction(() => document.querySelector('#diagnostics-status')?.textContent.includes('所有核对项通过'));
+  await page.screenshot({ path: join(artifacts, 'diagnostics.png'), fullPage: true, caret: 'initial' });
+  assert.equal(securityErrors.length, type === 'webkit' ? 3 : 0);
   assert.ok(securityErrors.every(message => message === "Refused to apply a stylesheet because its hash, its nonce, or 'unsafe-inline' does not appear in the style-src directive of the Content Security Policy."));
   console.log(JSON.stringify({ browser: type, checks: results, passed: results.length }, null, 2));
   writeFileSync(join(artifacts, 'browser-result.json'), `${JSON.stringify({ browser: type, checks: results, passed: results.length, screenshotHarnessCSPDiagnostics: securityErrors.length }, null, 2)}\n`);

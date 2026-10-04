@@ -59,7 +59,7 @@ stateDiagram-v2
 
 ## 事件链
 
-事件包含全局递增序号、任务 ID、类型、时间、规范化数据、前一个 hash 和当前 hash。链检查可发现保留记录的内容修改与内部缺口。前缀保留策略保存最后删除事件的 hash 作为锚点。
+事件包含全局递增序号、任务 ID、类型、时间、规范化数据、前一个 hash 和当前 hash。链检查可发现保留记录的内容修改与内部缺口。前缀保留策略在同一事务中保存最后删除事件的 hash 和精确序号作为锚点；完整验证还核对持久化链尾。空链只有前缀序号等于链尾才通过。旧库不自动补写元数据，无法确认的历史范围会明确报告。
 
 拥有数据库写权限的人可以重写整条链与锚点；导出文件也没有独立可信的签名。因此它是**一致性检查**，不是防管理员伪造的安全审计或第三方证明。
 
@@ -104,3 +104,11 @@ Zombie 实验使用真实 Worker 故意停止任务续租，再实际调用 comp
 Renewal samples the clock inside its acquired write transaction. Standalone detail uses a read transaction; retention clears report caches. Snapshot weak ETags cover observable content beyond event revision. Computation errors may call fail; persistence errors leave the lease for recovery. Automatic SQLite rollback is detected before another rollback is attempted.
 
 Shutdown immediately stops listening, rejects a body that finishes after shutdown starts and awaits both workers and HTTP before closing SQLite. Failed startup and failed worker-stop metadata have cleanup paths. See [ADR 004](adr/004-storage-and-shutdown.md) for reproduced faults and the nine-second timer's practical limit.
+
+## Executable reliability and observation (v1.2.0)
+
+A separate policy model compares every generated operation against actual persisted jobs, attempts and receipts across two connections. Captured old lease claims survive token changes and reopens. Its checker self-tests must detect deliberately incorrect completion, renewal and revision behavior. The bounded campaign complements real parallel-process tests; it is not exhaustive proof.
+
+Semantic diagnostics use one read snapshot, bounded identifier samples and streamed event inspection. The CLI opens an existing native read-only database; the live UI obtains the same manual report without mutation. Physical integrity and hash links alone do not prove receipt/state consistency. Diagnostics intentionally cannot repair, recover, initialize or migrate. Full inspection remains O(n) and can briefly block a synchronous API, so there is no background diagnostic polling.
+
+Exact chain ranges prevent silently accepting a deleted tail, but administrators can rewrite ranges and hashes. New databases store a zero anchor sequence; retention advances it atomically. Legacy nonempty pruned ranges are explicitly inferred, and an unknown empty pruned range cannot prove completeness. Original public traces and schema version 1 remain compatible. See [ADR 006](adr/006-executable-reliability-and-diagnostics.md).

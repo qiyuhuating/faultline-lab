@@ -1,0 +1,4 @@
+
+> faultline-lab@1.2.0 test:types
+> tsc -p tests/tsconfig.json
+

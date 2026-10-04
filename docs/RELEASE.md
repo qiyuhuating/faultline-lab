@@ -1,19 +1,21 @@
-v1.1.0 makes the reliable engine easier to maintain: Queue is now a 5.1 KB composition facade (down from 24.7 KB), and the entire backend is strict TypeScript.
+v1.2.0 turns reliability claims into executable specifications and operator diagnostics.
 
-Job persistence, transaction ownership, leases, experiments, event chaining, idempotent requests, queries, worker metadata and retention have explicit owners. All still share one connection and transaction boundary. Job state and write outcomes use discriminated unions; 12 negative compile contracts and an AST architecture gate guard future changes. Runtime database records remain validated separately.
+An independent policy model checks 16 command types against actual SQLite jobs, attempts and receipts across two connections. Seeded traces are reproducible; mutation self-tests require the checker to detect invalid lease and revision behavior. A read-only Doctor inspects physical and semantic integrity without recovery or repair. Its CLI, HTTP report and accessible dialog share one contract.
 
-Acceptance: 65 core tests plus 57 browser checks across Chromium, Firefox and WebKit; strict compilation, type contracts and formatting also pass before publication. Four new regressions cover v1.0.1 database compatibility, audit failure after receipt/state mutation, nested experiment rollback and invalid persisted leases. Original fault tests, older releases and historical evidence remain intact. See docs/VERIFICATION.md and ADR 005.
+This iteration also reproduces and fixes a v1.1.0 false pass after deleting the complete event tail. Exact retained-prefix and durable-head boundaries now detect missing history, while schema v1 and original public recordings remain compatible. Legacy uncertainty is explicit; the chain is a consistency check, not an authenticity signature.
 
-**Try the public recorded replay:** https://qiyuhuating.github.io/faultline-lab/
+Publication requires the exact commit to pass 87 core tests, 12 negative compile contracts, 32,768 model transitions, seven real HTTP/process fault scenarios with four supporting checks, and 66 browser checks across Chromium, Firefox and WebKit. A source-only extraction separately starts and recovers a real crashed worker. Full failure history and limits are in docs/VERIFICATION.md and ADR 006.
 
-The local application runs real independent workers against SQLite WAL. The public page replays labeled original evidence. Faultline is independent of yihe-health.
+**Try the recorded replay:** https://qiyuhuating.github.io/faultline-lab/
 
-Assets have distinct purposes:
+The local application runs real independent workers; the public site replays the original labeled evidence. Faultline remains completely independent of yihe-health.
 
-- **faultline-source-v1.1.0.zip** — frontend and typed backend source, locked development tools, API/design/ADR documentation, real screenshots and resume/interview material. No test set. Node 24.15+ (24.x): run `npm start` without installing dependencies. For compiler/architecture checks, `npm ci --ignore-scripts && npm run check`.
-- **faultline-tests-v1.1.0.zip** — core, HTTP, multi-process, three-browser and compile-only contract tests, plus all collected historical test batches together. Extract alongside source to merge `faultline/tests/`. Run `npm test`; install locked development tools for `npm run test:types`.
-- **faultline-web-v1.1.0.zip** — seven deployable static replay files only. No backend, compiler or test set.
+Assets have separate purposes:
+
+- **faultline-source-v1.2.0.zip** — frontend, strict TypeScript backend, read-only Doctor, runnable live HTTP verification tool, locked compiler tools, API/design/ADR documentation and resume/interview material. No test set. Node 24.15+ (24.x): `npm start`, without installation or runtime dependencies. `npm run verify:lab` runs an isolated real fault campaign; `npm run doctor -- data/faultline.sqlite --json` inspects an existing database. Compiler checks need `npm ci --ignore-scripts`.
+- **faultline-tests-v1.2.0.zip** — independent model/oracle, core, HTTP, multi-process, browser and negative compile tests, plus all collected historical batches and unsuccessful attempts together. Repeated files stay under their own batch directories. Extract alongside source to merge `faultline/tests/`; run `npm test` or the documented seeded campaign. No application source is substituted into this test package.
+- **faultline-web-v1.2.0.zip** — seven deployable static replay files only. No backend, compiler or test set; use the source package to run new experiments.
 - **SHA256SUMS.txt** — SHA-256 archive checksums.
-- **manifest.json** — the exact verified commit and per-package file inventory.
+- **manifest.json** — exact verified commit and per-package file inventories.
 
-No runtime package dependencies. MIT License. Internal result receipts are atomic with successful state; arbitrary external side effects are outside this guarantee.
+MIT License. Atomic internal receipts do not guarantee arbitrary external exactly-once effects. The bounded model is not formal verification; cross-host HA, physical disk faults and production deployment remain outside acceptance.

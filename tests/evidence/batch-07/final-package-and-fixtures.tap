@@ -1,0 +1,142 @@
+TAP version 13
+# Subtest: read-only doctor checks a healthy database without changing any logical record
+ok 1 - read-only doctor checks a healthy database without changing any logical record
+  ---
+  duration_ms: 15.808839
+  type: 'test'
+  ...
+# Subtest: read-only doctor does not create a missing database or its parent directory
+ok 2 - read-only doctor does not create a missing database or its parent directory
+  ---
+  duration_ms: 9.449721
+  type: 'test'
+  ...
+# Subtest: read-only doctor leaves legacy schema metadata untouched
+ok 3 - read-only doctor leaves legacy schema metadata untouched
+  ---
+  duration_ms: 4.70867
+  type: 'test'
+  ...
+# Subtest: missing successful receipt is detected even while event hashes remain valid
+ok 4 - missing successful receipt is detected even while event hashes remain valid
+  ---
+  duration_ms: 6.194475
+  type: 'test'
+  ...
+# Subtest: a receipt from a losing token and a dangling running attempt fail distinct checks
+ok 5 - a receipt from a losing token and a dangling running attempt fail distinct checks
+  ---
+  duration_ms: 4.580545
+  type: 'test'
+  ...
+# Subtest: expired leases warn without recovering or consuming attempts
+ok 6 - expired leases warn without recovering or consuming attempts
+  ---
+  duration_ms: 6.713407
+  type: 'test'
+  ...
+# Subtest: deleting every retained event cannot be mistaken for an empty valid ledger
+ok 7 - deleting every retained event cannot be mistaken for an empty valid ledger
+  ---
+  duration_ms: 4.433153
+  type: 'test'
+  ...
+# Subtest: an exactly pruned empty chain stays valid and the next append keeps its boundary
+ok 8 - an exactly pruned empty chain stays valid and the next append keeps its boundary
+  ---
+  duration_ms: 3.6484
+  type: 'test'
+  ...
+# Subtest: unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+ok 9 - unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+  ---
+  duration_ms: 3.102123
+  type: 'test'
+  ...
+# Subtest: portable evidence rejects forged range start and truncated tail even with matching counts
+ok 10 - portable evidence rejects forged range start and truncated tail even with matching counts
+  ---
+  duration_ms: 5.040785
+  type: 'test'
+  ...
+# Subtest: malformed event JSON is diagnosed as failure rather than rewritten
+ok 11 - malformed event JSON is diagnosed as failure rather than rewritten
+  ---
+  duration_ms: 3.895648
+  type: 'test'
+  ...
+# Subtest: untyped callers cannot commit a result that violates the typed successful state
+ok 12 - untyped callers cannot commit a result that violates the typed successful state
+  ---
+  duration_ms: 4.344447
+  type: 'test'
+  ...
+# Subtest: HTTP diagnostics is observation only and exposes no inputs, control token or database path
+ok 13 - HTTP diagnostics is observation only and exposes no inputs, control token or database path
+  ---
+  duration_ms: 50.128476
+  type: 'test'
+  ...
+# Subtest: nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+ok 14 - nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+  ---
+  duration_ms: 4.571549
+  type: 'test'
+  ...
+# Subtest: independent state oracle checks 16 deterministic seeds across connections and restart
+ok 15 - independent state oracle checks 16 deterministic seeds across connections and restart
+  ---
+  duration_ms: 1323.358845
+  type: 'test'
+  ...
+# Subtest: the independent oracle detects a worker accepting every stale renewal
+ok 16 - the independent oracle detects a worker accepting every stale renewal
+  ---
+  duration_ms: 14.231344
+  type: 'test'
+  ...
+# Subtest: the independent oracle detects successful responses fabricated for stale commits
+ok 17 - the independent oracle detects successful responses fabricated for stale commits
+  ---
+  duration_ms: 4.634685
+  type: 'test'
+  ...
+# Subtest: a seed reproduces the same logical transcript despite different UUIDs
+ok 18 - a seed reproduces the same logical transcript despite different UUIDs
+  ---
+  duration_ms: 287.365428
+  type: 'test'
+  ...
+# Subtest: the independent oracle detects a service bypassing expectedRevision
+ok 19 - the independent oracle detects a service bypassing expectedRevision
+  ---
+  duration_ms: 5.741696
+  type: 'test'
+  ...
+# Subtest: a failed campaign preserves a repeatable command prefix and reproduction command
+ok 20 - a failed campaign preserves a repeatable command prefix and reproduction command
+  ---
+  duration_ms: 8.736914
+  type: 'test'
+  ...
+# Subtest: invalid live-verification configuration does not start workers or create artifacts
+ok 21 - invalid live-verification configuration does not start workers or create artifacts
+  ---
+  duration_ms: 3.162918
+  type: 'test'
+  ...
+# Subtest: a real experiment deadline retains a failed report and shuts down its server and workers
+ok 22 - a real experiment deadline retains a failed report and shuts down its server and workers
+  ---
+  duration_ms: 201.842275
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1862.494537

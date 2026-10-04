@@ -33,6 +33,34 @@ jobs:
           path: |
             test-results/core/
             benchmark-result.json
+  model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Independent model campaign
+        run: node tests/model-runner.mjs --seed=1001 --seeds=128 --steps=256 --output=test-results/model/report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: model-evidence
+          path: test-results/model/
+  live-verification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Real HTTP failure verification and controller restart
+        run: node tools/verify-lab.mjs --output=test-results/verification
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-verification-evidence
+          path: test-results/verification/
   browser:
     runs-on: ubuntu-latest
     strategy:

@@ -41,7 +41,7 @@ Ctrl+C 停止，再次启动会保留任务、幂等记录和暂停状态。默�
 
 每次实验都有独立编号、自动验收断言和可下载报告。点击 **追踪** 查看各次 attempt、owner、token、revision、generation 与真实处理结果。
 
-公开页面是**真实记录的回放器**，不会模拟实时执行。记录由 `tools/record-traces.mjs` 调用本机 HTTP 服务并启动独立进程录制；浏览器重新校验事件链后才允许回放。当前公开轨迹保留 2026-09-30 的原始实验记录，v1.1.0 未为部署重新录制。制造新故障请运行本地实验台。
+公开页面是**真实记录的回放器**，不会模拟实时执行。记录由 `tools/record-traces.mjs` 调用本机 HTTP 服务并启动独立进程录制；浏览器重新校验事件链后才允许回放。当前公开轨迹保留 2026-09-30 的原始实验记录，后续版本未为部署重新录制。制造新故障请运行本地实验台。
 
 ## 工程重点
 
@@ -51,6 +51,8 @@ Ctrl+C 停止，再次启动会保留任务、幂等记录和暂停状态。默�
 - **原子提交：** 内置结果收据与 succeeded 状态在同一事务中提交；唯一键限制每个任务每轮一张收据。
 - **一致读取：** 单任务详情、实验报告、快照和链导出使用 SQLite 读事务，避免拼接不同数据库版本。
 - **故障恢复：** SSE 游标续读、条件请求、读取退避、后台关闭连接；草稿及未确认请求键在当前标签页刷新后恢复。
+- **独立模型：** 16 种命令随机组合，与不导入生产规则的模型逐步比对，保存种子和可复现轨迹。
+- **只读诊断：** 核对成功状态、收据、尝试和事件保留区间；观察异常而不代替恢复或修复。
 - **可信度边界：** 单机开发实验室；执行至少一次；外部副作用需要独立幂等协议；事件链检查一致性，不提供第三方真实性证明。
 
 ## 验证
@@ -63,10 +65,12 @@ npm run check
 npm run test:types
 npm run format:check
 npm test
+npm run test:model -- --seed=1001 --seeds=128 --steps=256
+npm run verify:lab
 node tools/benchmark.mjs --jobs=500
 ```
 
-核心用例涵盖 240 任务 / 4 进程竞争、实际 SIGKILL 接管、僵尸 Worker 提交、响应丢失、父进程死亡、数据库事务回滚和并发读取；v1.0.1 新增写锁等待、真实 SQLITE_FULL、停机途中请求与资源清理回归。验收结果、远程 CI 与失败后修复记录见 [VERIFICATION.md](docs/VERIFICATION.md)。
+v1.2.0 的验收包含 87 项核心测试、12 条负向编译契约、32,768 次独立模型操作，以及七种真实 HTTP 故障场景。核心用例涵盖 240 任务 / 4 进程竞争、实际 SIGKILL 接管、僵尸 Worker 提交、响应丢失、父进程死亡、数据库事务回滚和并发读取；v1.0.1 新增写锁等待、真实 SQLITE_FULL、停机途中请求与资源清理回归。验收结果、远程 CI 与失败后修复记录见 [VERIFICATION.md](docs/VERIFICATION.md)。
 
 浏览器测试与运行时文件分离：
 
@@ -90,6 +94,18 @@ node tools/build-showcase.mjs
 
 每次录制重新执行真实故障；不要为了更新部署重新制造记录。公开页只部署 `showcase/`，不会暴露本地控制令牌、数据库或测试集。
 
+## 检查当前数据库
+
+在实验台点击 **检查一致性**，查看物理完整性、租约、尝试、收据、请求记录和事件链的同一快照。可手动刷新与下载报告；失败刷新保留上一份有效报告。命令行检查已有数据库：
+
+```sh
+npm run doctor -- data/faultline.sqlite --json
+```
+
+Doctor 不创建数据库、不恢复租约、不修改 schema。FAIL 返回退出码 1；WARN 明确保留警告。完整扫描有读取成本，因此不加入后台轮询。
+
+`npm run verify:lab` 会在临时数据库中启动真实进程，输出独立验收目录并清理 Worker。源码包含这两个运维工具；随机模型、测试夹具与浏览器测试只在测试包中。完整策略见 [ADR 006](docs/adr/006-executable-reliability-and-diagnostics.md)。
+
 ## 架构
 
 v1.1.0 将原先 24,679 字节的 Queue 拆成 5,125 字节的组合入口。后端全部进入严格 TypeScript；前端和共享验收算法仍是原生 ESM。运行依靠 Node 24 的原生类型擦除；发布验收独立执行 `tsc`，因为运行时擦除不会检查类型。详见 [ADR 005](docs/adr/005-typed-domain-and-service-boundaries.md)。数据库 schema 和 HTTP 路径保持 v1 兼容。
@@ -109,14 +125,16 @@ flowchart TD
 
 | 文件或目录 | 负责什么 |
 | --- | --- |
-| `src/queue.ts` | 151 行组合入口，共享连接并转发稳定 API；不包含 SQL 或业务状态规则 |
+| `src/queue.ts` | 小型组合入口，共享连接并转发稳定 API；不包含 SQL 或业务状态规则 |
 | `src/domain/` | 状态判别联合、租约/提交结果契约和持久化记录的生命周期检查 |
 | `src/storage/sqlite-store.ts` | SQLite 连接、写事务、可复用读事务与错误回滚的唯一拥有者 |
 | `src/storage/job-repository.ts` | 作业与 attempt/receipt 的持久化操作，不判断时钟、权限或重试策略 |
 | `src/services/job-service.ts` | 提交、revision 冲突、取消/重放与暂停业务规则 |
 | `src/services/lease-service.ts` | 领取、续租、过期、退避与 fenced 原子结果提交 |
 | `src/services/experiment-service.ts` | 可复现实验编排，复用同一提交和幂等原语 |
-| `src/services/event-ledger.ts` | 追加事件、事件分页与一致性链导出 |
+| `src/services/event-ledger.ts` | 追加事件、事件分页、流式全链检查与一致性导出 |
+| `src/domain/event-chain.ts` | 连续序号、链 hash 与保留前缀/持久化链尾的范围校验 |
+| `src/services/diagnostics-service.ts` | 只读数据库语义检查，区分完整性失败、未知历史边界与恢复警告 |
 | `src/services/request-store.ts` | 持久化请求指纹、幂等结果与未知写入查询 |
 | `src/services/query-service.ts` | 一致快照、任务详情、指标、实验报告及有界缓存 |
 | `src/services/worker-registry.ts` | Worker 注册、心跳及停止记录 |
@@ -136,6 +154,10 @@ flowchart TD
 | `tools/build-showcase.mjs` | 从公共源文件复制共享模块，避免手写两套断言 |
 | `tools/benchmark.mjs` | 带环境、工作负载和一致性检查的本机微基准 |
 | `tools/verify-evidence.mjs` | 离线复核导出的事件链 |
+| `tools/doctor.mjs` | 原生只读连接上的数据库诊断，支持 JSON 与进程退出码 |
+| `tools/verify-lab.mjs` | 隔离的真实 HTTP 故障验收、重启验证与失败报告保留 |
+| `tests/model/oracle.mjs` | 独立的状态策略模型，不导入生产状态机或持久化实现 |
+| `tests/model-runner.mjs` | 多种子模型批次、操作覆盖、轨迹 hash 与失败前缀复现 |
 | `tools/check-architecture.mjs` | 编译器 AST 检查分层、运行时循环、事务拥有者和显式 any |
 | `tests/types/` | 编译器必须拒绝的非法状态、命令与提交结果，随测试 ZIP 独立交付 |
 | `tools/package.mjs` | 构建源码、测试与静态网页 ZIP，生成文件清单及校验和 |

@@ -15,6 +15,7 @@ import { LeaseService, LEASE_MS } from './services/lease-service.ts';
 import { WorkerRegistry } from './services/worker-registry.ts';
 import { ExperimentService } from './services/experiment-service.ts';
 import { QueryService } from './services/query-service.ts';
+import { DiagnosticsService } from './services/diagnostics-service.ts';
 import { RetentionService } from './services/retention-service.ts';
 export { LEASE_MS };
 
@@ -141,6 +142,9 @@ export class Queue {
   }
   snapshot(query: SnapshotQuery = {}) {
     return this.queries.snapshot(query);
+  }
+  diagnostics() {
+    return new DiagnosticsService(this.store, this.ledger, () => this.clock()).inspect();
   }
   evidence() {
     return this.ledger.evidence();

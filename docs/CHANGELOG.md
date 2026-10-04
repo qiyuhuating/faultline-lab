@@ -1,5 +1,16 @@
 # Release history
 
+## v1.2.0 — 2026-10-04
+
+- Add an independent seeded policy model with 16 commands, two SQLite connections, retained old leases, worker replacements, controller reopen and request replay. Check jobs, attempts and receipts after every command; preserve a reproducible failure prefix. Mutation self-tests prove the checker catches wrong lease and revision behavior.
+- Add a read-only semantic Doctor, CLI, HTTP endpoint and accessible report dialog. Check pages, foreign keys, lifecycle, success receipts, winning attempts, persisted JSON, requests and the full retained chain; report expired ownership without repairing it.
+- Reproduce and fix a v1.1.0 false pass when the entire event tail is deleted. Verify exact retained-prefix and durable-head sequences. Preserve schema v1 and old public recordings; label inferred legacy boundaries and reject an unknowable empty pruned range.
+- Validate JSON result objects at the fenced commit boundary even for JavaScript callers.
+- Ship a real-process HTTP acceptance tool covering seven fault scenarios, dead-letter replay, in-flight cancel/conflict, controller restart and final diagnostics. Keep model/browser fixtures in the independent test package.
+- Extend CI with separate model and live-verification jobs and preserve all historical batches, including unsuccessful checker fixtures and blocked local browser launch.
+
+Release gates: 87 core tests, 12 negative compile contracts, 32,768 model commands, seven live HTTP scenarios with four supporting checks, and 66 browser checks across three engines on the publishing commit. See ADR 006 and VERIFICATION.md for boundaries.
+
 ## v1.1.0 — 2026-10-04
 
 - Split the 24,679-byte Queue into a 5,125-byte composition facade, persistence-only job repository, single transaction owner and focused job/lease/experiment/audit/query/retention services.

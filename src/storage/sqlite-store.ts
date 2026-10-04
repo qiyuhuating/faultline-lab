@@ -7,15 +7,21 @@ import { dirname } from 'node:path';
 // repositories describe v1 schema rows, domain serialization checks lifecycle.
 export class SqliteStore {
   readonly db: DatabaseSync;
-  constructor(path: string) {
-    if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
-    this.db = new DatabaseSync(path, { timeout: 5000 });
+  constructor(path: string, { readOnly = false }: { readOnly?: boolean } = {}) {
+    if (!readOnly && path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
+    this.db = new DatabaseSync(path, { timeout: 5000, readOnly });
     try {
-      if (this.one("SELECT name FROM sqlite_master WHERE name='meta'")) {
+      const existing = this.one("SELECT name FROM sqlite_master WHERE name='meta'");
+      if (existing) {
         if (this.metadata('schema_version') !== '1')
           throw new Error('Unsupported schema; database left unchanged.');
       }
-      this.db.exec(readFileSync(new URL('../schema.sql', import.meta.url), 'utf8'));
+      if (readOnly && !existing)
+        throw new Error('Not a Faultline database; no files were modified.');
+      if (!readOnly) {
+        this.db.exec(readFileSync(new URL('../schema.sql', import.meta.url), 'utf8'));
+        if (!existing) this.run("INSERT OR IGNORE INTO meta VALUES ('event_anchor_seq', '0')");
+      }
     } catch (error) {
       this.db.close();
       throw error;
@@ -29,6 +35,9 @@ export class SqliteStore {
   }
   all<T extends object>(sql: string, ...params: SQLInputValue[]): T[] {
     return this.db.prepare(sql).all(...params) as T[];
+  }
+  iterate<T extends object>(sql: string, ...params: SQLInputValue[]): Iterable<T> {
+    return this.db.prepare(sql).iterate(...params) as Iterable<T>;
   }
   run(sql: string, ...params: SQLInputValue[]) {
     return this.db.prepare(sql).run(...params);

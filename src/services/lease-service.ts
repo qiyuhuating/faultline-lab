@@ -10,7 +10,7 @@ import type {
   WorkerRow,
 } from '../domain/types.ts';
 import { serialize, owns } from '../domain/job.ts';
-import { canonical, digest, insist } from '../validation.ts';
+import { canonical, digest, insist, jsonObject } from '../validation.ts';
 export const LEASE_MS = 2400;
 export class LeaseService {
   readonly store: SqliteStore;
@@ -121,7 +121,7 @@ export class LeaseService {
           );
         return { accepted: false, reason: 'STALE_LEASE' };
       }
-      const encoded = canonical(result);
+      const encoded = canonical(jsonObject(result));
       // The built-in result receipt and state change commit in one transaction.
       this.repository.complete(job, token, encoded, now);
       this.ledger.append(
