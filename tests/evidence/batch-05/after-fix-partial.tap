@@ -1,0 +1,31 @@
+TAP version 13
+# Subtest: a real SQLite writer lock cannot renew a lease that expires while waiting
+ok 1 - a real SQLite writer lock cannot renew a lease that expires while waiting
+  ---
+  duration_ms: 1644.108001
+  type: 'test'
+  ...
+# Subtest: SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+ok 2 - SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+  ---
+  duration_ms: 5.946865
+  type: 'test'
+  ...
+# Subtest: a standalone task detail cannot splice running state with a concurrently committed receipt
+ok 3 - a standalone task detail cannot splice running state with a concurrently committed receipt
+  ---
+  duration_ms: 4.359265
+  type: 'test'
+  ...
+# Subtest: pruning invalidates a cached experiment even in the same clock bucket
+ok 4 - pruning invalidates a cached experiment even in the same clock bucket
+  ---
+  duration_ms: 4.666583
+  type: 'test'
+  ...
+# Subtest: conditional snapshots observe workers going offline without a new event
+ok 5 - conditional snapshots observe workers going offline without a new event
+  ---
+  duration_ms: 41.306913
+  type: 'test'
+  ...

@@ -1,0 +1,31 @@
+{
+  "version": "1.0.1",
+  "recordedAt": "2026-10-04",
+  "records": [
+    {
+      "file": "after-fix-partial.tap",
+      "complete": false,
+      "passed": 5,
+      "failed": 0
+    },
+    {
+      "file": "before-fix.tap",
+      "complete": false,
+      "passed": 0,
+      "failed": 9
+    },
+    {
+      "file": "before-worker-fix.tap",
+      "complete": true,
+      "passed": 0,
+      "failed": 1
+    },
+    {
+      "file": "core-final.tap",
+      "complete": true,
+      "passed": 61,
+      "failed": 0
+    }
+  ],
+  "faultScope": "Real SQLite writer lock and max_page_count exhaustion, not a full physical filesystem."
+}

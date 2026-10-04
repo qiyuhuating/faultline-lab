@@ -15,10 +15,11 @@ jobs:
         run: |
           set -o pipefail
           mkdir -p test-results/core
-          node --test tests/*.test.mjs | tee test-results/core/core.tap
           node -p 'JSON.stringify(process.versions, null, 2)' > test-results/core/runtime.json
+          node --test --test-reporter=tap tests/*.test.mjs | tee test-results/core/core.tap
       - run: node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: core-evidence
           path: |

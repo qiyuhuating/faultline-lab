@@ -4,12 +4,12 @@ import { resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { fork } from 'node:child_process';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
-import { setTimeout as sleep } from 'node:timers/promises';
 import { Queue, LEASE_MS } from './queue.mjs';
-import { DomainError, insist, integer, object, key } from './validation.mjs';
+import { DomainError, insist, integer, object, key, canonical, digest } from './validation.mjs';
 
 const PUBLIC = new URL('../public/', import.meta.url);
 const DEFAULT_DATABASE = fileURLToPath(new URL('../data/faultline.sqlite', import.meta.url));
+const VERSION = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).version;
 const STATIC = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/app.mjs', ['app.mjs', 'text/javascript; charset=utf-8']],
@@ -74,11 +74,15 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
   const children = new Set();
   const restartTimers = new Set();
   let closing = false;
+  let closePromise;
+  let sweep;
+  let retention;
   let actualPort = port;
 
   const server = createServer(async (request, response) => {
     headers(response);
     try {
+      insist(!closing, 'SHUTTING_DOWN', '引擎正在停机，请稍后重新连接并核对原请求。', 503);
       const hosts = new Set([`127.0.0.1:${actualPort}`, `localhost:${actualPort}`]);
       insist(hosts.has(request.headers.host), 'HOST_REJECTED', '只允许本机地址访问。', 403);
       const url = new URL(request.url, `http://127.0.0.1:${actualPort}`);
@@ -93,12 +97,15 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
       insist(path.startsWith('/api/'), 'NOT_FOUND', '资源不存在。', 404);
       if (request.method === 'GET') {
         if (path === '/api/bootstrap') {
-          json(response, 200, { version: '1.0.0', controlToken: token, serverTime: Date.now(), leaseMs: LEASE_MS, workerCount: workers, mode: 'local-lab' });
+          json(response, 200, { version: VERSION, controlToken: token, serverTime: Date.now(), leaseMs: LEASE_MS, workerCount: workers, mode: 'local-lab' });
         } else if (path === '/api/snapshot') {
           const before = url.searchParams.has('before') ? Number(url.searchParams.get('before')) : Number.MAX_SAFE_INTEGER;
           const snapshot = queue.snapshot({ state: url.searchParams.get('state') ?? '', before });
-          const workerStamp = snapshot.workers.reduce((sum, w) => sum + w.last_seen, 0);
-          const etag = `"${snapshot.revision}-${workerStamp}-${url.search}"`;
+          // Time annotations alone do not invalidate a conditional read. All
+          // observable content does: offline flags, leases, retention, proofs,
+          // metrics and time-series buckets, even without a new event sequence.
+          const content = { ...snapshot, serverTime: null, experiments: snapshot.experiments.map(report => ({ ...report, serverTime: null })) };
+          const etag = `W/"${digest(canonical({ content, query: url.search }))}"`;
           response.setHeader('ETag', etag);
           if (request.headers['if-none-match'] === etag) response.writeHead(304).end();
           else json(response, 200, snapshot);
@@ -155,6 +162,7 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
       insist(equalToken(request.headers['x-control-token'], token), 'CONTROL_TOKEN_REQUIRED', '控制令牌已失效，请刷新连接。', 403);
       const requestKey = key(request.headers['idempotency-key']);
       const body = await readJSON(request);
+      insist(!closing, 'SHUTTING_DOWN', '引擎正在停机，此请求未执行；请重新连接后核对原请求。', 503);
       if (path === '/api/jobs') json(response, 201, queue.submit(body, requestKey));
       else if (path === '/api/experiments') {
         object(body, ['scenario']);
@@ -172,18 +180,25 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
       } else throw new DomainError('NOT_FOUND', '接口不存在。', 404);
     } catch (error) {
       if (response.headersSent || response.destroyed) { response.end(); return; }
-      const known = error instanceof DomainError;
-      if (!known && !quiet) console.error(JSON.stringify({ code: 'SERVER_ERROR', message: error.message }));
-      json(response, known ? error.status : 500, { error: { code: known ? error.code : 'SERVER_ERROR', message: known ? error.message : '服务未能完成操作，请读取状态后再试。' } });
+      const sqlite = error.code === 'ERR_SQLITE_ERROR' ? error.errcode & 255 : null;
+      const storage = sqlite === 13 ? new DomainError('STORAGE_FULL', '存储空间不足，请恢复空间后按原请求键核对结果。', 507)
+        : [5, 6].includes(sqlite) ? new DomainError('STORAGE_BUSY', '存储正在忙，请稍后按原请求键核对结果。', 503) : null;
+      const failure = error instanceof DomainError ? error : storage;
+      if (!failure && !quiet) console.error(JSON.stringify({ code: 'SERVER_ERROR', message: error.message }));
+      if (failure?.code === 'STORAGE_BUSY') response.setHeader('Retry-After', '1');
+      if (failure?.code === 'SHUTTING_DOWN') response.setHeader('Connection', 'close');
+      json(response, failure?.status ?? 500, { error: { code: failure?.code ?? 'SERVER_ERROR', message: failure?.message ?? '服务未能完成操作，请读取状态后再试。' } });
     }
   });
   server.requestTimeout = 10000;
   server.headersTimeout = 10000;
   server.maxHeadersCount = 32;
-  await new Promise((resolveStart, reject) => {
-    server.once('error', reject);
-    server.listen(port, '127.0.0.1', resolveStart);
-  });
+  try {
+    await new Promise((resolveStart, reject) => {
+      server.once('error', reject);
+      server.listen(port, '127.0.0.1', resolveStart);
+    });
+  } catch (error) { queue.close(); throw error; }
   actualPort = server.address().port;
 
   function spawnWorker(slot) {
@@ -194,7 +209,10 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
     child.stderr.on('data', chunk => { if (!quiet) process.stderr.write(chunk); });
     child.on('exit', (code, signal) => {
       children.delete(record);
-      if (record.id) queue.stopWorker(record.id, signal ? `signal:${signal}` : `exit:${code}`);
+      if (record.id) {
+        try { queue.stopWorker(record.id, signal ? `signal:${signal}` : `exit:${code}`); }
+        catch (error) { if (!quiet) console.error(JSON.stringify({ code: 'WORKER_STOP_FAILED', message: error.message })); }
+      }
       if (!closing) {
         const timer = setTimeout(() => { restartTimers.delete(timer); if (!closing) spawnWorker(slot); }, 500);
         restartTimers.add(timer);
@@ -202,26 +220,34 @@ export async function startServer({ port = 8787, database = DEFAULT_DATABASE, wo
     });
     return record;
   }
-  for (let slot = 1; slot <= workers; slot++) spawnWorker(slot);
-  const sweep = setInterval(() => { try { queue.recover(); } catch (error) { if (!quiet) console.error(error.message); } }, 200);
-  const retention = setInterval(() => { try { queue.prune(); } catch (error) { if (!quiet) console.error(error.message); } }, 600000);
-  queue.prune();
+  try {
+    queue.prune();
+    for (let slot = 1; slot <= workers; slot++) spawnWorker(slot);
+    sweep = setInterval(() => { try { queue.recover(); } catch (error) { if (!quiet) console.error(error.message); } }, 200);
+    retention = setInterval(() => { try { queue.prune(); } catch (error) { if (!quiet) console.error(error.message); } }, 600000);
+  } catch (error) { await close(); throw error; }
 
-  async function close() {
-    if (closing) return;
+  function close() {
+    if (closePromise) return closePromise;
     closing = true;
-    clearInterval(sweep);
-    clearInterval(retention);
-    for (const timer of restartTimers) clearTimeout(timer);
-    for (const stream of streams) { clearInterval(stream.timer); stream.response.end(); }
-    const exits = [...children].map(({ child }) => new Promise(resolveExit => { child.once('exit', resolveExit); child.kill('SIGTERM'); }));
-    const graceful = await Promise.race([Promise.all(exits).then(() => true), sleep(9000, undefined, { ref: false }).then(() => false)]);
-    if (!graceful) {
-      for (const { child } of children) child.kill('SIGKILL');
-      await Promise.all(exits);
-    }
-    await new Promise(resolveClose => { server.close(resolveClose); server.closeIdleConnections(); });
-    queue.close();
+    closePromise = (async () => {
+      clearInterval(sweep);
+      clearInterval(retention);
+      for (const timer of restartTimers) clearTimeout(timer);
+      // Stop listening before awaiting workers. Already accepted bodies get a
+      // SHUTTING_DOWN response; an incomplete client cannot keep the DB open.
+      const httpClosed = new Promise(resolveClose => server.close(resolveClose));
+      for (const stream of streams) { clearInterval(stream.timer); stream.response.end(); }
+      server.closeIdleConnections();
+      const deadline = setTimeout(() => {
+        server.closeAllConnections();
+        for (const { child } of children) child.kill('SIGKILL');
+      }, 9000);
+      const exits = [...children].map(({ child }) => new Promise(resolveExit => { child.once('exit', resolveExit); child.kill('SIGTERM'); }));
+      try { await Promise.all([httpClosed, ...exits]); }
+      finally { clearTimeout(deadline); queue.close(); }
+    })();
+    return closePromise;
   }
   return { server, queue, token, url: `http://127.0.0.1:${actualPort}`, close, children };
 }
@@ -236,7 +262,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
   }
   insist((options.workers ?? 3) >= 1, 'VALIDATION', '至少需要一个 Worker。');
   const instance = await startServer(options);
-  console.log(`Faultline 1.0.0 · ${instance.url} · ${options.workers ?? 3} workers · local lab`);
+  console.log(`Faultline ${VERSION} · ${instance.url} · ${options.workers ?? 3} workers · local lab`);
   let stopping = false;
   for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, async () => {
     if (stopping) return;

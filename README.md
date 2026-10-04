@@ -8,7 +8,7 @@
 
 Faultline 是一个可以亲手制造故障的任务执行实验室。真实 Worker 进程会崩溃、停止续租、重复尝试；任务保存在 SQLite 中。实验台展示谁拥有租约、谁提交结果、谁的旧 token 被拒绝，并逐条核对恢复是否正确。
 
-**[交互式真实轨迹回放](https://qiyuhuating.github.io/faultline-lab/)** · [验收证据](docs/VERIFICATION.md) · [架构与取舍](docs/DESIGN.md) · [三分钟演示与简历材料](docs/PORTFOLIO.md)
+**[交互式真实轨迹回放](https://qiyuhuating.github.io/faultline-lab/)** · [验收证据](docs/VERIFICATION.md) · [架构与取舍](docs/DESIGN.md) · [三分钟演示与简历材料](docs/PORTFOLIO.md) · [版本修复记录](docs/CHANGELOG.md)
 
 `Node.js 24` · `SQLite WAL` · `Independent OS processes` · `SSE` · `Zero runtime dependencies`
 
@@ -41,7 +41,7 @@ Ctrl+C 停止，再次启动会保留任务、幂等记录和暂停状态。默�
 
 每次实验都有独立编号、自动验收断言和可下载报告。点击 **追踪** 查看各次 attempt、owner、token、revision、generation 与真实处理结果。
 
-公开页面是**真实记录的回放器**，不会模拟实时执行。记录由 `tools/record-traces.mjs` 调用本机 HTTP 服务并启动独立进程录制；浏览器重新校验事件链后才允许回放。制造新故障请运行本地实验台。
+公开页面是**真实记录的回放器**，不会模拟实时执行。记录由 `tools/record-traces.mjs` 调用本机 HTTP 服务并启动独立进程录制；浏览器重新校验事件链后才允许回放。当前公开轨迹保留 2026-09-30 的原始实验记录，v1.0.1 未为部署重新录制。制造新故障请运行本地实验台。
 
 ## 工程重点
 
@@ -49,7 +49,7 @@ Ctrl+C 停止，再次启动会保留任务、幂等记录和暂停状态。默�
 - **租约与 fencing：** 续租有期限，token 单调递增，取消与过期都会撤销旧提交资格。
 - **持久化幂等：** 请求键与规范化内容指纹一起落盘；同键不同内容返回 409，重启后仍可查询原结果。
 - **原子提交：** 内置结果收据与 succeeded 状态在同一事务中提交；唯一键限制每个任务每轮一张收据。
-- **一致读取：** 实验报告、快照和链导出使用 SQLite 读事务，避免拼接不同数据库版本。
+- **一致读取：** 单任务详情、实验报告、快照和链导出使用 SQLite 读事务，避免拼接不同数据库版本。
 - **故障恢复：** SSE 游标续读、条件请求、读取退避、后台关闭连接；草稿及未确认请求键在当前标签页刷新后恢复。
 - **可信度边界：** 单机开发实验室；执行至少一次；外部副作用需要独立幂等协议；事件链检查一致性，不提供第三方真实性证明。
 
@@ -61,12 +61,12 @@ npm test
 node tools/benchmark.mjs --jobs=500
 ```
 
-核心用例涵盖 240 任务 / 4 进程竞争、实际 SIGKILL 接管、僵尸 Worker 提交、响应丢失、父进程死亡、数据库事务回滚和并发读取。验收结果、远程 CI 与失败后修复记录见 [VERIFICATION.md](docs/VERIFICATION.md)。
+核心用例涵盖 240 任务 / 4 进程竞争、实际 SIGKILL 接管、僵尸 Worker 提交、响应丢失、父进程死亡、数据库事务回滚和并发读取；v1.0.1 新增写锁等待、真实 SQLITE_FULL、停机途中请求与资源清理回归。验收结果、远程 CI 与失败后修复记录见 [VERIFICATION.md](docs/VERIFICATION.md)。
 
 浏览器测试与运行时文件分离：
 
 ```sh
-npm install --prefix tests --ignore-scripts
+npm ci --prefix tests --ignore-scripts
 cd tests
 npx playwright install chromium
 cd ..
@@ -116,6 +116,9 @@ flowchart TD
 | `tools/build-showcase.mjs` | 从公共源文件复制共享模块，避免手写两套断言 |
 | `tools/benchmark.mjs` | 带环境、工作负载和一致性检查的本机微基准 |
 | `tools/verify-evidence.mjs` | 离线复核导出的事件链 |
+| `tools/package.mjs` | 构建源码、测试与静态网页 ZIP，生成文件清单及校验和 |
+| `tools/collect-ci.mjs` | 汇总完整 CI 批次、原始日志与摘要校验通过的工件 |
+| `tests/resilience.test.mjs` | 真实写锁、页配额、读一致性与停机故障回归 |
 | `tests/` | 核心、HTTP、多进程、三浏览器和回放器测试；独立交付 |
 | `docs/` | API、设计、ADR、验收、面试追问和演示材料 |
 
@@ -123,6 +126,6 @@ flowchart TD
 
 本机绑定 `127.0.0.1`。Host / Origin / control-token 保护是本机防护，不是用户身份认证。不要将控制台直接暴露到公网。内置处理器的结果可原子落盘；短信、付款、第三方 API 等任意外部操作不在本项目保证范围内。
 
-保留策略默认 30 天，活跃任务不会被删除；任务上限 10,000、事件按批次裁剪。主机时钟大幅跳变、持续磁盘阻塞和磁盘耗尽不属于已完成的部署验收。详细取舍见 [DESIGN.md](docs/DESIGN.md)。
+保留策略默认 30 天，活跃任务不会被删除；任务上限 10,000、事件按批次裁剪。已验证 SQLite 写锁等待和页配额耗尽；物理磁盘拔出、完整文件系统耗尽、主机时钟大幅跳变与持续磁盘阻塞仍需目标环境验收。详细取舍见 [DESIGN.md](docs/DESIGN.md)。
 
 MIT License。Faultline 使用独立源码、运行目录、数据库、仓库、发布流程与视觉系统。

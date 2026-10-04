@@ -88,3 +88,13 @@ GET `/api/requests/:idempotencyKey` 返回 `{found,result,serverTime}`。found=t
 fault.stallOnce 默认 false，必须为 boolean；首次 generation 的首次执行停止续租，等待超过租约后真实尝试提交。clearFaults=true 会同时清除 failFirst、crashOnce 和 stallOnce。
 
 所有 deadline 与状态判断由本机服务端拥有。展示时前端以 serverTime + performance.now() 的流逝估算时间，避免浏览器本身的 Date.now() 跳变影响呈现。主机时钟异常仍需独立运维策略。
+
+## Storage and shutdown failures (v1.0.1)
+
+| HTTP | Code | Client action |
+| --- | --- | --- |
+| 507 | STORAGE_FULL | Restore capacity, query the original request key, then explicitly retry the same intent if needed |
+| 503 | STORAGE_BUSY | Retry-After: 1; back off reads and query the original write key; no automatic POST replay |
+| 503 | SHUTTING_DOWN | Connection closes; reconnect after restart and resolve the original request key |
+
+A task detail is assembled in one read transaction. Snapshot ETag is a weak hash of observable content; serverTime annotations alone do not invalidate it, while lease renewals, offline changes, metric windows, retention and proof changes do. revision continues to denote the persisted event sequence, not an all-fields snapshot version.

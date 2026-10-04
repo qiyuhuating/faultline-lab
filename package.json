@@ -1,11 +1,13 @@
 {
   "name": "faultline-lab",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "description": "A local, observable task engine for testing retries, idempotency and process-crash recovery.",
   "license": "MIT",
-  "engines": { "node": ">=24.15.0 <25" },
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
   "scripts": {
     "start": "node src/server.mjs",
     "test": "node --test tests/*.test.mjs",

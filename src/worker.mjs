@@ -49,8 +49,12 @@ try {
       if (current.attempt <= definition.fault.failFirst) {
         queue.fail(current.id, id, current.token, { code: 'INJECTED_FAILURE', message: '可控的瞬时失败，用于验证重试策略。' });
       } else {
-        try { queue.complete(current.id, id, current.token, execute(current.kind, definition.text)); }
-        catch (error) { queue.fail(current.id, id, current.token, error); }
+        let result;
+        try { result = execute(current.kind, definition.text); }
+        catch (error) { queue.fail(current.id, id, current.token, error); continue; }
+        // Persistence errors are infrastructure failures. Leave the lease for
+        // expiry/recovery instead of recording a fictitious handler failure.
+        queue.complete(current.id, id, current.token, result);
       }
     } catch (error) {
       console.error(JSON.stringify({ worker: id, code: 'WORKER_LOOP_FAILED', message: error.message }));
@@ -61,9 +65,11 @@ try {
   }
 } finally {
   clearInterval(heartbeat);
-  queue.stopWorker(id);
-  queue.close();
-  // A disconnect listener keeps the IPC channel referenced. Explicitly close it
-  // after cleanup so graceful shutdown does not wait for the forced-kill timer.
-  if (process.connected) process.disconnect();
+  try { queue.stopWorker(id); }
+  catch (error) { console.error(JSON.stringify({ worker: id, code: 'WORKER_STOP_FAILED', message: error.message })); }
+  finally {
+    queue.close();
+    // Explicitly release IPC even if shutdown metadata could not be written.
+    if (process.connected) process.disconnect();
+  }
 }

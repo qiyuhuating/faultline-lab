@@ -89,6 +89,12 @@ Node 的 SQLite 接口为同步调用。所有数据库事务短小，计算交�
 
 Zombie 实验使用真实 Worker 故意停止任务续租，再实际调用 complete；旧提交在数据库边界被拒绝并形成 commit.rejected。Lost response 实验在 request 记录提交后切断 HTTP 响应；客户端通过 `/api/requests/:key` 读取原结果。
 
-公开页只部署静态 showcase。六份记录来自 tools/record-traces.mjs 的真实 HTTP/多进程执行。回放器校验全局链、比对显示事件并复算验收断言。它不拥有后台执行能力，也没有伪造实时 Worker。详见三份 ADR。
+公开页只部署静态 showcase。六份记录来自 tools/record-traces.mjs 的真实 HTTP/多进程执行。回放器校验全局链、比对显示事件并复算验收断言。它不拥有后台执行能力，也没有伪造实时 Worker。详见 ADR 目录。
 
 已完成浏览器回归；下一步只有在测量表明同步查询阻塞时才引入异步存储层。跨机调度、真实身份、多租户和外部消息交付是明确独立的部署目标。
+
+## Storage and lifecycle revision (v1.0.1)
+
+Renewal samples the clock inside its acquired write transaction. Standalone detail uses a read transaction; retention clears report caches. Snapshot weak ETags cover observable content beyond event revision. Computation errors may call fail; persistence errors leave the lease for recovery. Automatic SQLite rollback is detected before another rollback is attempted.
+
+Shutdown immediately stops listening, rejects a body that finishes after shutdown starts and awaits both workers and HTTP before closing SQLite. Failed startup and failed worker-stop metadata have cleanup paths. See [ADR 004](adr/004-storage-and-shutdown.md) for reproduced faults and the nine-second timer's practical limit.

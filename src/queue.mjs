@@ -31,18 +31,28 @@ export class Queue {
     this.clock = clock;
     this.leaseMs = leaseMs;
     this.reportCache = new Map();
-    const meta = this.db.prepare("SELECT name FROM sqlite_master WHERE name='meta'").get();
-    if (meta) {
-      const version = this.db.prepare("SELECT value FROM meta WHERE key='schema_version'").get();
-      if (version?.value !== '1') {
-        this.db.close();
-        throw new Error('Unsupported schema; database left unchanged.');
+    try {
+      const meta = this.db.prepare("SELECT name FROM sqlite_master WHERE name='meta'").get();
+      if (meta) {
+        const version = this.db.prepare("SELECT value FROM meta WHERE key='schema_version'").get();
+        if (version?.value !== '1') throw new Error('Unsupported schema; database left unchanged.');
       }
+      this.db.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
+    } catch (error) {
+      this.db.close();
+      throw error;
     }
-    this.db.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
   }
 
   close() { this.db.close(); }
+
+  rollback(error) {
+    // SQLITE_FULL/IOERR can already have rolled back the entire transaction.
+    // Preserve the original storage error rather than hiding it with ROLLBACK.
+    try { if (this.db.isTransaction) this.db.exec('ROLLBACK'); }
+    catch (rollbackError) { throw new AggregateError([error, rollbackError], 'Transaction and rollback failed.', { cause: error }); }
+    throw error;
+  }
 
   transaction(fn) {
     this.db.exec('BEGIN IMMEDIATE');
@@ -51,13 +61,12 @@ export class Queue {
       this.db.exec('COMMIT');
       return result;
     } catch (error) {
-      this.db.exec('ROLLBACK');
-      throw error;
+      this.rollback(error);
     }
   }
 
   readTransaction(fn) {
-    if (this.reading) return fn();
+    if (this.db.isTransaction) return fn();
     this.db.exec('BEGIN');
     this.reading = true;
     try {
@@ -65,8 +74,7 @@ export class Queue {
       this.db.exec('COMMIT');
       return value;
     } catch (error) {
-      this.db.exec('ROLLBACK');
-      throw error;
+      this.rollback(error);
     } finally { this.reading = false; }
   }
 
@@ -201,10 +209,14 @@ export class Queue {
   }
 
   renew(id, workerId, token) {
-    const now = this.clock();
-    const updated = this.db.prepare(`UPDATE jobs SET lease_until=? WHERE id=? AND state='running'
-      AND lease_owner=? AND lease_token=? AND lease_until>?`).run(now + this.leaseMs, id, workerId, token, now);
-    return updated.changes === 1;
+    return this.transaction(() => {
+      // Waiting for a writer lock may outlast the lease. Check time only after
+      // BEGIN IMMEDIATE has acquired it, just as complete/fail already do.
+      const now = this.clock();
+      const updated = this.db.prepare(`UPDATE jobs SET lease_until=? WHERE id=? AND state='running'
+        AND lease_owner=? AND lease_token=? AND lease_until>?`).run(now + this.leaseMs, id, workerId, token, now);
+      return updated.changes === 1;
+    });
   }
 
   complete(id, workerId, token, result) {
@@ -304,28 +316,30 @@ export class Queue {
   }
 
   detail(id) {
-    const job = serialize(this.raw(id), true);
-    if (!job) throw new DomainError('NOT_FOUND', '任务不存在。', 404);
-    job.attempts = this.db.prepare('SELECT * FROM attempts WHERE job_id=? ORDER BY generation, number').all(id);
-    job.receipts = this.db.prepare('SELECT generation, token, committed_at FROM receipts WHERE job_id=? ORDER BY generation').all(id);
-    job.events = this.events({ jobId: id, limit: 500 });
-    return job;
+    return this.readTransaction(() => {
+      const job = serialize(this.raw(id), true);
+      if (!job) throw new DomainError('NOT_FOUND', '任务不存在。', 404);
+      job.attempts = this.db.prepare('SELECT * FROM attempts WHERE job_id=? ORDER BY generation, number').all(id);
+      job.receipts = this.db.prepare('SELECT generation, token, committed_at FROM receipts WHERE job_id=? ORDER BY generation').all(id);
+      job.events = this.events({ jobId: id, limit: 500 });
+      return job;
+    });
   }
 
   experimentReport(id) {
     return this.readTransaction(() => {
-    const stamp = `${this.metadata('event_seq')}:${Math.floor(this.clock() / 1000)}`;
-    const cached = this.reportCache.get(id);
-    if (cached?.stamp === stamp) return cached.report;
-    const row = this.db.prepare('SELECT * FROM experiments WHERE id=?').get(id);
-    if (!row) throw new DomainError('NOT_FOUND', '实验不存在或已超过保留期限。', 404);
-    const jobIds = JSON.parse(row.job_ids);
-    const jobs = jobIds.map(jobId => this.detail(jobId));
-    const experiment = { id, scenario: row.scenario, createdAt: row.created_at, startSeq: row.start_seq, submissions: row.submissions, jobIds };
-    const report = { experiment, jobs, verdict: evaluateExperiment(experiment, jobs, this.clock()), serverTime: this.clock() };
-    this.reportCache.set(id, { stamp, report });
-    if (this.reportCache.size > 16) this.reportCache.delete(this.reportCache.keys().next().value);
-    return report;
+      const stamp = `${this.metadata('event_seq')}:${Math.floor(this.clock() / 1000)}`;
+      const cached = this.reportCache.get(id);
+      if (cached?.stamp === stamp) return cached.report;
+      const row = this.db.prepare('SELECT * FROM experiments WHERE id=?').get(id);
+      if (!row) throw new DomainError('NOT_FOUND', '实验不存在或已超过保留期限。', 404);
+      const jobIds = JSON.parse(row.job_ids);
+      const jobs = jobIds.map(jobId => this.detail(jobId));
+      const experiment = { id, scenario: row.scenario, createdAt: row.created_at, startSeq: row.start_seq, submissions: row.submissions, jobIds };
+      const report = { experiment, jobs, verdict: evaluateExperiment(experiment, jobs, this.clock()), serverTime: this.clock() };
+      this.reportCache.set(id, { stamp, report });
+      if (this.reportCache.size > 16) this.reportCache.delete(this.reportCache.keys().next().value);
+      return report;
     });
   }
 
@@ -352,53 +366,53 @@ export class Queue {
 
   snapshot({ state = '', before = Number.MAX_SAFE_INTEGER, limit = 40 } = {}) {
     return this.readTransaction(() => {
-    insist(state === '' || STATES.includes(state), 'VALIDATION', '状态筛选无效。');
-    insist(Number.isSafeInteger(before) && before > 0, 'VALIDATION', '分页游标无效。');
-    const rows = state ? this.db.prepare('SELECT * FROM jobs WHERE state=? AND seq<? ORDER BY seq DESC LIMIT ?').all(state, before, limit + 1)
-      : this.db.prepare('SELECT * FROM jobs WHERE seq<? ORDER BY seq DESC LIMIT ?').all(before, limit + 1);
-    const counts = Object.fromEntries(STATES.map(s => [s, 0]));
-    for (const row of this.db.prepare('SELECT state, COUNT(*) n FROM jobs GROUP BY state').all()) counts[row.state] = row.n;
-    const now = this.clock();
-    const workers = this.db.prepare('SELECT * FROM workers ORDER BY last_seen DESC, started_at DESC LIMIT 8').all().map(w => ({ ...w, online: w.phase !== 'stopped' && now - w.last_seen < 3000 }));
-    const recent = this.db.prepare("SELECT COUNT(*) n, AVG(ended_at-started_at) avg FROM attempts WHERE state='succeeded' AND ended_at>?").get(now - 60000);
-    const series = [];
-    const start = Math.floor(now / 10000) * 10000 - 110000;
-    for (let i = 0; i < 12; i++) {
-      const at = start + i * 10000;
-      const sample = this.db.prepare("SELECT COUNT(*) n FROM attempts WHERE state='succeeded' AND ended_at>=? AND ended_at<?").get(at, at + 10000);
-      series.push({ at, completed: sample.n });
-    }
-    const jobs = rows.slice(0, limit).map(row => serialize(row));
-    return {
-      serverTime: now, revision: Number(this.metadata('event_seq')), paused: this.metadata('paused') === 'true',
-      jobs, counts, workers, nextBefore: rows.length > limit ? jobs.at(-1).seq : null,
-      metrics: { completedLastMinute: recent.n, averageExecutionMs: Math.round(recent.avg ?? 0), receipts: this.db.prepare('SELECT COUNT(*) n FROM receipts').get().n, deduplicated: this.db.prepare("SELECT COUNT(*) n FROM events WHERE type='request.deduplicated'").get().n },
-      series, events: this.events({ newest: true, limit: 12 }),
-      experiments: this.experiments()
-    };
+      insist(state === '' || STATES.includes(state), 'VALIDATION', '状态筛选无效。');
+      insist(Number.isSafeInteger(before) && before > 0, 'VALIDATION', '分页游标无效。');
+      const rows = state ? this.db.prepare('SELECT * FROM jobs WHERE state=? AND seq<? ORDER BY seq DESC LIMIT ?').all(state, before, limit + 1)
+        : this.db.prepare('SELECT * FROM jobs WHERE seq<? ORDER BY seq DESC LIMIT ?').all(before, limit + 1);
+      const counts = Object.fromEntries(STATES.map(s => [s, 0]));
+      for (const row of this.db.prepare('SELECT state, COUNT(*) n FROM jobs GROUP BY state').all()) counts[row.state] = row.n;
+      const now = this.clock();
+      const workers = this.db.prepare('SELECT * FROM workers ORDER BY last_seen DESC, started_at DESC LIMIT 8').all().map(w => ({ ...w, online: w.phase !== 'stopped' && now - w.last_seen < 3000 }));
+      const recent = this.db.prepare("SELECT COUNT(*) n, AVG(ended_at-started_at) avg FROM attempts WHERE state='succeeded' AND ended_at>?").get(now - 60000);
+      const series = [];
+      const start = Math.floor(now / 10000) * 10000 - 110000;
+      for (let i = 0; i < 12; i++) {
+        const at = start + i * 10000;
+        const sample = this.db.prepare("SELECT COUNT(*) n FROM attempts WHERE state='succeeded' AND ended_at>=? AND ended_at<?").get(at, at + 10000);
+        series.push({ at, completed: sample.n });
+      }
+      const jobs = rows.slice(0, limit).map(row => serialize(row));
+      return {
+        serverTime: now, revision: Number(this.metadata('event_seq')), paused: this.metadata('paused') === 'true',
+        jobs, counts, workers, nextBefore: rows.length > limit ? jobs.at(-1).seq : null,
+        metrics: { completedLastMinute: recent.n, averageExecutionMs: Math.round(recent.avg ?? 0), receipts: this.db.prepare('SELECT COUNT(*) n FROM receipts').get().n, deduplicated: this.db.prepare("SELECT COUNT(*) n FROM events WHERE type='request.deduplicated'").get().n },
+        series, events: this.events({ newest: true, limit: 12 }),
+        experiments: this.experiments()
+      };
     });
   }
 
   evidence() {
     return this.readTransaction(() => {
-    const events = this.events({ limit: 60000 });
-    const anchor = this.metadata('event_anchor');
-    let previousHash = anchor;
-    let previousSeq = null;
-    let valid = true;
-    for (const event of events) {
-      const expected = digest(canonical({ seq: event.seq, jobId: event.jobId, type: event.type, at: event.at, data: event.data, previousHash: event.previousHash }));
-      if (event.previousHash !== previousHash || event.hash !== expected || (previousSeq !== null && event.seq !== previousSeq + 1)) valid = false;
-      previousHash = event.hash;
-      previousSeq = event.seq;
-    }
-    if (events.length && previousSeq !== Number(this.metadata('event_seq'))) valid = false;
-    return { format: 'faultline-evidence-v1', generatedAt: this.clock(), integrity: { valid, count: events.length, anchor, head: previousHash }, events };
+      const events = this.events({ limit: 60000 });
+      const anchor = this.metadata('event_anchor');
+      let previousHash = anchor;
+      let previousSeq = null;
+      let valid = true;
+      for (const event of events) {
+        const expected = digest(canonical({ seq: event.seq, jobId: event.jobId, type: event.type, at: event.at, data: event.data, previousHash: event.previousHash }));
+        if (event.previousHash !== previousHash || event.hash !== expected || (previousSeq !== null && event.seq !== previousSeq + 1)) valid = false;
+        previousHash = event.hash;
+        previousSeq = event.seq;
+      }
+      if (events.length && previousSeq !== Number(this.metadata('event_seq'))) valid = false;
+      return { format: 'faultline-evidence-v1', generatedAt: this.clock(), integrity: { valid, count: events.length, anchor, head: previousHash }, events };
     });
   }
 
   prune({ days = 30, maxEvents = 50000 } = {}) {
-    return this.transaction(() => {
+    const result = this.transaction(() => {
       const cutoff = this.clock() - days * 86400000;
       const removed = this.db.prepare("DELETE FROM jobs WHERE id IN (SELECT id FROM jobs WHERE state IN ('succeeded','dead','cancelled') AND completed_at<? LIMIT 500)").run(cutoff).changes;
       this.db.prepare('DELETE FROM requests WHERE created_at<?').run(cutoff);
@@ -418,5 +432,7 @@ export class Queue {
       }
       return { removedJobs: removed, removedEvents };
     });
+    this.reportCache.clear();
+    return result;
   }
 }

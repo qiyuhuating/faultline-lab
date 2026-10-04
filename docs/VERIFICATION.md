@@ -1,6 +1,6 @@
-# Faultline v1.0.0 — verification record
+# Faultline v1.0.1 — verification record
 
-Updated 2026-10-01. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+Updated 2026-10-04. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
 
 ## Completed acceptance gates
 
@@ -21,9 +21,9 @@ Updated 2026-10-01. Evidence includes local engine tests and actual GitHub Actio
 | Public trace player | Three browsers: six verified traces, frame playback, stale commit, mobile layout and tamper stops playback | PASS |
 | Source-only distribution | Extracted frontend/backend source starts without tests and recovers an actual SIGKILL experiment | PASS |
 
-**Core: 48 tests passed, 0 failed, 0 skipped.** Latest local TAP is `tests/evidence/batch-02/core-run-final.tap`. Runtime: Node 24.19.0, SQLite 3.53.3, Linux x64. Reproduce with `node --test tests/*.test.mjs`.
+**Core: 61 tests passed, 0 failed, 0 skipped.** Latest local TAP is `tests/evidence/batch-05/core-final.tap`. Runtime: Node 24.19.0, SQLite 3.53.3, Linux x64. Reproduce with `node --test tests/*.test.mjs`.
 
-**Browsers: 19 checks per browser × 3 = 57 passed checks.** Each browser ran 13 live-dashboard checks and six public-player checks. Chromium, Firefox and WebKit all passed in [verification run 36722199184](https://github.com/qiyuhuating/faultline-lab/actions/runs/36722199184), at commit `a98a9ee4bc4c6d9060e8bf88301f0ac8bfdaaf45`. Its core job passed too. Exact JSON results, runtime dependency locks and desktop/mobile PNGs are in the independent test ZIP. Final release automation requires its own verified commit to pass the same workflow again.
+**Browser baseline: 19 checks per browser × 3 = 57 passed checks.** Each browser ran 13 live-dashboard checks and six public-player checks. Chromium, Firefox and WebKit all passed in [verification run 36722199184](https://github.com/qiyuhuating/faultline-lab/actions/runs/36722199184), at commit `a98a9ee4bc4c6d9060e8bf88301f0ac8bfdaaf45`. Its core job passed too. Exact JSON results, runtime dependency locks and desktop/mobile PNGs are in the independent test ZIP. Final release automation requires its own verified commit to pass the same workflow again.
 
 The live public page was deployed by [Pages run 36722505389](https://github.com/qiyuhuating/faultline-lab/actions/runs/36722505389) and inspected after deployment. It loads 45 recorded events, verifies their chain in WebCrypto and shows six experiments. `docs/media/` contains actual browser captures.
 
@@ -59,4 +59,12 @@ Original result: `docs/benchmarks/local-2026-09-30.json`. CI reruns retain their
 
 ## Practical scope
 
-The local control token is not account authentication. Internal receipts have a transactional guarantee; arbitrary external effects do not have an exactly-once guarantee. A database administrator can recompute the event chain. Distributed HA, tenant isolation, host clock jumps, disk-full injection and a production deployment are outside this release's acceptance scope.
+The local control token is not account authentication. Internal receipts have a transactional guarantee; arbitrary external effects do not have an exactly-once guarantee. A database administrator can recompute the event chain. Distributed HA, tenant isolation, host clock jumps, physical filesystem-full injection and a production deployment are outside this release's acceptance scope.
+
+## v1.0.1 destructive regression
+
+Thirteen new tests pass locally: real writer lock spanning lease expiry; native SQLITE_FULL and recovery; consistent standalone detail; cache invalidation after pruning; conditional reads for offline/retention; concurrent shutdown; a body finishing during shutdown; port-binding cleanup; worker commit failure; HTTP storage-full and storage-busy responses; worker-stop cleanup failure. The release gate reruns 61 core tests and the three-browser suites on its exact commit.
+
+Batch 05 keeps failures and successful reruns together. before-fix.tap and after-fix-partial.tap are incomplete early captures with no suite summary, not accepted test runs. before-worker-fix.tap independently reproduces the erroneous business retry; core-final.tap is the complete passing 61-test run. The machine-readable reproduction index states completeness explicitly. Native page exhaustion verifies SQLite capacity handling, not a complete filesystem or hardware failure.
+
+The collector now retains original job logs and checks artifact SHA-256 digests, paginates beyond 100 runs and verifies the requested release commit against its successful run. The initial v1.0.0 CI core.tap contains the default human-readable reporter despite its extension; v1.0.1 explicitly selects TAP. Earlier raw local TAP and original CI logs remain available as recorded.

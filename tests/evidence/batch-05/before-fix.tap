@@ -1,0 +1,206 @@
+TAP version 13
+# Subtest: a real SQLite writer lock cannot renew a lease that expires while waiting
+not ok 1 - a real SQLite writer lock cannot renew a lease that expires while waiting
+  ---
+  duration_ms: 1678.556979
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:46:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The clock must be sampled after acquiring the writer lock.
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:58:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+not ok 2 - SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+  ---
+  duration_ms: 6.377762
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:64:1'
+  failureType: 'testCodeFailure'
+  error: 'Actual SQLITE_FULL must not become a secondary ROLLBACK error.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:70:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)
+  ...
+# Subtest: a standalone task detail cannot splice running state with a concurrently committed receipt
+not ok 3 - a standalone task detail cannot splice running state with a concurrently committed receipt
+  ---
+  duration_ms: 4.293188
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:80:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'succeeded'
+    - 'running'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'running'
+  actual: 'succeeded'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:95:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: pruning invalidates a cached experiment even in the same clock bucket
+not ok 4 - pruning invalidates a cached experiment even in the same clock bucket
+  ---
+  duration_ms: 5.611828
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:100:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected exception.'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:109:10)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1382:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+    Test.postRun (node:internal/test_runner/test:1522:19)
+    Test.run (node:internal/test_runner/test:1447:12)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: conditional snapshots observe workers going offline without a new event
+not ok 5 - conditional snapshots observe workers going offline without a new event
+  ---
+  duration_ms: 53.171584
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:112:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    304 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 304
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:122:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: conditional snapshots observe retention without an appended event
+not ok 6 - conditional snapshots observe retention without an appended event
+  ---
+  duration_ms: 14.061579
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:126:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    304 !== 200
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 200
+  actual: 304
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:140:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: concurrent close calls await the same completed shutdown
+not ok 7 - concurrent close calls await the same completed shutdown
+  ---
+  duration_ms: 4.065486
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:144:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    A second caller must not report success before draining completes.
+    + actual - expected
+    
+      Promise {
+    +   <pending>,
+    +   Symbol(async_id_symbol): 1208,
+    -   Symbol(async_id_symbol): 1218,
+        Symbol(trigger_async_id_symbol): 1172,
+    -   undefined
+      }
+    
+  code: 'ERR_TEST_FAILURE'
+  ...
+# Subtest: a request whose body finishes during shutdown is rejected without a durable write
+not ok 8 - a request whose body finishes during shutdown is rejected without a durable write
+  ---
+  duration_ms: 10.169153
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:151:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    201 !== 503
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 503
+  actual: 201
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:165:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
+# Subtest: failed port binding closes the real SQLite file handles
+not ok 9 - failed port binding closes the real SQLite file handles
+  ---
+  duration_ms: 3.422172
+  type: 'test'
+  location: '/workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:173:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    3 !== 0
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 0
+  actual: 3
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///workspace/scratch/f5f176fc7345/faultline/tests/resilience.test.mjs:183:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1389:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:960:7)
+  ...
