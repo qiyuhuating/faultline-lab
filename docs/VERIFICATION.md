@@ -1,6 +1,14 @@
-# Faultline v1.0.1 — verification record
+# Faultline v1.1.0 — verification record
 
 Updated 2026-10-04. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+
+## v1.1.0 architecture and type acceptance
+
+The entire 17-module backend passes TypeScript 5.9.3 strict compilation. Twelve compile-only negative cases require rejection of ownerless/deadlineless running jobs, missing successful results, live leases in successful state, unreduced owners, incorrect write outcome fields, cancel/replay option confusion and invalid API commands. Removing an expected rejection fails compilation.
+
+The AST gate checks dependency directions, runtime cycles, explicit any, type-check suppression, SQL-free Queue and centralized transaction control. Queue is 151 lines / 5,125 bytes; the largest extracted queue service is 6,472 bytes. Four new runtime tests prove the frozen v1.0.1 schema remains readable, an audit error rolls back receipt/state/attempt together, an experiment error rolls back nested deduplication and job creation, and invalid persisted leases are rejected without rewriting records. Full local TAP is `tests/evidence/batch-06/core-final.tap`: **65 passed, zero failed/skipped**.
+
+CI reruns compiler, architecture, compile contracts, formatting, all core tests and 19 checks in each of three browsers on the exact publishing commit. The release extracts source without the independent test set, checks that source separately and runs a real process-crash recovery. CI logs and artifacts are collected with all prior batches by the release job. Original v1.0.1 results below remain as historical evidence.
 
 ## Completed acceptance gates
 

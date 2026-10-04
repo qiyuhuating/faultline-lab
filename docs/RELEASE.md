@@ -1,21 +1,19 @@
-v1.0.1 fixes storage and shutdown boundaries found by real destructive regression. Existing v1.0.0 databases remain compatible; the previous release is preserved.
+v1.1.0 makes the reliable engine easier to maintain: Queue is now a 5.1 KB composition facade (down from 24.7 KB), and the entire backend is strict TypeScript.
 
-New acceptance covers leases expiring behind an actual writer lock, native SQLITE_FULL recovery, consistent task details, cache invalidation, observable-content ETags, storage error codes, shutdown writes and process/file-handle cleanup. The test ZIP adds all original CI job logs and digest-verified artifacts from completed batches.
+Job persistence, transaction ownership, leases, experiments, event chaining, idempotent requests, queries, worker metadata and retention have explicit owners. All still share one connection and transaction boundary. Job state and write outcomes use discriminated unions; 12 negative compile contracts and an AST architecture gate guard future changes. Runtime database records remain validated separately.
 
-Faultline makes failure recovery visible: a real multi-process task engine plus an interactive, chain-verified trace player. This project is independent of yihe-health.
+Acceptance: 65 core tests plus 57 browser checks across Chromium, Firefox and WebKit; strict compilation, type contracts and formatting also pass before publication. Four new regressions cover v1.0.1 database compatibility, audit failure after receipt/state mutation, nested experiment rollback and invalid persisted leases. Original fault tests, older releases and historical evidence remain intact. See docs/VERIFICATION.md and ADR 005.
 
-**Try the public replay:** https://qiyuhuating.github.io/faultline-lab/
+**Try the public recorded replay:** https://qiyuhuating.github.io/faultline-lab/
 
-The local application runs actual workers against SQLite WAL. Experiments cover SIGKILL recovery, bounded retries, durable deduplication, dead-letter replay, a stale worker actually attempting to commit, and an HTTP response deliberately lost after a durable write. The public page replays recorded evidence and labels it as recorded.
+The local application runs real independent workers against SQLite WAL. The public page replays labeled original evidence. Faultline is independent of yihe-health.
 
-Acceptance: 61 core tests plus 57 browser checks across Chromium, Firefox and WebKit. This release is created only after its exact commit passes verification; the independent test ZIP preserves completed verification batches, including earlier failed runs. See docs/VERIFICATION.md for scope, failure history and screenshot-harness details.
+Assets have distinct purposes:
 
-Choose the appropriate asset:
+- **faultline-source-v1.1.0.zip** — frontend and typed backend source, locked development tools, API/design/ADR documentation, real screenshots and resume/interview material. No test set. Node 24.15+ (24.x): run `npm start` without installing dependencies. For compiler/architecture checks, `npm ci --ignore-scripts && npm run check`.
+- **faultline-tests-v1.1.0.zip** — core, HTTP, multi-process, three-browser and compile-only contract tests, plus all collected historical test batches together. Extract alongside source to merge `faultline/tests/`. Run `npm test`; install locked development tools for `npm run test:types`.
+- **faultline-web-v1.1.0.zip** — seven deployable static replay files only. No backend, compiler or test set.
+- **SHA256SUMS.txt** — SHA-256 archive checksums.
+- **manifest.json** — the exact verified commit and per-package file inventory.
 
-- **faultline-source-v1.0.1.zip** — frontend and backend source, design decisions, API documentation, actual screenshots and resume/interview material. Contains no test set. Requires Node 24.x; run `npm start`.
-- **faultline-tests-v1.0.1.zip** — test code, locked browser dependency and all collected test batches together. Extract alongside the source ZIP to merge `faultline/tests/`; run `npm test`.
-- **faultline-web-v1.0.1.zip** — only the seven static player files, ready for static hosting. No backend or test set.
-- **SHA256SUMS.txt** — archive checksums.
-- **manifest.json** — exact verified commit and per-package file inventory.
-
-Runtime dependencies: none. License: MIT. The transactional receipt guarantee applies to internal results, not arbitrary external side effects. Resume wording and a three-minute presentation are in docs/PORTFOLIO.md; technical discussion exercises are in docs/INTERVIEW.md.
+No runtime package dependencies. MIT License. Internal result receipts are atomic with successful state; arbitrary external side effects are outside this guarantee.

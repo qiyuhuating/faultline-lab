@@ -10,7 +10,7 @@ Faultline 是一个可以亲手制造故障的任务执行实验室。真实 Wor
 
 **[交互式真实轨迹回放](https://qiyuhuating.github.io/faultline-lab/)** · [验收证据](docs/VERIFICATION.md) · [架构与取舍](docs/DESIGN.md) · [三分钟演示与简历材料](docs/PORTFOLIO.md) · [版本修复记录](docs/CHANGELOG.md)
 
-`Node.js 24` · `SQLite WAL` · `Independent OS processes` · `SSE` · `Zero runtime dependencies`
+`TypeScript strict` · `Node.js 24` · `SQLite WAL` · `Independent OS processes` · `SSE` · `Zero runtime dependencies`
 
 ## 30 秒启动
 
@@ -41,7 +41,7 @@ Ctrl+C 停止，再次启动会保留任务、幂等记录和暂停状态。默�
 
 每次实验都有独立编号、自动验收断言和可下载报告。点击 **追踪** 查看各次 attempt、owner、token、revision、generation 与真实处理结果。
 
-公开页面是**真实记录的回放器**，不会模拟实时执行。记录由 `tools/record-traces.mjs` 调用本机 HTTP 服务并启动独立进程录制；浏览器重新校验事件链后才允许回放。当前公开轨迹保留 2026-09-30 的原始实验记录，v1.0.1 未为部署重新录制。制造新故障请运行本地实验台。
+公开页面是**真实记录的回放器**，不会模拟实时执行。记录由 `tools/record-traces.mjs` 调用本机 HTTP 服务并启动独立进程录制；浏览器重新校验事件链后才允许回放。当前公开轨迹保留 2026-09-30 的原始实验记录，v1.1.0 未为部署重新录制。制造新故障请运行本地实验台。
 
 ## 工程重点
 
@@ -55,8 +55,13 @@ Ctrl+C 停止，再次启动会保留任务、幂等记录和暂停状态。默�
 
 ## 验证
 
+运行核心故障测试不需要安装依赖。开发阶段安装锁定的编译器与类型定义，再执行静态检查和类型契约验收：
+
 ```sh
+npm ci --ignore-scripts
 npm run check
+npm run test:types
+npm run format:check
 npm test
 node tools/benchmark.mjs --jobs=500
 ```
@@ -87,6 +92,9 @@ node tools/build-showcase.mjs
 
 ## 架构
 
+v1.1.0 将原先 24,679 字节的 Queue 拆成 5,125 字节的组合入口。后端全部进入严格 TypeScript；前端和共享验收算法仍是原生 ESM。运行依靠 Node 24 的原生类型擦除；发布验收独立执行 `tsc`，因为运行时擦除不会检查类型。详见 [ADR 005](docs/adr/005-typed-domain-and-service-boundaries.md)。数据库 schema 和 HTTP 路径保持 v1 兼容。
+
+
 ```mermaid
 flowchart TD
   UI["Local control room / SSE"] --> API["Local HTTP API"]
@@ -101,12 +109,24 @@ flowchart TD
 
 | 文件或目录 | 负责什么 |
 | --- | --- |
-| `src/queue.mjs` | 事务、幂等、租约、状态流转、收据、读快照及保留策略 |
+| `src/queue.ts` | 151 行组合入口，共享连接并转发稳定 API；不包含 SQL 或业务状态规则 |
+| `src/domain/` | 状态判别联合、租约/提交结果契约和持久化记录的生命周期检查 |
+| `src/storage/sqlite-store.ts` | SQLite 连接、写事务、可复用读事务与错误回滚的唯一拥有者 |
+| `src/storage/job-repository.ts` | 作业与 attempt/receipt 的持久化操作，不判断时钟、权限或重试策略 |
+| `src/services/job-service.ts` | 提交、revision 冲突、取消/重放与暂停业务规则 |
+| `src/services/lease-service.ts` | 领取、续租、过期、退避与 fenced 原子结果提交 |
+| `src/services/experiment-service.ts` | 可复现实验编排，复用同一提交和幂等原语 |
+| `src/services/event-ledger.ts` | 追加事件、事件分页与一致性链导出 |
+| `src/services/request-store.ts` | 持久化请求指纹、幂等结果与未知写入查询 |
+| `src/services/query-service.ts` | 一致快照、任务详情、指标、实验报告及有界缓存 |
+| `src/services/worker-registry.ts` | Worker 注册、心跳及停止记录 |
+| `src/services/retention-service.ts` | 分批保留清理、链锚点推进和报告缓存失效 |
+| `src/*.mjs` | 旧路径兼容入口，转入唯一的 TypeScript 实现 |
 | `src/schema.sql` | 数据库约束与任务、尝试、请求、事件和实验表 |
-| `src/worker.mjs` | 独立进程执行、心跳、真实崩溃与停止续租实验 |
-| `src/server.mjs` | 本机 HTTP 边界、请求解析、SSE 和 Worker 监督 |
-| `src/validation.mjs` | 输入契约、机器错误、规范化内容指纹 |
-| `src/handlers.mjs` | 真实文本摘要与有限数值汇总 |
+| `src/worker.ts` | 独立进程执行、心跳、真实崩溃与停止续租实验 |
+| `src/server.ts` | 本机 HTTP 边界、请求解析、SSE 和 Worker 监督 |
+| `src/validation.ts` | 输入契约、机器错误、规范化内容指纹 |
+| `src/handlers.ts` | 真实文本摘要与有限数值汇总 |
 | `public/app.mjs` | 实时控制台、增量渲染、草稿与未知写入结果恢复 |
 | `public/proof.mjs` | 服务端和回放器共用的无副作用验收断言 |
 | `public/evidence.mjs` | CLI 和浏览器共用的事件链校验算法 |
@@ -116,6 +136,8 @@ flowchart TD
 | `tools/build-showcase.mjs` | 从公共源文件复制共享模块，避免手写两套断言 |
 | `tools/benchmark.mjs` | 带环境、工作负载和一致性检查的本机微基准 |
 | `tools/verify-evidence.mjs` | 离线复核导出的事件链 |
+| `tools/check-architecture.mjs` | 编译器 AST 检查分层、运行时循环、事务拥有者和显式 any |
+| `tests/types/` | 编译器必须拒绝的非法状态、命令与提交结果，随测试 ZIP 独立交付 |
 | `tools/package.mjs` | 构建源码、测试与静态网页 ZIP，生成文件清单及校验和 |
 | `tools/collect-ci.mjs` | 汇总完整 CI 批次、原始日志与摘要校验通过的工件 |
 | `tests/resilience.test.mjs` | 真实写锁、页配额、读一致性与停机故障回归 |

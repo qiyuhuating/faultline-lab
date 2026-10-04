@@ -22,7 +22,7 @@
 
 ## 建议的学习顺序
 
-先看 schema.sql 和 validation.mjs，再读 queue.mjs 的 submit → claim → complete/expire。随后阅读 worker.mjs 与 server.mjs 的进程退出流程。最后对照测试逐条运行故障实验。
+先看 schema.sql、domain/types.ts 和 validation.ts，再从 queue.ts 定位 JobService、LeaseService 与 SqliteStore。沿 submit → claim → complete/expire 追踪事务，再阅读 worker.ts 与 server.ts 的进程退出流程。最后对照测试逐条运行故障实验。
 
 不要背诵术语来替代实验：暂停队列再提交；同时打开两个页面处置；观察故障进程 PID；导出并修改一条事件后运行验证工具。把结果及自己的修复记录写到独立笔记。
 
@@ -34,3 +34,11 @@
 - **为什么 close 必须等到结束才算完成？** 调用方可能随即删除目录或重启服务。提前返回会让它与仍运行的 HTTP 请求、Worker 和数据库争抢资源。
 
 运行 tests/resilience.test.mjs，亲眼观察真实锁等待和 SQLITE_FULL；阅读 batch-05 的修复前记录，再解释每条修复如何改变行为。
+
+## v1.1.0：类型与拆分追问
+
+1. 如果 succeeded 的结果允许 null，哪条负向编译测试会失败？为什么类型擦除不会阻止它？
+2. 为何 LeaseService 不自己开第二个数据库连接？审计追加失败后哪些表必须回滚？
+3. SQL 查询的泛型返回类型是否等价于运行时验证？如何测试数据库里 owner 丢失的 running 记录？
+4. 试着从 storage 导入一个服务，或在 Queue 加入 SQL。哪道验收应该拒绝？
+5. 取消、重放、租约 token、revision 与 generation 分别解决什么问题？哪些判别联合能防止错误，哪些仍须数据库原子性保证？

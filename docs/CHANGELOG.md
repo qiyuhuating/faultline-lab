@@ -1,5 +1,15 @@
 # Release history
 
+## v1.1.0 — 2026-10-04
+
+- Split the 24,679-byte Queue into a 5,125-byte composition facade, persistence-only job repository, single transaction owner and focused job/lease/experiment/audit/query/retention services.
+- Type-check the entire backend with strict TypeScript and discriminated job, outcome and transition contracts; run natively on Node 24 with no runtime package dependencies.
+- Enforce dependency layers, acyclic runtime imports, no explicit any/type suppression and centralized transaction control via the TypeScript AST.
+- Add 12 negative compile contracts and four behavioral regressions for legacy schema compatibility, cross-service audit rollback, nested experiment rollback and invalid persisted lease handling.
+- Keep v1 database and HTTP contracts plus `.mjs` entry points compatible. Preserve all old test batches and separate source, test and static web archives.
+
+Acceptance: 65 core tests, strict compile/type contracts and 57 browser checks on the exact releasing commit. See ADR 005 for scope and tradeoffs.
+
 ## v1.0.1 — 2026-10-04
 
 Fixes identified by destructive regression, with no database-schema change:

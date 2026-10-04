@@ -46,6 +46,8 @@ jobs:
           unzip -q release-output/faultline-source-*.zip -d /tmp/faultline-package-smoke
           cd /tmp/faultline-package-smoke/faultline
           node tools/check.mjs
+          npm ci --ignore-scripts
+          npm run check
           node --input-type=module <<'NODE'
           import assert from 'node:assert/strict';
           import { setTimeout as sleep } from 'node:timers/promises';

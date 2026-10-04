@@ -10,7 +10,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - run: npm ci --ignore-scripts
       - run: npm run check
+      - name: State-contract compile tests and formatting
+        run: |
+          mkdir -p test-results/core
+          set -o pipefail
+          npm run test:types | tee test-results/core/type-contracts.log
+          npm run format:check | tee test-results/core/format.log
+      - run: cp package-lock.json test-results/core/type-dependency-lock.json
       - name: Core tests with retained raw evidence
         run: |
           set -o pipefail

@@ -1,0 +1,5 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> faultline-lab@1.1.0 test:types
+> tsc -p tests/tsconfig.json
+
