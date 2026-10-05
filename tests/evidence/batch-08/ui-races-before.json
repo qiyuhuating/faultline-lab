@@ -1,0 +1,14 @@
+{
+  "reportRace": {
+    "requests": 3,
+    "passBefore": 6,
+    "pendingAfter": 1,
+    "observed": "A delayed earlier report replaces a newer passing report for the same experiment."
+  },
+  "keyboardFocus": {
+    "tag": "BODY",
+    "id": "",
+    "frame": "1",
+    "observed": "Keyboard selecting an event destroys the focused button and sends focus to BODY."
+  }
+}

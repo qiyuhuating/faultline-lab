@@ -1,0 +1,9 @@
+{
+  "browser": "chromium",
+  "checks": [
+    "partial bootstrap body times out and reconnects without reload",
+    "partial snapshot body releases the read lock and recovers",
+    "partial committed POST is confirmed by request key without a duplicate write"
+  ],
+  "passed": 3
+}

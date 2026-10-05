@@ -1,6 +1,6 @@
 {
   "name": "faultline-lab",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "type": "module",
   "description": "A local, observable task engine for testing retries, idempotency and process-crash recovery.",
@@ -14,8 +14,8 @@
     "benchmark": "node tools/benchmark.mjs",
     "check": "node tools/check.mjs && tsc -p tsconfig.json && node tools/check-architecture.mjs",
     "test:types": "tsc -p tests/tsconfig.json",
-    "format": "prettier --write \"src/**/*.ts\" \"tests/types/*.ts\" \"tools/check-architecture.mjs\" \"tools/doctor.mjs\" \"tools/verify-lab.mjs\" \"tests/model/**/*.mjs\" \"tests/model-runner.mjs\" \"tests/model.test.mjs\" \"tests/diagnostics.test.mjs\" \"tests/verification.test.mjs\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"tests/types/*.ts\" \"tools/check-architecture.mjs\" \"tools/doctor.mjs\" \"tools/verify-lab.mjs\" \"tests/model/**/*.mjs\" \"tests/model-runner.mjs\" \"tests/model.test.mjs\" \"tests/diagnostics.test.mjs\" \"tests/verification.test.mjs\"",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/types/*.ts\" \"tools/check-architecture.mjs\" \"tools/doctor.mjs\" \"tools/verify-lab.mjs\" \"tests/model/**/*.mjs\" \"tests/model-runner.mjs\" \"tests/model.test.mjs\" \"tests/cache.test.mjs\" \"tests/diagnostics.test.mjs\" \"tests/verification.test.mjs\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"tests/types/*.ts\" \"tools/check-architecture.mjs\" \"tools/doctor.mjs\" \"tools/verify-lab.mjs\" \"tests/model/**/*.mjs\" \"tests/model-runner.mjs\" \"tests/model.test.mjs\" \"tests/cache.test.mjs\" \"tests/diagnostics.test.mjs\" \"tests/verification.test.mjs\"",
     "doctor": "node tools/doctor.mjs",
     "verify:lab": "node tools/verify-lab.mjs",
     "test:model": "node tests/model-runner.mjs"

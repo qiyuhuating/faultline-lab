@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
+import { randomUUID } from 'node:crypto';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { startServer } from '../src/server.mjs';
 
@@ -150,6 +151,69 @@ try {
   await page.waitForFunction(() => document.querySelector('#diagnostics-status')?.textContent.includes('所有核对项通过'));
   await page.locator('[data-close="diagnostics-dialog"]').click();
   results.push('semantic corruption is shown as failure and a corrected snapshot recovers');
+
+  instance.queue.setPaused(true, randomUUID());
+  const racedExperiment = instance.queue.experiment('duplicate', randomUUID());
+  const reportPath = `**/api/experiments/${racedExperiment.experimentId}`;
+  let releaseReport, capturedReport;
+  const reportGate = new Promise(resolve => { releaseReport = resolve; });
+  const reportCaptured = new Promise(resolve => { capturedReport = resolve; });
+  let reportReads = 0;
+  await page.route(reportPath, async route => {
+    if (++reportReads !== 1) { await route.continue(); return; }
+    const response = await route.fetch();
+    const oldReport = await response.json();
+    assert.equal(oldReport.verdict.status, 'running');
+    capturedReport();
+    await reportGate;
+    await route.fulfill({ response, headers: { ...response.headers(), 'X-Delayed-Report': '1' }, body: JSON.stringify(oldReport) });
+  });
+  const racedReport = page.locator(`[data-experiment-id="${racedExperiment.experimentId}"]`);
+  await racedReport.waitFor();
+  await racedReport.click();
+  await reportCaptured;
+  await page.locator('[data-close="report-dialog"]').click();
+  instance.queue.setPaused(false, randomUUID());
+  await page.waitForFunction(id => document.querySelector(`[data-experiment-id="${id}"]`)?.textContent.includes('PASS'), racedExperiment.experimentId);
+  await racedReport.click();
+  await page.waitForFunction(() => document.querySelector('#report-content .proof-check.pass') && !document.querySelector('#report-content .proof-check.pending'));
+  const freshReportContent = await page.locator('#report-content').textContent();
+  const delayedReport = page.waitForResponse(response => response.headers()['x-delayed-report'] === '1');
+  releaseReport();
+  await (await delayedReport).finished();
+  await sleep(100);
+  assert.equal(await page.locator('#report-content').textContent(), freshReportContent);
+  await page.unroute(reportPath);
+  await page.locator('[data-close="report-dialog"]').click();
+  results.push('reopening the same report ignores an earlier delayed pending response');
+
+  const racedJobId = racedExperiment.jobIds[0];
+  const detailPath = `**/api/jobs/${racedJobId}`;
+  let releaseDetail, capturedDetail;
+  const detailGate = new Promise(resolve => { releaseDetail = resolve; });
+  const detailCaptured = new Promise(resolve => { capturedDetail = resolve; });
+  let detailReads = 0;
+  await page.route(detailPath, async route => {
+    if (++detailReads !== 1) { await route.continue(); return; }
+    capturedDetail();
+    await detailGate;
+    await route.fulfill({ status: 503, contentType: 'application/json', headers: { 'X-Delayed-Detail': '1' }, body: JSON.stringify({ error: { message: 'obsolete detail request failed' } }) });
+  });
+  const racedJob = page.locator(`[data-job-id="${racedJobId}"] button`);
+  await racedJob.click();
+  await detailCaptured;
+  await page.locator('[data-close="detail-dialog"]').click();
+  await racedJob.click();
+  await page.waitForFunction(() => document.querySelector('#detail-content .state-badge')?.textContent === '已成功');
+  const delayedDetail = page.waitForResponse(response => response.headers()['x-delayed-detail'] === '1');
+  releaseDetail();
+  await (await delayedDetail).finished();
+  await sleep(100);
+  assert.doesNotMatch(await page.locator('#toast').textContent(), /obsolete detail request failed/);
+  assert.equal(await page.locator('#detail-content .state-badge').textContent(), '已成功');
+  await page.unroute(detailPath);
+  await page.locator('[data-close="detail-dialog"]').click();
+  results.push('a delayed failure from a closed detail request cannot overwrite the reopened view');
 
   assert.deepEqual(exceptions, []);
   assert.deepEqual(securityErrors, []);

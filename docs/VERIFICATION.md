@@ -1,6 +1,32 @@
-# Faultline v1.2.0 — verification record
+# Faultline v1.2.1 — verification record
 
-Updated 2026-10-04. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+Updated 2026-10-05. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+
+## v1.2.1 report correctness, browser recovery and Windows acceptance
+
+The regressions in `tests/evidence/batch-08/` reproduce false report results after cross-connection retention, renewals, receipt loss and an outer transaction rollback. Report caching now combines the connection's data version, local change count, event head and observation time; calls already inside a transaction bypass the shared cache. Two rollback regressions cover both false pass and false failure.
+
+Doctor reads persisted jobs through the same lifecycle serializer as the application and verifies attempt numbering against the current counter, including retained generations. Valid JSON with an invalid priority or malformed last error is a failure. Missing attempts and future generations are failures. Canceled or replayed work that legitimately had no claim remains valid. Sample diagnostics contain IDs rather than job text or error contents.
+
+Portable experiment proof checks exact expected job identity and the relationship between state, current generation and receipt token. Six original public recordings still pass. A Windows crash requires a matching, ordered crash-request event and an actual controller-observed `exit:1`; an exit code alone is insufficient. Linux and old recordings retain their observed `signal:SIGKILL` contract. The database chain still checks consistency, not administrator-resistant authenticity.
+
+Real HTTP tests serve headers and a partial JSON body that never completes. Bootstrap and snapshots must time out and recover; a committed POST must be confirmed through its request key, with exactly one POST, one lookup and one persisted task. Delayed responses must not replace a newer report or display obsolete detail errors after reopening the same ID. Static event navigation must retain focus for repeated keyboard interaction.
+
+The local acceptance runtime is Windows x64, Node 24.16.0 and SQLite 3.53.0. The Linux-only descriptor assertion is explicitly skipped on Windows. Both platforms run the core CI gate; each of Chromium, Firefox and WebKit runs live, network and static-player checks. Compiler, negative type contracts, architecture, formatting, independent model and live HTTP gates are retained. The release workflow requires every gate to pass on the exact publishing commit and separately runs the extracted source package.
+
+Local core acceptance is **100 tests: 99 passed, zero failed, one Linux-only descriptor check skipped**. After the complete suite, the final proof/process subset passed all 14 cases, including eight negative Windows crash-evidence variants and eleven receipt/attempt mutations. The three browser engines each passed **18 live + seven player + three network checks = 28**, for **84 checks**. Twelve negative compile contracts, strict compilation, architecture and formatting passed.
+
+The bounded model campaign remains 128 seeds × 256 commands = 32,768 transitions. The real-process campaign retains seven fault scenarios and four supporting checks. Raw local records and exact CI metadata accompany this revision in batch-08 and the independent test archive's `ci-run-NNNN/` directories. Early failures remain labeled; none are counted as passing acceptance.
+
+One final local run finished all 240 jobs with 240 receipts but failed an older one-attempt assertion: workers were competing with the test's synchronous submission setup, allowing a legitimate lease expiry. The corrected test pauses claims while staging its backlog, verifies no job was attempted during setup, then resumes four workers and retains the original one-attempt and unique-receipt assertions. The failed run remains `core-before-staging.tap`; this is a test-workload correction, not a stronger exactly-once execution claim.
+
+Run the additional browser network gate after installing the selected engine:
+
+```sh
+node tests/browser-network.mjs
+```
+
+Windows parent death may terminate worker processes before they update their registry phase. The test checks the real PID has exited and the registry becomes offline, then verifies durable receipts and recovery by a new controller. It does not claim the old phase was cleanly rewritten by an abruptly terminated process.
 
 ## v1.2.0 specification and diagnostic acceptance
 

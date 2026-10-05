@@ -53,9 +53,17 @@ export class QueryService {
   }
 
   experimentReport(id: string): ExperimentReport {
+    // An outer transaction may roll back after this report has been computed.
+    const cacheable = !this.store.db.isTransaction;
     return this.store.readTransaction(() => {
-      const stamp = `${this.store.metadata('event_seq')}:${Math.floor(this.clock() / 1000)}`;
-      const cached = this.reportCache.get(id);
+      const dataVersion = this.store.one<{ data_version: number }>(
+        'PRAGMA data_version',
+      )!.data_version;
+      const changes = this.store.one<{ changes: number }>(
+        'SELECT total_changes() changes',
+      )!.changes;
+      const stamp = `${dataVersion}:${changes}:${this.store.metadata('event_seq')}:${Math.floor(this.clock() / 1000)}`;
+      const cached = cacheable ? this.reportCache.get(id) : undefined;
       if (cached?.stamp === stamp) return cached.report;
       const row = this.store.one<ExperimentRow>('SELECT * FROM experiments WHERE id=?', id);
       if (!row) throw new DomainError('NOT_FOUND', '实验不存在或已超过保留期限。', 404);
@@ -82,9 +90,11 @@ export class QueryService {
         verdict: evaluateExperiment(experiment, jobs, this.clock()),
         serverTime: this.clock(),
       };
-      this.reportCache.set(id, { stamp, report });
-      if (this.reportCache.size > 16)
-        this.reportCache.delete(this.reportCache.keys().next().value!);
+      if (cacheable) {
+        this.reportCache.set(id, { stamp, report });
+        if (this.reportCache.size > 16)
+          this.reportCache.delete(this.reportCache.keys().next().value!);
+      }
       return report;
     });
   }

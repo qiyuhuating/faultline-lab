@@ -1,0 +1,8 @@
+{"parent":32540,"worker":{"id":"worker-1-38a103b7","slot":1,"pid":33564,"phase":"idle","job_id":null,"started_at":1791126310306,"last_seen":1791126310306,"online":true}}
+Parent exit: [ null, 'SIGKILL' ]
+{"elapsed":1,"alive":false,"worker":{"id":"worker-1-38a103b7","slot":1,"pid":33564,"phase":"idle","job_id":null,"started_at":1791126310306,"last_seen":1791126310306,"online":true}}
+{"elapsed":2,"alive":false,"worker":{"id":"worker-1-38a103b7","slot":1,"pid":33564,"phase":"idle","job_id":null,"started_at":1791126310306,"last_seen":1791126310306,"online":true}}
+{"elapsed":3,"alive":false,"worker":{"id":"worker-1-38a103b7","slot":1,"pid":33564,"phase":"idle","job_id":null,"started_at":1791126310306,"last_seen":1791126310306,"online":false}}
+{"elapsed":4,"alive":false,"worker":{"id":"worker-1-38a103b7","slot":1,"pid":33564,"phase":"idle","job_id":null,"started_at":1791126310306,"last_seen":1791126310306,"online":false}}
+{"elapsed":5,"alive":false,"worker":{"id":"worker-1-38a103b7","slot":1,"pid":33564,"phase":"idle","job_id":null,"started_at":1791126310306,"last_seen":1791126310306,"online":false}}
+{"elapsed":6,"alive":false,"worker":{"id":"worker-1-38a103b7","slot":1,"pid":33564,"phase":"idle","job_id":null,"started_at":1791126310306,"last_seen":1791126310306,"online":false}}

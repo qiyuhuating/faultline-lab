@@ -1,8 +1,9 @@
 import type { SQLInputValue } from 'node:sqlite';
-import type { Clock, JsonObject } from '../domain/types.ts';
+import type { Clock, JsonObject, JobRow } from '../domain/types.ts';
 import type { SqliteStore } from '../storage/sqlite-store.ts';
 import type { EventLedger } from './event-ledger.ts';
 import { errorMessage } from '../validation.ts';
+import { serialize } from '../domain/job.ts';
 
 export interface DiagnosticCheck {
   id: string;
@@ -100,15 +101,30 @@ export class DiagnosticsService {
         '成功尝试没有遗失收据',
         `SELECT a.job_id id FROM attempts a LEFT JOIN receipts r ON r.job_id=a.job_id AND r.generation=a.generation AND r.token=a.token WHERE a.state='succeeded' AND r.job_id IS NULL`,
       );
-      checkRows(
-        'json-records',
-        '持久化 JSON 结构可读取',
-        `SELECT id FROM jobs WHERE CASE WHEN json_valid(definition) THEN json_type(definition)!='object' ELSE 1 END OR (result IS NOT NULL AND CASE WHEN json_valid(result) THEN json_type(result)!='object' ELSE 1 END) OR (last_error IS NOT NULL AND CASE WHEN json_valid(last_error) THEN json_type(last_error)!='object' ELSE 1 END)`,
-      );
+      const unreadable: string[] = [];
+      for (const row of this.store.iterate<JobRow>('SELECT * FROM jobs')) {
+        try {
+          serialize(row, true);
+        } catch {
+          if (unreadable.length < 20) unreadable.push(row.id);
+        }
+      }
+      checks.push({
+        id: 'json-records',
+        label: '持久化任务与 JSON 结构可读取',
+        status: unreadable.length ? 'fail' : 'pass',
+        evidence: { sampleIds: unreadable, sampleLimit: 20, atLeast: unreadable.length },
+      });
       checkRows(
         'attempt-lifecycle',
         '尝试状态与结束时间一致',
         `SELECT job_id id FROM attempts WHERE state NOT IN ('running','succeeded','failed','expired','cancelled') OR (state='running' AND ended_at IS NOT NULL) OR (state!='running' AND ended_at IS NULL) OR token<1 OR number<1 OR generation<0`,
+      );
+      checkRows(
+        'attempt-history',
+        '尝试编号连续并与当前轮次计数一致',
+        `SELECT j.id FROM jobs j WHERE j.attempt!=(SELECT COUNT(*) FROM attempts a WHERE a.job_id=j.id AND a.generation=j.generation)
+        UNION SELECT a.job_id id FROM attempts a JOIN jobs j ON j.id=a.job_id GROUP BY a.job_id,a.generation HAVING a.generation>j.generation OR MIN(a.number)!=1 OR MAX(a.number)!=COUNT(*)`,
       );
       checkRows(
         'request-records',

@@ -7,7 +7,7 @@ const node = (tag, className = '', text = '') => {
   return element;
 };
 const names = { queued: '等待领取', running: '运行中', retry_wait: '等待重试', succeeded: '已成功', dead: '死信', cancelled: '已取消' };
-const state = { token: '', snapshot: null, filter: '', before: null, source: null, detailId: null, detailRequest: 0, reportId: null, serverAt: 0, localAt: 0, failures: 0, nextRead: 0, etags: new Map(), bodies: new Map(), intents: new Map() };
+const state = { token: '', snapshot: null, filter: '', before: null, source: null, detailId: null, detailRequest: 0, reportId: null, reportRequest: 0, serverAt: 0, localAt: 0, failures: 0, nextRead: 0, etags: new Map(), bodies: new Map(), intents: new Map() };
 const STORAGE = 'faultline.session.v1';
 const draftFields = ['label', 'kind', 'text', 'delayMs', 'maxAttempts', 'priority', 'failFirst'];
 let storageWarning = false;
@@ -59,7 +59,11 @@ function banner(message = '') {
 async function request(path, options = {}) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 8000);
-  try { return await fetch(path, { ...options, signal: controller.signal, cache: 'no-store' }); }
+  try {
+    const response = await fetch(path, { ...options, signal: controller.signal, cache: 'no-store' });
+    const data = response.status === 304 ? null : await response.json();
+    return { response, data };
+  }
   finally { clearTimeout(timeout); }
 }
 
@@ -67,9 +71,8 @@ async function bootstrap() {
   if (connecting) return;
   connecting = true;
   try {
-    const response = await request('/api/bootstrap');
+    const { response, data } = await request('/api/bootstrap');
     if (!response.ok) throw new Error('引擎暂时不可用。');
-    const data = await response.json();
     if (typeof data.controlToken !== 'string' || typeof data.serverTime !== 'number') throw new Error('引擎返回的配置不完整。');
     state.token = data.controlToken;
     syncTime(data.serverTime);
@@ -92,10 +95,8 @@ async function write(path, body) {
   const signature = `${path}:${JSON.stringify(body)}`;
   let intent = state.intents.get(signature);
   if (!intent) { intent = crypto.randomUUID(); state.intents.set(signature, intent); persistSession(); }
-  let response;
   try {
-    response = await request(path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Control-Token': state.token, 'Idempotency-Key': intent }, body: JSON.stringify(body) });
-    const data = await response.json();
+    const { response, data } = await request(path, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Control-Token': state.token, 'Idempotency-Key': intent }, body: JSON.stringify(body) });
     if (response.status >= 500) throw new Error('UNKNOWN_OUTCOME');
     if (!response.ok) {
       if (data.error?.code === 'CONTROL_TOKEN_REQUIRED') {
@@ -115,8 +116,7 @@ async function write(path, body) {
     // A successful write can lose only its response. Resolve by durable request
     // lookup, never by automatically issuing another POST.
     try {
-      const lookup = await request(`/api/requests/${intent}`);
-      const confirmed = await lookup.json();
+      const { response: lookup, data: confirmed } = await request(`/api/requests/${intent}`);
       if (lookup.ok && confirmed.found && confirmed.result) {
         state.intents.delete(signature);
         persistSession();
@@ -147,7 +147,7 @@ async function refresh() {
   try {
     const headers = {};
     if (state.etags.has(path)) headers['If-None-Match'] = state.etags.get(path);
-    const response = await request(path, { headers });
+    const { response, data: snapshot } = await request(path, { headers });
     if (response.status === 304) {
       if (filter !== state.filter || before !== state.before) { readAgain = true; return; }
       const cached = state.bodies.get(path);
@@ -160,7 +160,6 @@ async function refresh() {
       return;
     }
     if (!response.ok) throw new Error('无法读取最新状态。');
-    const snapshot = await response.json();
     if (!Array.isArray(snapshot.jobs) || !Array.isArray(snapshot.workers) || !snapshot.counts || typeof snapshot.serverTime !== 'number') throw new Error('状态数据不完整。');
     if (filter !== state.filter || before !== state.before) { readAgain = true; return; }
     const etag = response.headers.get('ETag');
@@ -350,12 +349,13 @@ async function openReport(id) {
   await refreshReport(id);
 }
 async function refreshReport(id) {
+  const sequence = ++state.reportRequest;
   try {
-    const response = await request(`/api/experiments/${id}`);
-    const report = await response.json();
+    const { response, data: report } = await request(`/api/experiments/${id}`);
+    if (sequence !== state.reportRequest || state.reportId !== id || !$('report-dialog').open) return;
     if (!response.ok) throw new Error(report.error?.message ?? '实验报告读取失败。');
-    if (state.reportId === id && $('report-dialog').open) showReport(report);
-  } catch (error) { if (state.reportId === id) toast(error.message); }
+    showReport(report);
+  } catch (error) { if (sequence === state.reportRequest && state.reportId === id && $('report-dialog').open) toast(error.message); }
 }
 
 let shownReportSignature = '';
@@ -413,12 +413,11 @@ async function openDetail(id) {
 async function refreshDetail(id) {
   const sequence = ++state.detailRequest;
   try {
-    const response = await request(`/api/jobs/${id}`);
-    const data = await response.json();
+    const { response, data } = await request(`/api/jobs/${id}`);
     if (!response.ok) throw new Error(data.error?.message ?? '详情读取失败。');
     if (sequence !== state.detailRequest || state.detailId !== id || !$('detail-dialog').open) return;
     renderDetail(data.job);
-  } catch (error) { if (state.detailId === id) toast(error.message); }
+  } catch (error) { if (sequence === state.detailRequest && state.detailId === id && $('detail-dialog').open) toast(error.message); }
 }
 
 let detailSignature = '';
@@ -540,9 +539,8 @@ async function inspectDiagnostics() {
   if (!$('diagnostics-dialog').open) $('diagnostics-dialog').showModal();
   put('diagnostics-status', '正在检查本次读取快照…');
   try {
-    const response = await request('/api/diagnostics');
+    const { response, data: report } = await request('/api/diagnostics');
     if (!response.ok) throw new Error('诊断请求未完成。');
-    const report = await response.json();
     if (!validDiagnostics(report)) throw new Error('诊断数据不完整。');
     if (current !== diagnosticsRequest || !$('diagnostics-dialog').open) return;
     diagnosticsReport = report;
@@ -571,7 +569,7 @@ $('create-button').addEventListener('click', () => $('create-dialog').showModal(
 $('how-button').addEventListener('click', () => $('how-dialog').showModal());
 for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => $(button.dataset.close).close());
 $('detail-dialog').addEventListener('close', () => { state.detailId = null; state.detailRequest++; });
-$('report-dialog').addEventListener('close', () => { state.reportId = null; });
+$('report-dialog').addEventListener('close', () => { state.reportId = null; state.reportRequest++; });
 $('create-form').addEventListener('input', persistSession);
 
 $('create-form').addEventListener('submit', async event => {
@@ -597,9 +595,8 @@ $('create-form').addEventListener('submit', async event => {
 $('export-button').addEventListener('click', async () => {
   $('export-button').disabled = true;
   try {
-    const response = await request('/api/evidence');
+    const { response, data: evidence } = await request('/api/evidence');
     if (!response.ok) throw new Error('执行证据导出失败。');
-    const evidence = await response.json();
     const link = node('a');
     link.href = URL.createObjectURL(new Blob([JSON.stringify(evidence, null, 2)], { type: 'application/json' }));
     link.download = 'faultline-evidence.json';

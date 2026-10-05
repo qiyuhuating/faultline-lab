@@ -2,9 +2,16 @@ name: Verify Faultline
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
+defaults:
+  run:
+    shell: bash
 jobs:
   core:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,7 +36,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: core-evidence
+          name: core-evidence-${{ matrix.os }}
           path: |
             test-results/core/
             benchmark-result.json
@@ -77,6 +84,7 @@ jobs:
       - run: npm ci --prefix tests --ignore-scripts
       - run: cd tests && npx playwright install --with-deps ${{ matrix.browser }}
       - run: node tests/browser.mjs
+      - run: node tests/browser-network.mjs
       - run: node tools/build-showcase.mjs && node tests/showcase.mjs
       - run: cp tests/package-lock.json test-results/${{ matrix.browser }}/dependency-lock.json
       - uses: actions/upload-artifact@v4

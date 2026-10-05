@@ -1,0 +1,184 @@
+TAP version 13
+# Subtest: another connection pruning invalidates a cached experiment in the same clock bucket
+ok 1 - another connection pruning invalidates a cached experiment in the same clock bucket
+  ---
+  duration_ms: 112.3902
+  type: 'test'
+  ...
+# Subtest: same connection lease renewal invalidates a cached experiment without a new event
+ok 2 - same connection lease renewal invalidates a cached experiment without a new event
+  ---
+  duration_ms: 115.5684
+  type: 'test'
+  ...
+# Subtest: other connection lease renewal invalidates a cached experiment without a new event
+ok 3 - other connection lease renewal invalidates a cached experiment without a new event
+  ---
+  duration_ms: 93.2078
+  type: 'test'
+  ...
+# Subtest: another connection deleting a receipt cannot reuse a cached passing verdict
+ok 4 - another connection deleting a receipt cannot reuse a cached passing verdict
+  ---
+  duration_ms: 102.7001
+  type: 'test'
+  ...
+# Subtest: doctor rejects unreadable definition even when it is valid JSON
+ok 5 - doctor rejects unreadable definition even when it is valid JSON
+  ---
+  duration_ms: 140.7043
+  type: 'test'
+  ...
+# Subtest: doctor rejects unreadable last_error even when it is valid JSON
+ok 6 - doctor rejects unreadable last_error even when it is valid JSON
+  ---
+  duration_ms: 95.9541
+  type: 'test'
+  ...
+# Subtest: doctor detects a missing failed attempt and an incorrect successful attempt counter
+ok 7 - doctor detects a missing failed attempt and an incorrect successful attempt counter
+  ---
+  duration_ms: 126.4988
+  type: 'test'
+  ...
+# Subtest: doctor detects attempt records from a future generation
+ok 8 - doctor detects attempt records from a future generation
+  ---
+  duration_ms: 76.7626
+  type: 'test'
+  ...
+# Subtest: read-only doctor checks a healthy database without changing any logical record
+ok 9 - read-only doctor checks a healthy database without changing any logical record
+  ---
+  duration_ms: 69.6713
+  type: 'test'
+  ...
+# Subtest: read-only doctor does not create a missing database or its parent directory
+ok 10 - read-only doctor does not create a missing database or its parent directory
+  ---
+  duration_ms: 51.25
+  type: 'test'
+  ...
+# Subtest: read-only doctor leaves legacy schema metadata untouched
+ok 11 - read-only doctor leaves legacy schema metadata untouched
+  ---
+  duration_ms: 66.4858
+  type: 'test'
+  ...
+# Subtest: missing successful receipt is detected even while event hashes remain valid
+ok 12 - missing successful receipt is detected even while event hashes remain valid
+  ---
+  duration_ms: 74.9539
+  type: 'test'
+  ...
+# Subtest: a receipt from a losing token and a dangling running attempt fail distinct checks
+ok 13 - a receipt from a losing token and a dangling running attempt fail distinct checks
+  ---
+  duration_ms: 77.0273
+  type: 'test'
+  ...
+# Subtest: expired leases warn without recovering or consuming attempts
+ok 14 - expired leases warn without recovering or consuming attempts
+  ---
+  duration_ms: 74.8217
+  type: 'test'
+  ...
+# Subtest: deleting every retained event cannot be mistaken for an empty valid ledger
+ok 15 - deleting every retained event cannot be mistaken for an empty valid ledger
+  ---
+  duration_ms: 75.1943
+  type: 'test'
+  ...
+# Subtest: an exactly pruned empty chain stays valid and the next append keeps its boundary
+ok 16 - an exactly pruned empty chain stays valid and the next append keeps its boundary
+  ---
+  duration_ms: 60.6863
+  type: 'test'
+  ...
+# Subtest: unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+ok 17 - unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+  ---
+  duration_ms: 58.5685
+  type: 'test'
+  ...
+# Subtest: portable evidence rejects forged range start and truncated tail even with matching counts
+ok 18 - portable evidence rejects forged range start and truncated tail even with matching counts
+  ---
+  duration_ms: 60.7086
+  type: 'test'
+  ...
+# Subtest: malformed event JSON is diagnosed as failure rather than rewritten
+ok 19 - malformed event JSON is diagnosed as failure rather than rewritten
+  ---
+  duration_ms: 67.8506
+  type: 'test'
+  ...
+# Subtest: untyped callers cannot commit a result that violates the typed successful state
+ok 20 - untyped callers cannot commit a result that violates the typed successful state
+  ---
+  duration_ms: 55.6669
+  type: 'test'
+  ...
+# Subtest: HTTP diagnostics is observation only and exposes no inputs, control token or database path
+ok 21 - HTTP diagnostics is observation only and exposes no inputs, control token or database path
+  ---
+  duration_ms: 90.0653
+  type: 'test'
+  ...
+# Subtest: nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+ok 22 - nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+  ---
+  duration_ms: 79.3852
+  type: 'test'
+  ...
+# Subtest: experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+ok 23 - experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+  ---
+  duration_ms: 7.4734
+  type: 'test'
+  ...
+# Subtest: unfinished experiments remain pending; real completion passes their checks
+ok 24 - unfinished experiments remain pending; real completion passes their checks
+  ---
+  duration_ms: 4.5475
+  type: 'test'
+  ...
+# Subtest: dead-letter proof remains available after a successful new generation
+ok 25 - dead-letter proof remains available after a successful new generation
+  ---
+  duration_ms: 6.4082
+  type: 'test'
+  ...
+# Subtest: missing stale-worker rejection becomes a failed proof, never an endless green pending state
+ok 26 - missing stale-worker rejection becomes a failed proof, never an endless green pending state
+  ---
+  duration_ms: 0.1998
+  type: 'test'
+  ...
+# Subtest: expired experiment records are pruned together with their retained jobs
+ok 27 - expired experiment records are pruned together with their retained jobs
+  ---
+  duration_ms: 2.7286
+  type: 'test'
+  ...
+# Subtest: portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+ok 28 - portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+  ---
+  duration_ms: 2.3561
+  type: 'test'
+  ...
+# Subtest: a concurrent commit cannot splice two database versions into one experiment proof
+ok 29 - a concurrent commit cannot splice two database versions into one experiment proof
+  ---
+  duration_ms: 125.503
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 29
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1588.7328

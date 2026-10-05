@@ -1,0 +1,268 @@
+TAP version 13
+# Subtest: another connection pruning invalidates a cached experiment in the same clock bucket
+ok 1 - another connection pruning invalidates a cached experiment in the same clock bucket
+  ---
+  duration_ms: 146.8995
+  type: 'test'
+  ...
+# Subtest: same connection lease renewal invalidates a cached experiment without a new event
+ok 2 - same connection lease renewal invalidates a cached experiment without a new event
+  ---
+  duration_ms: 111.4795
+  type: 'test'
+  ...
+# Subtest: other connection lease renewal invalidates a cached experiment without a new event
+ok 3 - other connection lease renewal invalidates a cached experiment without a new event
+  ---
+  duration_ms: 96.6795
+  type: 'test'
+  ...
+# Subtest: another connection deleting a receipt cannot reuse a cached passing verdict
+ok 4 - another connection deleting a receipt cannot reuse a cached passing verdict
+  ---
+  duration_ms: 96.3834
+  type: 'test'
+  ...
+# Subtest: doctor rejects unreadable definition even when it is valid JSON
+not ok 5 - doctor rejects unreadable definition even when it is valid JSON
+  ---
+  duration_ms: 155.3552
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\diagnostics.test.mjs:49:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'pass' !== 'fail'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'fail'
+  actual: 'pass'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:55:12)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.start (node:internal/test_runner/test:1177:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+  ...
+# Subtest: doctor rejects unreadable last_error even when it is valid JSON
+not ok 6 - doctor rejects unreadable last_error even when it is valid JSON
+  ---
+  duration_ms: 103.3774
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\diagnostics.test.mjs:49:3'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'pass' !== 'fail'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'fail'
+  actual: 'pass'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:55:12)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+    Test.postRun (node:internal/test_runner/test:1447:19)
+    Test.run (node:internal/test_runner/test:1372:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+  ...
+# Subtest: doctor detects a missing failed attempt and an incorrect successful attempt counter
+not ok 7 - doctor detects a missing failed attempt and an incorrect successful attempt counter
+  ---
+  duration_ms: 123.2015
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\diagnostics.test.mjs:61:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'status')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    status (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:47:70)
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:72:16)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+    Test.postRun (node:internal/test_runner/test:1447:19)
+    Test.run (node:internal/test_runner/test:1372:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
+  ...
+# Subtest: doctor detects attempt records from a future generation
+not ok 8 - doctor detects attempt records from a future generation
+  ---
+  duration_ms: 89.682
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\diagnostics.test.mjs:76:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'status')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    status (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:47:70)
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:80:16)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+    Test.postRun (node:internal/test_runner/test:1447:19)
+    Test.run (node:internal/test_runner/test:1372:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
+  ...
+# Subtest: read-only doctor checks a healthy database without changing any logical record
+ok 9 - read-only doctor checks a healthy database without changing any logical record
+  ---
+  duration_ms: 70.5909
+  type: 'test'
+  ...
+# Subtest: read-only doctor does not create a missing database or its parent directory
+ok 10 - read-only doctor does not create a missing database or its parent directory
+  ---
+  duration_ms: 48.4067
+  type: 'test'
+  ...
+# Subtest: read-only doctor leaves legacy schema metadata untouched
+ok 11 - read-only doctor leaves legacy schema metadata untouched
+  ---
+  duration_ms: 66.2594
+  type: 'test'
+  ...
+# Subtest: missing successful receipt is detected even while event hashes remain valid
+ok 12 - missing successful receipt is detected even while event hashes remain valid
+  ---
+  duration_ms: 75.9466
+  type: 'test'
+  ...
+# Subtest: a receipt from a losing token and a dangling running attempt fail distinct checks
+ok 13 - a receipt from a losing token and a dangling running attempt fail distinct checks
+  ---
+  duration_ms: 72.3555
+  type: 'test'
+  ...
+# Subtest: expired leases warn without recovering or consuming attempts
+ok 14 - expired leases warn without recovering or consuming attempts
+  ---
+  duration_ms: 71.0483
+  type: 'test'
+  ...
+# Subtest: deleting every retained event cannot be mistaken for an empty valid ledger
+ok 15 - deleting every retained event cannot be mistaken for an empty valid ledger
+  ---
+  duration_ms: 66.7605
+  type: 'test'
+  ...
+# Subtest: an exactly pruned empty chain stays valid and the next append keeps its boundary
+ok 16 - an exactly pruned empty chain stays valid and the next append keeps its boundary
+  ---
+  duration_ms: 57.7348
+  type: 'test'
+  ...
+# Subtest: unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+ok 17 - unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+  ---
+  duration_ms: 57.4748
+  type: 'test'
+  ...
+# Subtest: portable evidence rejects forged range start and truncated tail even with matching counts
+ok 18 - portable evidence rejects forged range start and truncated tail even with matching counts
+  ---
+  duration_ms: 61.2506
+  type: 'test'
+  ...
+# Subtest: malformed event JSON is diagnosed as failure rather than rewritten
+ok 19 - malformed event JSON is diagnosed as failure rather than rewritten
+  ---
+  duration_ms: 70.3674
+  type: 'test'
+  ...
+# Subtest: untyped callers cannot commit a result that violates the typed successful state
+ok 20 - untyped callers cannot commit a result that violates the typed successful state
+  ---
+  duration_ms: 59.8932
+  type: 'test'
+  ...
+# Subtest: HTTP diagnostics is observation only and exposes no inputs, control token or database path
+ok 21 - HTTP diagnostics is observation only and exposes no inputs, control token or database path
+  ---
+  duration_ms: 85.3487
+  type: 'test'
+  ...
+# Subtest: nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+ok 22 - nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+  ---
+  duration_ms: 75.7129
+  type: 'test'
+  ...
+# Subtest: experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+not ok 23 - experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+  ---
+  duration_ms: 8.8963
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\proof.test.mjs:11:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    'pass' !== 'fail'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'fail'
+  actual: 'pass'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/proof.test.mjs:22:14)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.start (node:internal/test_runner/test:1177:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+  ...
+# Subtest: unfinished experiments remain pending; real completion passes their checks
+ok 24 - unfinished experiments remain pending; real completion passes their checks
+  ---
+  duration_ms: 5.8218
+  type: 'test'
+  ...
+# Subtest: dead-letter proof remains available after a successful new generation
+ok 25 - dead-letter proof remains available after a successful new generation
+  ---
+  duration_ms: 4.6366
+  type: 'test'
+  ...
+# Subtest: missing stale-worker rejection becomes a failed proof, never an endless green pending state
+ok 26 - missing stale-worker rejection becomes a failed proof, never an endless green pending state
+  ---
+  duration_ms: 0.1827
+  type: 'test'
+  ...
+# Subtest: expired experiment records are pruned together with their retained jobs
+ok 27 - expired experiment records are pruned together with their retained jobs
+  ---
+  duration_ms: 1.826
+  type: 'test'
+  ...
+# Subtest: portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+ok 28 - portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+  ---
+  duration_ms: 1.7043
+  type: 'test'
+  ...
+# Subtest: a concurrent commit cannot splice two database versions into one experiment proof
+ok 29 - a concurrent commit cannot splice two database versions into one experiment proof
+  ---
+  duration_ms: 155.4371
+  type: 'test'
+  ...
+1..29
+# tests 29
+# suites 0
+# pass 24
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1569.5127

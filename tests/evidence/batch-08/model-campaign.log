@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "completedSeeds": 128,
+  "transitions": 32768,
+  "coverage": {
+    "claim": 2128,
+    "renew": 2049,
+    "complete": 2110,
+    "fail": 2052,
+    "advance": 2084,
+    "recover": 1949,
+    "cancel": 2073,
+    "replay": 2029,
+    "pause": 2030,
+    "deduplicate": 2045,
+    "conflict": 1993,
+    "reopen": 2048,
+    "stop-worker": 2024,
+    "restart-worker": 2036,
+    "replay-intent": 2073,
+    "new-intent": 2045
+  },
+  "report": "D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\model-final.json"
+}

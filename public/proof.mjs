@@ -17,9 +17,17 @@ export function evaluateExperiment(experiment, jobs, now = Date.now()) {
   const first = jobs[0];
   const attempts = jobs.flatMap(job => job.attempts.filter(a => a.generation === 0));
   const receipts = jobs.flatMap(job => job.receipts.filter(r => r.generation === 0));
-  check('exists', '任务记录完整', jobs.length === experiment.jobIds.length && jobs.length > 0);
+  check('exists', '任务记录完整', jobs.length > 0 && jobs.length === experiment.jobIds.length && new Set(experiment.jobIds).size === experiment.jobIds.length && new Set(jobs.map(job => job.id)).size === jobs.length && jobs.every(job => experiment.jobIds.includes(job.id)));
   check('unique', '每个任务每轮最多一张收据', jobs.every(job => new Set(job.receipts.map(r => r.generation)).size === job.receipts.length));
-  check('fencing', '收据来自获胜租约', jobs.every(job => job.receipts.every(r => job.attempts.some(a => a.generation === r.generation && a.token === r.token && a.state === 'succeeded'))));
+  check('state', '当前状态与本轮收据一致', jobs.every(job => {
+    const current = job.receipts.filter(receipt => receipt.generation === job.generation);
+    return job.state === 'succeeded' ? current.length === 1 && current[0].token === job.token && current[0].committed_at === job.completedAt : current.length === 0;
+  }));
+  check('fencing', '收据来自获胜租约', jobs.every(job => job.receipts.every(receipt => {
+    const owners = job.attempts.filter(attempt => attempt.generation === receipt.generation && attempt.token === receipt.token);
+    const owner = owners[0];
+    return receipt.generation <= job.generation && owners.length === 1 && owner.job_id === job.id && owner.state === 'succeeded' && owner.ended_at === receipt.committed_at && (receipt.generation !== job.generation || owner.number === job.attempt);
+  })));
   if (experiment.scenario === 'duplicate') {
     check('dedupe', '三次提交只产生一个任务', experiment.submissions === 3 && jobs.length === 1, false, `${experiment.submissions} requests / ${jobs.length} job`);
     check('result', '单次执行，单张收据', attempts.length === 1 && receipts.length === 1, !settled, `${attempts.length} attempt / ${receipts.length} receipt`);
@@ -34,7 +42,9 @@ export function evaluateExperiment(experiment, jobs, now = Date.now()) {
       const rejected = first?.events.find(e => e.type === 'commit.rejected' && e.data.token === attempts[0]?.token && e.data.currentToken > e.data.token);
       check('rejected', '旧 Worker 的真实写入被拒绝', Boolean(rejected), !rejected && now - experiment.createdAt < 15000 && first?.state !== 'cancelled', rejected ? `T${rejected.data.token} rejected / current T${rejected.data.currentToken}` : '等待旧进程苏醒并尝试提交');
     } else {
-      check('kill', '记录了实际 SIGKILL 进程退出', Boolean(first?.events.some(e => e.type === 'worker.stopped' && e.data.reason === 'signal:SIGKILL')), !settled);
+      const requested = first?.events.find(e => e.type === 'worker.crash.requested' && e.data.workerId === attempts[0]?.worker_id && e.data.token === attempts[0]?.token && e.data.signal === 'SIGKILL');
+      const stopped = first?.events.find(e => e.type === 'worker.stopped' && e.data.workerId === attempts[0]?.worker_id && (e.data.reason === 'signal:SIGKILL' || (e.data.platform === 'win32' && e.data.reason === 'exit:1' && requested && requested.seq < e.seq)));
+      check('kill', '记录了真实崩溃进程退出', Boolean(stopped), !settled);
     }
   } else if (experiment.scenario === 'dead') {
     const enteredDead = first?.events.some(e => e.type === 'job.dead' && e.data.generation === 0);

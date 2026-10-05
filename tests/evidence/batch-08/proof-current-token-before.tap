@@ -1,0 +1,40 @@
+✔ experiment proof rejects unrelated, repeated and non-successful jobs with receipts (7.1047ms)
+✖ experiment proof binds the current receipt to the successful lease and attempt (5.4068ms)
+✔ the six original public recordings still pass shared experiment proof (1.0871ms)
+✔ unfinished experiments remain pending; real completion passes their checks (3.4062ms)
+✔ dead-letter proof remains available after a successful new generation (4.518ms)
+✔ missing stale-worker rejection becomes a failed proof, never an endless green pending state (2.5086ms)
+✔ expired experiment records are pruned together with their retained jobs (1.7989ms)
+✔ portable verifier rejects changed payloads, wrong counts, gaps and missing structure (1.8497ms)
+✔ a concurrent commit cannot splice two database versions into one experiment proof (76.3222ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 8
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 235.012
+
+✖ failing tests:
+
+test at tests\proof.test.mjs:29:1
+✖ experiment proof binds the current receipt to the successful lease and attempt (5.4068ms)
+  AssertionError [ERR_ASSERTION]: current token
+  
+  'pass' !== 'fail'
+  
+      at TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/proof.test.mjs:57:14)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: 'pass',
+    expected: 'fail',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

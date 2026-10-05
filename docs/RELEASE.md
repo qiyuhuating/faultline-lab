@@ -1,21 +1,21 @@
-v1.2.0 turns reliability claims into executable specifications and operator diagnostics.
+v1.2.1 fixes false verification results and browser recovery failures, with Linux and Windows core acceptance.
 
-An independent policy model checks 16 command types against actual SQLite jobs, attempts and receipts across two connections. Seeded traces are reproducible; mutation self-tests require the checker to detect invalid lease and revision behavior. A read-only Doctor inspects physical and semantic integrity without recovery or repair. Its CLI, HTTP report and accessible dialog share one contract.
+Experiment reports now invalidate after eventless writes on either SQLite connection and never cache uncommitted outer-transaction data. Doctor detects invalid persisted definitions and attempt history. Portable reports require the expected job IDs and current receipt token. These cases have failing-before, passing-after regressions.
 
-This iteration also reproduces and fixes a v1.1.0 false pass after deleting the complete event tail. Exact retained-prefix and durable-head boundaries now detect missing history, while schema v1 and original public recordings remain compatible. Legacy uncertainty is explicit; the chain is a consistency check, not an authenticity signature.
+The dashboard keeps its request deadline through JSON consumption, so incomplete bootstrap, snapshot and committed POST bodies recover. A lost write response is confirmed by its durable request key without a duplicate POST. Reopening the same report or detail rejects older responses; static event selection preserves keyboard focus.
 
-Publication requires the exact commit to pass 87 core tests, 12 negative compile contracts, 32,768 model transitions, seven real HTTP/process fault scenarios with four supporting checks, and 66 browser checks across Chromium, Firefox and WebKit. A source-only extraction separately starts and recovers a real crashed worker. Full failure history and limits are in docs/VERIFICATION.md and ADR 006.
+Windows crash evidence requires an actual controller-observed exit and a matching earlier crash-request record. Linux SIGKILL and six historical public recordings remain compatible. CI runs core tests on both operating systems, three browser engines, compiler/type/architecture/format gates, 32,768 model transitions and seven real-process HTTP faults with four supporting checks. Publication additionally starts and crash-tests the extracted source package. Raw failures and final counts are in docs/VERIFICATION.md and tests/evidence/batch-08.
 
 **Try the recorded replay:** https://qiyuhuating.github.io/faultline-lab/
 
-The local application runs real independent workers; the public site replays the original labeled evidence. Faultline remains completely independent of yihe-health.
+The local application runs independent workers; the public site replays the original labeled evidence. Database schema v1 is unchanged.
 
 Assets have separate purposes:
 
-- **faultline-source-v1.2.0.zip** — frontend, strict TypeScript backend, read-only Doctor, runnable live HTTP verification tool, locked compiler tools, API/design/ADR documentation and resume/interview material. No test set. Node 24.15+ (24.x): `npm start`, without installation or runtime dependencies. `npm run verify:lab` runs an isolated real fault campaign; `npm run doctor -- data/faultline.sqlite --json` inspects an existing database. Compiler checks need `npm ci --ignore-scripts`.
-- **faultline-tests-v1.2.0.zip** — independent model/oracle, core, HTTP, multi-process, browser and negative compile tests, plus all collected historical batches and unsuccessful attempts together. Repeated files stay under their own batch directories. Extract alongside source to merge `faultline/tests/`; run `npm test` or the documented seeded campaign. No application source is substituted into this test package.
-- **faultline-web-v1.2.0.zip** — seven deployable static replay files only. No backend, compiler or test set; use the source package to run new experiments.
-- **SHA256SUMS.txt** — SHA-256 archive checksums.
-- **manifest.json** — exact verified commit and per-package file inventories.
+- **faultline-source-v1.2.1.zip** — frontend, strict TypeScript backend, read-only Doctor, real HTTP verification tool, locked compiler tools and documentation. No test set. Node 24.15+ (24.x): `npm start` without installation or runtime dependencies. Compiler checks need `npm ci --ignore-scripts`.
+- **faultline-tests-v1.2.1.zip** — independent model, core/process/HTTP/browser tests, negative compile contracts and historical local/CI evidence. Extract alongside source to merge `faultline/tests/`, then run `npm test`. Source implementation stays in the source package.
+- **faultline-web-v1.2.1.zip** — seven deployable static replay files.
+- **SHA256SUMS.txt** — archive checksums.
+- **manifest.json** — verified commit and per-package file inventories.
 
-MIT License. Atomic internal receipts do not guarantee arbitrary external exactly-once effects. The bounded model is not formal verification; cross-host HA, physical disk faults and production deployment remain outside acceptance.
+MIT License. Atomic internal receipts do not guarantee arbitrary external exactly-once effects. The bounded model is not formal verification; the event chain establishes consistency, not third-party authenticity.

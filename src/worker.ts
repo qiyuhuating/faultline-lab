@@ -52,6 +52,14 @@ try {
       const definition = current.definition;
       if (definition.fault.crashOnce && current.generation === 0 && current.attempt === 1) {
         // An actual OS process dies; no timer rewrites the job into success.
+        const { id: jobId, token } = current;
+        queue.transaction(() =>
+          queue.event('worker.crash.requested', jobId, {
+            workerId: id,
+            token,
+            signal: 'SIGKILL',
+          }),
+        );
         process.kill(process.pid, 'SIGKILL');
       }
       if (definition.fault.stallOnce && current.generation === 0 && current.attempt === 1) {

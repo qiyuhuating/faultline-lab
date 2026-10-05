@@ -1,0 +1,19 @@
+{"banner":""}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /连接中断/. Input:
+
+''
+
+    at file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/ui-body-repro.mjs:27:10 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '',
+  expected: /连接中断/,
+  operator: 'match',
+  diff: 'simple'
+}
+
+Node.js v24.16.0

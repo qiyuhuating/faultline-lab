@@ -63,6 +63,7 @@ function renderFrame() {
   $('frame-token').textContent = `T${token}`;
   $('frame-receipts').textContent = String(receipts);
   $('frame-owner').textContent = owner ? owner.split('-').slice(0, 2).join('-') : '—';
+  const focusedSeq = $('event-rows').contains(document.activeElement) ? document.activeElement.dataset.seq : null;
   const rows = events.map((event, i) => {
     const row = element('button', `event-row${i === frame ? ' selected' : ''}${i > frame ? ' future' : ''}`);
     row.type = 'button'; row.dataset.seq = event.seq;
@@ -72,6 +73,7 @@ function renderFrame() {
     return row;
   });
   $('event-rows').replaceChildren(...rows);
+  if (focusedSeq) rows.find(row => row.dataset.seq === focusedSeq)?.focus({ preventScroll: true });
   drawLanes(current.at);
 }
 

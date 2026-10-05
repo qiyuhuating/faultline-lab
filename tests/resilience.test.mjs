@@ -80,21 +80,22 @@ test('SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recov
 test('a standalone task detail cannot splice running state with a concurrently committed receipt', t => {
   const { queue, path } = fixture(t);
   const other = new Queue(path);
-  t.after(() => other.close());
-  const { jobId } = queue.submit({ delayMs: 0 }, 'detail-snapshot-intent');
-  const claim = queue.claim('test-worker');
-  const original = queue.raw.bind(queue);
-  let injected = false;
-  queue.raw = id => {
-    const row = original(id);
-    if (!injected) { injected = true; other.complete(jobId, 'test-worker', claim.token, { done: true }); }
-    return row;
-  };
-  const detail = queue.detail(jobId);
-  assert.equal(detail.state, 'running');
-  assert.equal(detail.attempts[0].state, 'running');
-  assert.equal(detail.receipts.length, 0);
-  assert.equal(queue.detail(jobId).state, 'succeeded');
+  try {
+    const { jobId } = queue.submit({ delayMs: 0 }, 'detail-snapshot-intent');
+    const claim = queue.claim('test-worker');
+    const original = queue.raw.bind(queue);
+    let injected = false;
+    queue.raw = id => {
+      const row = original(id);
+      if (!injected) { injected = true; other.complete(jobId, 'test-worker', claim.token, { done: true }); }
+      return row;
+    };
+    const detail = queue.detail(jobId);
+    assert.equal(detail.state, 'running');
+    assert.equal(detail.attempts[0].state, 'running');
+    assert.equal(detail.receipts.length, 0);
+    assert.equal(queue.detail(jobId).state, 'succeeded');
+  } finally { other.close(); }
 });
 
 test('pruning invalidates a cached experiment even in the same clock bucket', t => {

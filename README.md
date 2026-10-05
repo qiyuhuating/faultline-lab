@@ -70,7 +70,7 @@ npm run verify:lab
 node tools/benchmark.mjs --jobs=500
 ```
 
-v1.2.0 的验收包含 87 项核心测试、12 条负向编译契约、32,768 次独立模型操作，以及七种真实 HTTP 故障场景。核心用例涵盖 240 任务 / 4 进程竞争、实际 SIGKILL 接管、僵尸 Worker 提交、响应丢失、父进程死亡、数据库事务回滚和并发读取；v1.0.1 新增写锁等待、真实 SQLITE_FULL、停机途中请求与资源清理回归。验收结果、远程 CI 与失败后修复记录见 [VERIFICATION.md](docs/VERIFICATION.md)。
+v1.2.1 在原有故障验收上补充跨连接与事务回滚后的报告缓存、持久化语义损坏、报告身份/token 校验，以及响应体中途停滞后的界面恢复。核心测试在 Linux 和 Windows 运行；仍保留 12 条负向编译契约、32,768 次独立模型操作和七种真实 HTTP 故障场景。用例涵盖 240 任务 / 4 进程竞争、真实崩溃接管、僵尸 Worker 提交、响应丢失、父进程死亡、事务回滚和并发读取。完整数量、远程 CI 与失败后修复记录见 [VERIFICATION.md](docs/VERIFICATION.md)。
 
 浏览器测试与运行时文件分离：
 
@@ -80,6 +80,7 @@ cd tests
 npx playwright install chromium
 cd ..
 node tests/browser.mjs
+node tests/browser-network.mjs
 node tests/showcase.mjs
 ```
 

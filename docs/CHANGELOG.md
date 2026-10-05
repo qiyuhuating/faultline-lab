@@ -1,5 +1,17 @@
 # Release history
 
+## v1.2.1 — 2026-10-05
+
+- Invalidate experiment reports after writes from either SQLite connection, including renewals and retention without an event. Bypass shared report caching inside existing transactions so rolled-back data cannot retain a false pass or failure.
+- Make Doctor reject semantically invalid persisted job definitions, unreadable error records, missing attempts, incorrect current counters and attempts from future generations. Keep diagnostics read-only and report only affected IDs.
+- Require portable experiment reports to contain the exact expected job IDs, lifecycle-compatible receipts and a receipt matching the current fencing token.
+- Keep the browser's request deadline active until the JSON body is consumed. Confirm a committed but incomplete POST response through its durable request key without issuing a duplicate write.
+- Reject stale report and detail responses after closing and reopening the same item. Preserve keyboard focus when selecting events in the static trace player.
+- Record an injected crash request and the controller's actual observed exit. Require both matching records for Windows' exit-code evidence while retaining Linux SIGKILL and original recordings.
+- Add Windows to core CI and run partial-response recovery checks in Chromium, Firefox and WebKit. Verify parent death by actual process exit and offline state on Windows; retain the Linux descriptor-only test as an explicit skip there.
+
+Source, independent tests and static web assets remain separate. Schema v1 and historical recordings are preserved; full acceptance and recorded failures are in VERIFICATION.md and batch-08.
+
 ## v1.2.0 — 2026-10-04
 
 - Add an independent seeded policy model with 16 commands, two SQLite connections, retained old leases, worker replacements, controller reopen and request replay. Check jobs, attempts and receipts after every command; preserve a reproducible failure prefix. Mutation self-tests prove the checker catches wrong lease and revision behavior.

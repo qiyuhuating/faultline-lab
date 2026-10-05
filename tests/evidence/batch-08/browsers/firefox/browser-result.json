@@ -1,0 +1,25 @@
+{
+  "browser": "firefox",
+  "checks": [
+    "connected dashboard",
+    "duplicate intent renders one job",
+    "dead letter can be replayed in the UI",
+    "untrusted label remains text",
+    "filter switching retains the correct snapshot",
+    "real stale worker rejection has a passing causal report",
+    "write succeeds with a deliberately lost response; durable lookup confirms one job",
+    "draft survives a full reload",
+    "malformed snapshot preserves the last valid ledger and recovers",
+    "evidence downloads",
+    "mobile layout has no page overflow",
+    "offline write keeps draft and recovers",
+    "read-only semantic diagnostics renders and downloads without changing the ledger",
+    "malformed diagnostics preserves the previous report and allows an explicit retry",
+    "semantic corruption is shown as failure and a corrected snapshot recovers",
+    "reopening the same report ignores an earlier delayed pending response",
+    "a delayed failure from a closed detail request cannot overwrite the reopened view",
+    "no JavaScript exceptions or CSP violations"
+  ],
+  "passed": 18,
+  "screenshotHarnessCSPDiagnostics": 0
+}

@@ -46,7 +46,11 @@ export class WorkerRegistry {
         this.clock(),
         id,
       );
-      this.ledger.append('worker.stopped', existing.job_id, { workerId: id, reason });
+      this.ledger.append('worker.stopped', existing.job_id, {
+        workerId: id,
+        reason,
+        platform: process.platform,
+      });
       // A stopped worker's job is intentionally recovered by lease expiry.
     });
   }

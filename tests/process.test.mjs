@@ -8,6 +8,7 @@ import { startServer } from '../src/server.mjs';
 import { fork } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { Queue } from '../src/queue.mjs';
+import { evaluateExperiment } from '../public/proof.mjs';
 
 async function until(predicate, timeout = 14000) {
   const start = performance.now();
@@ -39,9 +40,13 @@ test('four independent processes drain 240 tasks with no missing or duplicate re
   const directory = mkdtempSync(join(tmpdir(), 'faultline-process-'));
   const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 4, quiet: true });
   t.after(async () => { await instance.close(); rmSync(directory, { recursive: true, force: true }); });
+  instance.queue.setPaused(true, 'process-stage-backlog');
   await until(() => instance.queue.snapshot().workers.filter(w => w.online).length === 4);
   const ids = [];
   for (let i = 0; i < 240; i++) ids.push(instance.queue.submit({ label: `race ${i}`, text: `${i}`, delayMs: 0 }, `process-job-${i}`).jobId);
+  assert.equal(instance.queue.db.prepare('SELECT COUNT(*) n FROM jobs WHERE attempt!=0').get().n, 0);
+  // Stage the backlog before timing worker competition; submission itself holds writer locks.
+  instance.queue.setPaused(false, 'process-resume-backlog');
   await until(() => instance.queue.snapshot().counts.succeeded === 240);
   assert.equal(instance.queue.db.prepare('SELECT COUNT(*) n FROM receipts').get().n, 240);
   assert.equal(instance.queue.db.prepare("SELECT COUNT(*) n FROM jobs WHERE attempt!=1").get().n, 0);
@@ -55,7 +60,7 @@ test('SIGKILL is real: expired attempt is replaced and only one receipt is commi
   const directory = mkdtempSync(join(tmpdir(), 'faultline-crash-'));
   const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 3, quiet: true });
   t.after(async () => { await instance.close(); rmSync(directory, { recursive: true, force: true }); });
-  const { jobIds } = instance.queue.experiment('crash', 'process-crash-intent');
+  const { experimentId, jobIds } = instance.queue.experiment('crash', 'process-crash-intent');
   const id = jobIds[0];
   await until(() => instance.queue.detail(id).state === 'succeeded');
   const job = instance.queue.detail(id);
@@ -63,7 +68,35 @@ test('SIGKILL is real: expired attempt is replaced and only one receipt is commi
   assert.deepEqual(job.attempts.map(a => a.state), ['expired', 'succeeded']);
   assert.notEqual(job.attempts[0].worker_id, job.attempts[1].worker_id);
   assert.equal(job.receipts.length, 1);
-  assert.ok(instance.queue.events({ limit: 1000 }).some(e => e.type === 'worker.stopped' && e.data.reason === 'signal:SIGKILL'));
+  const exited = job.events.find(e => e.type === 'worker.stopped' && e.data.workerId === job.attempts[0].worker_id);
+  assert.ok(exited, 'The controller observed the crashed process exit.');
+  assert.equal(exited.data.reason, process.platform === 'win32' ? 'exit:1' : 'signal:SIGKILL');
+  assert.equal(exited.data.platform, process.platform);
+  const report = instance.queue.experimentReport(experimentId);
+  assert.equal(report.verdict.status, 'pass');
+  // Exercise the Windows evidence contract with the observed crash's matching records.
+  const portable = structuredClone(report.jobs);
+  const stopped = portable[0].events.find(event => event.type === 'worker.stopped' && event.data.workerId === job.attempts[0].worker_id);
+  stopped.data.platform = 'win32';
+  stopped.data.reason = 'exit:1';
+  assert.equal(evaluateExperiment(report.experiment, portable).status, 'pass');
+  for (const [name, alter] of [
+    ['missing crash request', (events, requested) => events.splice(events.indexOf(requested), 1)],
+    ['different crashed worker', (_events, requested) => { requested.data.workerId = 'unrelated-worker'; }],
+    ['different crashed token', (_events, requested) => { requested.data.token++; }],
+    ['different requested signal', (_events, requested) => { requested.data.signal = 'SIGTERM'; }],
+    ['request after exit', (_events, requested, exit) => { requested.seq = exit.seq + 1; }],
+    ['different platform', (_events, _requested, exit) => { exit.data.platform = 'linux'; }],
+    ['different exit code', (_events, _requested, exit) => { exit.data.reason = 'exit:0'; }],
+    ['missing actual exit', (events, _requested, exit) => events.splice(events.indexOf(exit), 1)],
+  ]) {
+    const altered = structuredClone(portable);
+    const events = altered[0].events;
+    const requested = events.find(event => event.type === 'worker.crash.requested');
+    const exit = events.find(event => event.type === 'worker.stopped' && event.data.workerId === job.attempts[0].worker_id);
+    alter(events, requested, exit);
+    assert.equal(evaluateExperiment(report.experiment, altered).checks.find(check => check.id === 'kill').status, 'fail', name);
+  }
   assert.equal(instance.queue.complete(id, job.attempts[0].worker_id, job.attempts[0].token, { stale: true }).accepted, false);
   assert.equal(instance.queue.evidence().integrity.valid, true);
 });
@@ -109,7 +142,13 @@ test('hard controller death disconnects orphan workers; a new controller resumes
     const dead = new Promise(resolve => child.once('exit', resolve));
     child.kill('SIGKILL');
     await dead;
-    await until(() => observer.db.prepare('SELECT phase FROM workers WHERE id=?').get(workerId)?.phase === 'stopped', 5000);
+    const workerPid = observer.snapshot().workers.find(w => w.id === workerId).pid;
+    await until(() => {
+      if (process.platform !== 'win32') return observer.db.prepare('SELECT phase FROM workers WHERE id=?').get(workerId)?.phase === 'stopped';
+      let gone = false;
+      try { process.kill(workerPid, 0); } catch (error) { gone = error.code === 'ESRCH'; }
+      return gone && observer.snapshot().workers.find(w => w.id === workerId)?.online === false;
+    }, 5000);
     const { jobId } = observer.submit({ label: 'after parent death', text: 'durable', delayMs: 0 }, 'hard-restart-key');
     await sleep(150);
     assert.equal(observer.detail(jobId).state, 'queued', 'No orphan process continues claiming.');

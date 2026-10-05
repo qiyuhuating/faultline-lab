@@ -36,6 +36,19 @@ try {
   }
   checks.push('every final frame matches actual receipts; stale commit is rejected');
   await page.locator('[data-scenario="crash"]').click();
+  const secondEventSeq = await page.locator('.event-row').nth(1).getAttribute('data-seq');
+  await page.locator('.event-row').nth(1).focus();
+  await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#scrub').inputValue(), '1');
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.seq), secondEventSeq);
+  await page.keyboard.press('Tab');
+  const thirdEventSeq = await page.locator('.event-row').nth(2).getAttribute('data-seq');
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.seq), thirdEventSeq);
+  await page.keyboard.press('Space');
+  assert.equal(await page.locator('#scrub').inputValue(), '2');
+  assert.equal(await page.evaluate(() => document.activeElement.dataset.seq), thirdEventSeq);
+  checks.push('Enter and Space preserve the event focus for consecutive keyboard frame selection');
+  await page.locator('#reset-button').click();
   await page.locator('#play-button').click();
   await page.waitForFunction(() => Number(document.querySelector('#scrub').value) > 0);
   await page.locator('#play-button').click();

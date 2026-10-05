@@ -45,6 +45,43 @@ function succeed(queue) {
   return id;
 }
 const status = (report, id) => report.checks.find((c) => c.id === id).status;
+for (const [field, value] of [
+  ['definition', '{"priority":99}'],
+  ['last_error', '{}'],
+]) {
+  test(`doctor rejects unreadable ${field} even when it is valid JSON`, (t) => {
+    const { queue, path, clock } = fixture(t);
+    const id = succeed(queue);
+    queue.db.prepare(`UPDATE jobs SET ${field}=? WHERE id=?`).run(value, id);
+    const before = databaseState(queue.db);
+    const report = diagnose(path, clock);
+    assert.equal(report.verdict, 'fail');
+    assert.equal(status(report, 'json-records'), 'fail');
+    assert.deepEqual(databaseState(queue.db), before);
+    assert.equal(JSON.stringify(report).includes('priority'), false);
+  });
+}
+test('doctor detects a missing failed attempt and an incorrect successful attempt counter', (t) => {
+  const { queue, path, clock, advance } = fixture(t);
+  queue.registerWorker('worker-a', 1, 1);
+  const id = queue.submit({}, 'attempt-history-key').jobId;
+  let claim = queue.claim('worker-a');
+  queue.fail(id, 'worker-a', claim.token, {});
+  advance(10000);
+  claim = queue.claim('worker-a');
+  queue.complete(id, 'worker-a', claim.token, {});
+  assert.equal(diagnose(path, clock).verdict, 'pass');
+  queue.db.prepare('DELETE FROM attempts WHERE job_id=? AND number=1').run(id);
+  assert.equal(status(diagnose(path, clock), 'attempt-history'), 'fail');
+  queue.db.prepare('UPDATE jobs SET attempt=1 WHERE id=?').run(id);
+  assert.equal(status(diagnose(path, clock), 'attempt-history'), 'fail');
+});
+test('doctor detects attempt records from a future generation', (t) => {
+  const { queue, path, clock } = fixture(t);
+  succeed(queue);
+  queue.db.exec('UPDATE attempts SET generation=1');
+  assert.equal(status(diagnose(path, clock), 'attempt-history'), 'fail');
+});
 test('read-only doctor checks a healthy database without changing any logical record', (t) => {
   const { queue, path, clock } = fixture(t);
   succeed(queue);
