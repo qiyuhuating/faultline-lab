@@ -1,0 +1,16 @@
+2026-10-05T12:14:39.497Z pw:browser <launching> C:/Users/xiaofeng/AppData/Local/ms-playwright/webkit-2359/Playwright.exe --inspector-pipe --disable-accelerated-compositing --headless --no-startup-window
+2026-10-05T12:14:39.506Z pw:browser <launched> pid=18984
+{
+  "browser": "webkit",
+  "checks": [
+    "partial bootstrap body times out and reconnects without reload",
+    "partial snapshot body releases the read lock and recovers",
+    "partial committed POST is confirmed by request key without a duplicate write"
+  ],
+  "passed": 3
+}
+2026-10-05T12:15:08.437Z pw:browser [pid=18984] <gracefully close start>
+2026-10-05T12:15:08.491Z pw:browser [pid=18984] <process did exit: exitCode=0, signal=null>
+2026-10-05T12:15:08.491Z pw:browser [pid=18984] starting temporary directories cleanup
+2026-10-05T12:15:08.493Z pw:browser [pid=18984] finished temporary directories cleanup
+2026-10-05T12:15:08.493Z pw:browser [pid=18984] <gracefully close end>

@@ -1,0 +1,78 @@
+{
+  "browser": "webkit",
+  "error": "page.waitForFunction: Target page, context or browser has been closed",
+  "checks": [
+    "partial bootstrap body times out and reconnects without reload"
+  ],
+  "stalled": "",
+  "writes": 0,
+  "lookups": 0,
+  "exceptions": [],
+  "observed": null,
+  "traffic": [
+    {
+      "at": 520,
+      "method": "GET",
+      "path": "/",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 533,
+      "method": "GET",
+      "path": "/styles.css",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 541,
+      "method": "GET",
+      "path": "/app.mjs",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 618,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 8623,
+      "failedPath": "/api/bootstrap",
+      "error": "Load request cancelled"
+    },
+    {
+      "at": 12639,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": ""
+    },
+    {
+      "at": 12656,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 12684,
+      "method": "GET",
+      "path": "/api/events",
+      "stalled": "snapshot"
+    },
+    {
+      "at": 12809,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": "snapshot"
+    },
+    {
+      "at": 20813,
+      "failedPath": "/api/snapshot",
+      "error": "Load request cancelled"
+    },
+    {
+      "at": 20936,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    }
+  ]
+}

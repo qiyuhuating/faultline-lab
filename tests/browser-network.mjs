@@ -12,8 +12,10 @@ const instance = await startServer({ port: 0, database: join(directory, 'queue.s
 let stalled = 'bootstrap';
 let writes = 0;
 let lookups = 0;
+const traffic = [];
 const proxy = createServer((incoming, response) => {
   const path = new URL(incoming.url, instance.url).pathname;
+  traffic.push({ at: Math.round(performance.now()), method: incoming.method, path, stalled });
   if (incoming.method === 'GET' && path.startsWith('/api/requests/')) lookups++;
   if (incoming.method === 'GET' && path === `/api/${stalled}`) {
     response.writeHead(200, { 'Content-Type': 'application/json' });
@@ -24,6 +26,8 @@ const proxy = createServer((incoming, response) => {
     method: incoming.method,
     headers: { ...incoming.headers, host: new URL(instance.url).host, ...(incoming.headers.origin ? { origin: instance.url } : {}) },
   }, result => {
+    traffic.push({ at: Math.round(performance.now()), path, status: result.statusCode, event: 'upstream response' });
+    result.on('end', () => traffic.push({ at: Math.round(performance.now()), path, event: 'upstream body complete' }));
     if (stalled === 'write' && incoming.method === 'POST' && path === '/api/jobs') {
       writes++;
       stalled = '';
@@ -40,23 +44,26 @@ const proxy = createServer((incoming, response) => {
   incoming.pipe(upstream);
 });
 await new Promise(resolve => proxy.listen(0, '127.0.0.1', resolve));
-let browser;
+let browser, page;
 const checks = [];
+const exceptions = [];
+// Allow the existing 20s read backoff, one 8s request and the 3s polling interval.
+const recoveryTimeout = 35000;
 try {
   browser = await playwright[type].launch({ headless: true });
-  const page = await browser.newPage();
-  const exceptions = [];
+  page = await browser.newPage();
   page.on('pageerror', error => exceptions.push(error.message));
+  page.on('requestfailed', request => traffic.push({ at: Math.round(performance.now()), failedPath: new URL(request.url()).pathname, error: request.failure()?.errorText }));
   await page.goto(`http://127.0.0.1:${proxy.address().port}`);
   await page.waitForFunction(() => document.querySelector('#error-banner').textContent.includes('连接中断'), null, { timeout: 12000 });
   stalled = '';
-  await page.waitForFunction(() => document.querySelector('#connection').textContent.includes('LIVE'), null, { timeout: 10000 });
+  await page.waitForFunction(() => document.querySelector('#connection').textContent.includes('LIVE') && !document.querySelector('#error-banner').textContent, null, { timeout: recoveryTimeout });
   checks.push('partial bootstrap body times out and reconnects without reload');
 
   stalled = 'snapshot';
   await page.waitForFunction(() => document.querySelector('#error-banner').textContent.includes('连接中断'), null, { timeout: 14000 });
   stalled = '';
-  await page.waitForFunction(() => document.querySelector('#connection').textContent.includes('LIVE'), null, { timeout: 10000 });
+  await page.waitForFunction(() => document.querySelector('#connection').textContent.includes('LIVE') && !document.querySelector('#error-banner').textContent, null, { timeout: recoveryTimeout });
   checks.push('partial snapshot body releases the read lock and recovers');
 
   stalled = 'write';
@@ -75,7 +82,14 @@ try {
   mkdirSync(artifacts, { recursive: true });
   const report = { browser: type, checks, passed: checks.length };
   writeFileSync(join(artifacts, 'network-result.json'), JSON.stringify(report, null, 2) + '\n');
+  writeFileSync(join(artifacts, 'network-traffic.json'), JSON.stringify({ browser: type, status: 'pass', elapsedMs: Math.round(performance.now()), traffic }, null, 2) + '\n');
   console.log(JSON.stringify(report, null, 2));
+} catch (error) {
+  const artifacts = resolve('test-results', type);
+  mkdirSync(artifacts, { recursive: true });
+  const observed = await page?.evaluate(() => ({ connection: document.querySelector('#connection')?.textContent, banner: document.querySelector('#error-banner')?.textContent, hidden: document.hidden })).catch(() => null);
+  writeFileSync(join(artifacts, 'network-failure.json'), JSON.stringify({ browser: type, error: error.message, checks, stalled, writes, lookups, exceptions, observed, traffic }, null, 2) + '\n');
+  throw error;
 } finally {
   await browser?.close();
   proxy.closeAllConnections();

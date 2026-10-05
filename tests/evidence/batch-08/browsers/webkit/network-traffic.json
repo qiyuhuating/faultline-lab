@@ -1,0 +1,233 @@
+{
+  "browser": "webkit",
+  "status": "pass",
+  "elapsedMs": 29373,
+  "traffic": [
+    {
+      "at": 669,
+      "method": "GET",
+      "path": "/",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 675,
+      "path": "/",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 675,
+      "path": "/",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 684,
+      "method": "GET",
+      "path": "/styles.css",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 686,
+      "method": "GET",
+      "path": "/app.mjs",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 687,
+      "path": "/styles.css",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 687,
+      "path": "/styles.css",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 689,
+      "path": "/app.mjs",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 689,
+      "path": "/app.mjs",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 750,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 8752,
+      "failedPath": "/api/bootstrap",
+      "error": "Load request cancelled"
+    },
+    {
+      "at": 12769,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": ""
+    },
+    {
+      "at": 12770,
+      "path": "/api/bootstrap",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 12770,
+      "path": "/api/bootstrap",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 12783,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 12785,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 12785,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 12813,
+      "method": "GET",
+      "path": "/api/events",
+      "stalled": "snapshot"
+    },
+    {
+      "at": 12814,
+      "path": "/api/events",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 12939,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": "snapshot"
+    },
+    {
+      "at": 20949,
+      "failedPath": "/api/snapshot",
+      "error": "Load request cancelled"
+    },
+    {
+      "at": 21075,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 21077,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 21077,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 21327,
+      "method": "POST",
+      "path": "/api/jobs",
+      "stalled": "write"
+    },
+    {
+      "at": 21331,
+      "path": "/api/jobs",
+      "status": 201,
+      "event": "upstream response"
+    },
+    {
+      "at": 21331,
+      "path": "/api/jobs",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 21683,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 21684,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 21684,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 24798,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 24799,
+      "path": "/api/snapshot",
+      "status": 304,
+      "event": "upstream response"
+    },
+    {
+      "at": 24799,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 27812,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 27814,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 27814,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 29342,
+      "failedPath": "/api/jobs",
+      "error": "Load request cancelled"
+    },
+    {
+      "at": 29342,
+      "method": "GET",
+      "path": "/api/requests/a6dd5315-3542-41d4-a9ad-c67a851fbda3",
+      "stalled": ""
+    },
+    {
+      "at": 29343,
+      "path": "/api/requests/a6dd5315-3542-41d4-a9ad-c67a851fbda3",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 29343,
+      "path": "/api/requests/a6dd5315-3542-41d4-a9ad-c67a851fbda3",
+      "event": "upstream body complete"
+    }
+  ]
+}

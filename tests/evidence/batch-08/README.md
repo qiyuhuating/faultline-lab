@@ -14,6 +14,9 @@ This batch retains executed local regressions and acceptance on Windows x64, Nod
 | `parent-death-probe.log` | Actual Windows worker PID exited after controller death while stored phase remained idle; heartbeat age correctly became offline. |
 | `core-before-staging.tap` | Complete 100-test candidate run: one old one-attempt workload assertion failed although all 240 tasks succeeded with unique receipts. Claims were competing with synchronous submission setup. |
 | `core-final.tap` | With backlog staged under pause, original strict one-attempt and receipt assertions retained: 100 tests, 99 passed, zero failed, one Linux-only descriptor skip. |
+| `core-sequential-final.tap` | Final 100-test run after isolating core test files: 99 passed, zero failed, one Linux-only skip. Actual four-process competition remains inside its test. |
+| `ci-attempt1-failed.log` | First patch CI failed Windows workload completion and WebKit recovery deadlines. The release collector also retains this complete failed CI batch, including all original job logs and artifact digests. |
+| `webkit-network-rerun.log` | Later local WebKit network run passes all three checks and the actual browser exits normally. An earlier browser-closed observation remains in browsers/webkit/network-failure.json and is not counted as acceptance. |
 | `proof-process-final.tap` | Final affected subset after adding crash-evidence negatives: 14/14 pass, including real process deaths, eight Windows evidence mutations, eleven receipt/attempt mutations and original recording compatibility. |
 | `model-campaign.json`, `model-campaign.log` | Independent policy model: 128 seeds × 256 steps, 32,768 transitions, all 16 command types exercised. |
 | `live-verification/`, `live-verification.log` | Seven actual process/HTTP fault scenarios, four supporting checks, evidence chain and semantic diagnosis. |

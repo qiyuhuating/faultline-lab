@@ -1,0 +1,250 @@
+{
+  "browser": "firefox",
+  "status": "pass",
+  "elapsedMs": 30281,
+  "traffic": [
+    {
+      "at": 1453,
+      "method": "GET",
+      "path": "/",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 1458,
+      "path": "/",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 1458,
+      "path": "/",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 1834,
+      "method": "GET",
+      "path": "/styles.css",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 1837,
+      "method": "GET",
+      "path": "/app.mjs",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 1838,
+      "path": "/styles.css",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 1838,
+      "path": "/styles.css",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 1839,
+      "path": "/app.mjs",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 1840,
+      "path": "/app.mjs",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 1856,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 1961,
+      "method": "GET",
+      "path": "/favicon.svg",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 1969,
+      "path": "/favicon.svg",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 1969,
+      "path": "/favicon.svg",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 9907,
+      "failedPath": "/api/bootstrap",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "at": 13861,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": ""
+    },
+    {
+      "at": 13862,
+      "path": "/api/bootstrap",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 13863,
+      "path": "/api/bootstrap",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 13865,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 13866,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 13867,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 13872,
+      "method": "GET",
+      "path": "/api/events",
+      "stalled": "snapshot"
+    },
+    {
+      "at": 13873,
+      "path": "/api/events",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 13997,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": "snapshot"
+    },
+    {
+      "at": 22008,
+      "failedPath": "/api/snapshot",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "at": 22131,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 22133,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 22134,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 22266,
+      "method": "POST",
+      "path": "/api/jobs",
+      "stalled": "write"
+    },
+    {
+      "at": 22270,
+      "path": "/api/jobs",
+      "status": 201,
+      "event": "upstream response"
+    },
+    {
+      "at": 22270,
+      "path": "/api/jobs",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 22523,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 22525,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 22525,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 25907,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 25909,
+      "path": "/api/snapshot",
+      "status": 304,
+      "event": "upstream response"
+    },
+    {
+      "at": 25909,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 28909,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 28910,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 28910,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 30263,
+      "failedPath": "/api/jobs",
+      "error": "NS_BINDING_ABORTED"
+    },
+    {
+      "at": 30264,
+      "method": "GET",
+      "path": "/api/requests/d4d5aefa-4ae1-44fb-a08e-9a20c519748b",
+      "stalled": ""
+    },
+    {
+      "at": 30265,
+      "path": "/api/requests/d4d5aefa-4ae1-44fb-a08e-9a20c519748b",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 30265,
+      "path": "/api/requests/d4d5aefa-4ae1-44fb-a08e-9a20c519748b",
+      "event": "upstream body complete"
+    }
+  ]
+}

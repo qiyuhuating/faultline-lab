@@ -77,6 +77,11 @@
       "sha256": "68ad6ebd9b96c3f85e1a6ebadef6837420a00b71e3ee6e0f9070a7fcb467bff5"
     },
     {
+      "path": "browsers/chromium/network-traffic.json",
+      "bytes": 4614,
+      "sha256": "1a1e3d8ed96e562a287eba6a743a380c2eb6de2ee48138ee09271105c79f8fdc"
+    },
+    {
       "path": "browsers/chromium/showcase-desktop.png",
       "bytes": 317459,
       "sha256": "6f834255f3dfc8a24c5149348bfe0964d494858cf55429dc68de548b4d42013a"
@@ -132,6 +137,11 @@
       "sha256": "73fe47d1f5b9ea80ad2c53a0e4a6880aa401c23cfeb8b47e0989042bc23b5418"
     },
     {
+      "path": "browsers/firefox/network-traffic.json",
+      "bytes": 4865,
+      "sha256": "79cea3c2385fd4af15aa176e2e4572b7411c4e7215c8ecc255a634c7802a4af4"
+    },
+    {
       "path": "browsers/firefox/showcase-desktop.png",
       "bytes": 251865,
       "sha256": "12034e245bd40ed3856284b67e99d079ef317d71af44be0c3cdf822a754e61f8"
@@ -182,9 +192,19 @@
       "sha256": "528fe6b0d1282fc004b789f258ec491e97b2a94471cbaa1c58728988493dc432"
     },
     {
+      "path": "browsers/webkit/network-failure.json",
+      "bytes": 1502,
+      "sha256": "9e28310d373c8a78895ab9b69b8ed2e5a7da902b741ed08ef9d05de7cd6db4a4"
+    },
+    {
       "path": "browsers/webkit/network-result.json",
       "bytes": 278,
       "sha256": "c8b6d8d071a92e28c316e3de73e0f39d12acb502e45f9e26ceff75f024da45a0"
+    },
+    {
+      "path": "browsers/webkit/network-traffic.json",
+      "bytes": 4535,
+      "sha256": "bad562d7c870e1ffc45eac2654d6628b40c81fcf2ccdba0d4df0cfbefaa250b1"
     },
     {
       "path": "browsers/webkit/showcase-desktop.png",
@@ -207,6 +227,11 @@
       "sha256": "720d33fb810b2c379c347e7098195655f4bac4473e8bbe629b49fc4baf1cc7e2"
     },
     {
+      "path": "ci-attempt1-failed.log",
+      "bytes": 79679,
+      "sha256": "8bb83fac432a7634f13b832b8cc98ca8caa431bb7097af59bc555575e1e4416a"
+    },
+    {
       "path": "core-before-staging.tap",
       "bytes": 21644,
       "sha256": "977f43e3d9aa44cce50fb1ad5a3468ca5644ba2fdb696ff36a717e98faa8976f"
@@ -215,6 +240,11 @@
       "path": "core-final.tap",
       "bytes": 20907,
       "sha256": "68a212ed65ae0dd6952cf8d7752f81bec0372a2e3c097f09b43d49adc24d2412"
+    },
+    {
+      "path": "core-sequential-final.tap",
+      "bytes": 20882,
+      "sha256": "b81933ebc358ff3b598c67a811e6b001efadd47cd9191568aefa6dfaadf54059"
     },
     {
       "path": "format-check.log",
@@ -305,6 +335,11 @@
       "path": "ui-races-before.json",
       "bytes": 365,
       "sha256": "29da4e2546bcb2994cf0b8f2a05e450c8192cba3231a47ee370c8495eb12f4bc"
+    },
+    {
+      "path": "webkit-network-rerun.log",
+      "bytes": 964,
+      "sha256": "345256f6c76e92c2c113994ef2b1dedf8d3284a0af28839a01259dafd4ed7a61"
     }
   ]
 }

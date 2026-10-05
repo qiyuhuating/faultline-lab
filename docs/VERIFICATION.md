@@ -20,6 +20,8 @@ The bounded model campaign remains 128 seeds × 256 commands = 32,768 transition
 
 One final local run finished all 240 jobs with 240 receipts but failed an older one-attempt assertion: workers were competing with the test's synchronous submission setup, allowing a legitimate lease expiry. The corrected test pauses claims while staging its backlog, verifies no job was attempted during setup, then resumes four workers and retains the original one-attempt and unique-receipt assertions. The failed run remains `core-before-staging.tap`; this is a test-workload correction, not a stronger exactly-once execution claim.
 
+The first patch CI run, [37307007664](https://github.com/qiyuhuating/faultline-lab/actions/runs/37307007664), passed Linux core, model, live HTTP, Chromium and Firefox but hit workload deadlines in Windows core and WebKit recovery. Core files now run sequentially so unrelated database/process suites do not compete with the four-process workload; its completion budget is 40 seconds, with the same result assertions. The network gate allows the application's existing maximum 20-second read backoff, eight-second in-flight request and three-second polling interval, and requires both LIVE and a cleared error banner. A failure retains request traffic and observed UI state rather than discarding diagnostic context. These are test-environment limits, not relaxed lease or receipt rules.
+
 Run the additional browser network gate after installing the selected engine:
 
 ```sh

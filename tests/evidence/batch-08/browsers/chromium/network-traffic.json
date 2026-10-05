@@ -1,0 +1,238 @@
+{
+  "browser": "chromium",
+  "status": "pass",
+  "elapsedMs": 29036,
+  "traffic": [
+    {
+      "at": 588,
+      "method": "GET",
+      "path": "/",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 596,
+      "path": "/",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 597,
+      "path": "/",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 605,
+      "method": "GET",
+      "path": "/styles.css",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 607,
+      "method": "GET",
+      "path": "/app.mjs",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 609,
+      "path": "/styles.css",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 609,
+      "path": "/styles.css",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 612,
+      "path": "/app.mjs",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 612,
+      "path": "/app.mjs",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 619,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": "bootstrap"
+    },
+    {
+      "at": 8621,
+      "failedPath": "/api/bootstrap",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "at": 12626,
+      "method": "GET",
+      "path": "/api/bootstrap",
+      "stalled": ""
+    },
+    {
+      "at": 12628,
+      "path": "/api/bootstrap",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 12628,
+      "path": "/api/bootstrap",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 12631,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 12632,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 12632,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 12645,
+      "method": "GET",
+      "path": "/api/events",
+      "stalled": ""
+    },
+    {
+      "at": 12647,
+      "path": "/api/events",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 12778,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": "snapshot"
+    },
+    {
+      "at": 20779,
+      "failedPath": "/api/snapshot",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "at": 20902,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 20904,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 20904,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 21004,
+      "method": "POST",
+      "path": "/api/jobs",
+      "stalled": "write"
+    },
+    {
+      "at": 21007,
+      "path": "/api/jobs",
+      "status": 201,
+      "event": "upstream response"
+    },
+    {
+      "at": 21007,
+      "path": "/api/jobs",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 21274,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 21277,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 21277,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 24624,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 24626,
+      "path": "/api/snapshot",
+      "status": 304,
+      "event": "upstream response"
+    },
+    {
+      "at": 24626,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 24628,
+      "failedPath": "/api/snapshot",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "at": 27624,
+      "method": "GET",
+      "path": "/api/snapshot",
+      "stalled": ""
+    },
+    {
+      "at": 27626,
+      "path": "/api/snapshot",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 27626,
+      "path": "/api/snapshot",
+      "event": "upstream body complete"
+    },
+    {
+      "at": 29012,
+      "method": "GET",
+      "path": "/api/requests/952005ec-85b4-4627-b72d-b234a4633ace",
+      "stalled": ""
+    },
+    {
+      "at": 29012,
+      "failedPath": "/api/jobs",
+      "error": "net::ERR_ABORTED"
+    },
+    {
+      "at": 29013,
+      "path": "/api/requests/952005ec-85b4-4627-b72d-b234a4633ace",
+      "status": 200,
+      "event": "upstream response"
+    },
+    {
+      "at": 29013,
+      "path": "/api/requests/952005ec-85b4-4627-b72d-b234a4633ace",
+      "event": "upstream body complete"
+    }
+  ]
+}

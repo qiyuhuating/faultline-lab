@@ -1,0 +1,645 @@
+core (windows-latest)	Core tests with retained raw evidence	﻿2026-10-05T12:04:52.2726323Z ##[group]Run set -o pipefail
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:52.2726893Z ^[[36;1mset -o pipefail^[[0m
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:52.2727301Z ^[[36;1mmkdir -p test-results/core^[[0m
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:52.2728072Z ^[[36;1mnode -p 'JSON.stringify(process.versions, null, 2)' > test-results/core/runtime.json^[[0m
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:52.2729152Z ^[[36;1mnode --test --test-reporter=tap tests/*.test.mjs | tee test-results/core/core.tap^[[0m
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:52.2752174Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:52.2752869Z ##[endgroup]
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:52.6315288Z TAP version 13
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7840782Z # Subtest: v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7842423Z ok 1 - v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7843187Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7843833Z   duration_ms: 814.4891
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7844186Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7844486Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7845326Z # Subtest: audit failure after repository completion rolls back receipt, state and attempt together
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7846586Z ok 2 - audit failure after repository completion rolls back receipt, state and attempt together
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7847063Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7847402Z   duration_ms: 3613.8951
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7847844Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7848470Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7849286Z # Subtest: experiment ledger failure rolls back nested idempotency, jobs and experiment record
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7850630Z ok 3 - experiment ledger failure rolls back nested idempotency, jobs and experiment record
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7851516Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7851852Z   duration_ms: 633.8918
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7852227Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7852553Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7853492Z # Subtest: inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7854933Z ok 4 - inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7855802Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7856121Z   duration_ms: 618.0195
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7856493Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:58.7856806Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9250837Z # Subtest: another connection pruning invalidates a cached experiment in the same clock bucket
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9251939Z ok 5 - another connection pruning invalidates a cached experiment in the same clock bucket
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9252407Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9252606Z   duration_ms: 838.0081
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9252838Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9253026Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9253481Z # Subtest: same connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9254183Z ok 6 - same connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9254648Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9254840Z   duration_ms: 3627.8312
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9255068Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9255267Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9255722Z # Subtest: other connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9256452Z ok 7 - other connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9256894Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9257082Z   duration_ms: 630.5885
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9257313Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9257499Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9257924Z # Subtest: another connection deleting a receipt cannot reuse a cached passing verdict
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9259138Z ok 8 - another connection deleting a receipt cannot reuse a cached passing verdict
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9259617Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9259939Z   duration_ms: 688.7522
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9260327Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9260673Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9261222Z # Subtest: a report computed after a temporary deletion cannot survive transaction rollback
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9261984Z ok 9 - a report computed after a temporary deletion cannot survive transaction rollback
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9265007Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9265212Z   duration_ms: 547.2119
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9265447Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9265724Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9266160Z # Subtest: a report computed after a temporary repair cannot survive transaction rollback
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9266830Z ok 10 - a report computed after a temporary repair cannot survive transaction rollback
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9267244Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9267883Z   duration_ms: 461.4091
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9268137Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:04:59.9268324Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6149729Z # Subtest: doctor rejects unreadable definition even when it is valid JSON
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6150936Z ok 11 - doctor rejects unreadable definition even when it is valid JSON
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6152142Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6152487Z   duration_ms: 625.6423
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6152876Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6153227Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6153893Z # Subtest: doctor rejects unreadable last_error even when it is valid JSON
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6154923Z ok 12 - doctor rejects unreadable last_error even when it is valid JSON
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6155596Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6155938Z   duration_ms: 3674.3653
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6160909Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6161303Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6162557Z # Subtest: doctor detects a missing failed attempt and an incorrect successful attempt counter
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6163893Z ok 13 - doctor detects a missing failed attempt and an incorrect successful attempt counter
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6164715Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6165050Z   duration_ms: 743.938
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6165434Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6165763Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6166376Z # Subtest: doctor detects attempt records from a future generation
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6167252Z ok 14 - doctor detects attempt records from a future generation
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6167819Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6168126Z   duration_ms: 615.8258
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6169036Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6169319Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6175424Z # Subtest: read-only doctor checks a healthy database without changing any logical record
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6176186Z ok 15 - read-only doctor checks a healthy database without changing any logical record
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6176606Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6176802Z   duration_ms: 541.6993
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6177018Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6177202Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6178049Z # Subtest: read-only doctor does not create a missing database or its parent directory
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6178690Z ok 16 - read-only doctor does not create a missing database or its parent directory
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6179191Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6179521Z   duration_ms: 428.9196
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6179899Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6180085Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6295002Z # Subtest: read-only doctor leaves legacy schema metadata untouched
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6295988Z ok 17 - read-only doctor leaves legacy schema metadata untouched
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6296641Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6296971Z   duration_ms: 286.9256
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6297371Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6297699Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6298452Z # Subtest: missing successful receipt is detected even while event hashes remain valid
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6299662Z ok 18 - missing successful receipt is detected even while event hashes remain valid
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6300439Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6300768Z   duration_ms: 246.1199
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6301151Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6301479Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6302262Z # Subtest: a receipt from a losing token and a dangling running attempt fail distinct checks
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6303516Z ok 19 - a receipt from a losing token and a dangling running attempt fail distinct checks
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6304297Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6304621Z   duration_ms: 534.2508
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6306089Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6306401Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6307018Z # Subtest: expired leases warn without recovering or consuming attempts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6307924Z ok 20 - expired leases warn without recovering or consuming attempts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6308513Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6308820Z   duration_ms: 450.6389
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6309190Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6309511Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6310245Z # Subtest: deleting every retained event cannot be mistaken for an empty valid ledger
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6311413Z ok 21 - deleting every retained event cannot be mistaken for an empty valid ledger
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6312131Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6312443Z   duration_ms: 487.1462
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6312814Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6313166Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6315409Z # Subtest: an exactly pruned empty chain stays valid and the next append keeps its boundary
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6316632Z ok 22 - an exactly pruned empty chain stays valid and the next append keeps its boundary
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6317391Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6317708Z   duration_ms: 541.9168
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6318079Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6318410Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6319180Z # Subtest: unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6320385Z ok 23 - unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6321152Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6321467Z   duration_ms: 442.8515
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6321835Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6322399Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6323247Z # Subtest: portable evidence rejects forged range start and truncated tail even with matching counts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6324527Z ok 24 - portable evidence rejects forged range start and truncated tail even with matching counts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6325316Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6325624Z   duration_ms: 521.7456
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6325992Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6326301Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6326984Z # Subtest: malformed event JSON is diagnosed as failure rather than rewritten
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6328045Z ok 25 - malformed event JSON is diagnosed as failure rather than rewritten
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6328741Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6329074Z   duration_ms: 395.8416
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6329474Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6329803Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6330593Z # Subtest: untyped callers cannot commit a result that violates the typed successful state
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6331862Z ok 26 - untyped callers cannot commit a result that violates the typed successful state
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6332638Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6332983Z   duration_ms: 522.6311
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6333383Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:04.6333703Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0574504Z # Subtest: HTTP diagnostics is observation only and exposes no inputs, control token or database path
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0575955Z ok 27 - HTTP diagnostics is observation only and exposes no inputs, control token or database path
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0576720Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0577041Z   duration_ms: 560.77
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0577420Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0577761Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0578771Z # Subtest: nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0580273Z ok 28 - nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0581173Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0581489Z   duration_ms: 377.5641
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0581868Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0582193Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0892205Z # Subtest: committed POST with a lost response is resolved from its durable request key
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0893327Z ok 29 - committed POST with a lost response is resolved from its durable request key
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0893771Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0893962Z   duration_ms: 132.75
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0894439Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0894626Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0894905Z # Subtest: static UI, bootstrap and CSP are served
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0895289Z ok 30 - static UI, bootstrap and CSP are served
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0895574Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0895753Z   duration_ms: 5.3194
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0895974Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0896341Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0896803Z # Subtest: write without control token is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0897417Z ok 31 - write without control token is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0897694Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0897866Z   duration_ms: 3.3505
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0898060Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0898233Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0898579Z # Subtest: non-ASCII control token is rejected without a server exception
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0899110Z ok 32 - non-ASCII control token is rejected without a server exception
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0899677Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0899849Z   duration_ms: 2.7869
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0900059Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0900230Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0900512Z # Subtest: cross-site write is rejected even with a token
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0900919Z ok 33 - cross-site write is rejected even with a token
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0901260Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0901433Z   duration_ms: 3.0673
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0901625Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0901801Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0902026Z # Subtest: DNS-rebinding Host is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0902338Z ok 34 - DNS-rebinding Host is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0902581Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0902748Z   duration_ms: 7.6497
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0902940Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0903110Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0903362Z # Subtest: missing idempotency key is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0903695Z ok 35 - missing idempotency key is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0903963Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0904130Z   duration_ms: 3.5363
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0904323Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0904491Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0904812Z # Subtest: malformed JSON and unsupported body fields fail explicitly
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0905298Z ok 36 - malformed JSON and unsupported body fields fail explicitly
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0905625Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0905794Z   duration_ms: 5.1197
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0905982Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0906150Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0906434Z # Subtest: body size limit returns 413 without creating a task
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0906856Z ok 37 - body size limit returns 413 without creating a task
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0907151Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0907318Z   duration_ms: 5.357
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0907622Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0907912Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0908260Z # Subtest: three parallel HTTP submissions with same key create one task
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0908775Z ok 38 - three parallel HTTP submissions with same key create one task
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0909107Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0909280Z   duration_ms: 79.1093
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0909650Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0909838Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0910139Z # Subtest: stale revision receives 409 and original data survives
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0910727Z ok 39 - stale revision receives 409 and original data survives
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0911160Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0911395Z   duration_ms: 36.0768
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0911749Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0912000Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0912384Z # Subtest: snapshot supports conditional reads and validates pagination
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0912895Z ok 40 - snapshot supports conditional reads and validates pagination
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0913226Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0913400Z   duration_ms: 6.0503
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0913603Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0913774Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0914018Z # Subtest: SSE resumes from a persisted cursor
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0914386Z ok 41 - SSE resumes from a persisted cursor
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0914646Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0914972Z   duration_ms: 259.8078
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0915176Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0915346Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0915659Z # Subtest: evidence export contains a valid retained event chain
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0916125Z ok 42 - evidence export contains a valid retained event chain
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0916431Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0916604Z   duration_ms: 6.2268
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0916802Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:05.0916980Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4455876Z # Subtest: independent state oracle checks 16 deterministic seeds across connections and restart
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4457483Z ok 43 - independent state oracle checks 16 deterministic seeds across connections and restart
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4463220Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4465927Z   duration_ms: 26663.5197
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4466419Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4467797Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4468590Z # Subtest: the independent oracle detects a worker accepting every stale renewal
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4469724Z ok 44 - the independent oracle detects a worker accepting every stale renewal
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4470431Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4470804Z   duration_ms: 855.3716
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4471229Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4471645Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4472731Z # Subtest: the independent oracle detects successful responses fabricated for stale commits
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4473868Z ok 45 - the independent oracle detects successful responses fabricated for stale commits
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4474932Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4475475Z   duration_ms: 630.9584
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4476502Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4476916Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4477649Z # Subtest: a seed reproduces the same logical transcript despite different UUIDs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4478757Z ok 46 - a seed reproduces the same logical transcript despite different UUIDs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4479444Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4479745Z   duration_ms: 4008.9926
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4480127Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4480463Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4481117Z # Subtest: the independent oracle detects a service bypassing expectedRevision
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4482173Z ok 47 - the independent oracle detects a service bypassing expectedRevision
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4482818Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4483083Z   duration_ms: 586.106
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4483395Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4483693Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4484513Z # Subtest: a failed campaign preserves a repeatable command prefix and reproduction command
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4485793Z ok 48 - a failed campaign preserves a repeatable command prefix and reproduction command
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4486580Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4486909Z   duration_ms: 602.36
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4487288Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:33.4487621Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3268012Z # Subtest: a live stalled worker submits after takeover and is actually fenced out
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3269040Z ok 49 - a live stalled worker submits after takeover and is actually fenced out
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3269625Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3269901Z   duration_ms: 5873.6873
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3270224Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3270503Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3271149Z # Subtest: four independent processes drain 240 tasks with no missing or duplicate receipts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3272202Z not ok 50 - four independent processes drain 240 tasks with no missing or duplicate receipts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3272846Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3273111Z   duration_ms: 22004.8931
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3273421Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3273950Z   location: 'D:\\a\\faultline-lab\\faultline-lab\\tests\\process.test.mjs:39:1'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3274567Z   failureType: 'testCodeFailure'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3275034Z   error: 'Timed out waiting for a real worker process.'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3275493Z   code: 'ERR_TEST_FAILURE'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3275831Z   stack: |-
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3276341Z     until (file:///D:/a/faultline-lab/faultline-lab/tests/process.test.mjs:20:9)
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3278220Z     async TestContext.<anonymous> (file:///D:/a/faultline-lab/faultline-lab/tests/process.test.mjs:50:3)
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3279071Z     async Test.run (node:internal/test_runner/test:1409:7)
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3279786Z     async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3280231Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3280696Z # Subtest: SIGKILL is real: expired attempt is replaced and only one receipt is committed
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3442791Z ok 51 - SIGKILL is real: expired attempt is replaced and only one receipt is committed
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3443691Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3444796Z   duration_ms: 4140.7316
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3445219Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.3445565Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.6122099Z # Subtest: controller restart preserves tasks, pause state and idempotency records
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.6123649Z ok 52 - controller restart preserves tasks, pause state and idempotency records
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.6124299Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.6124626Z   duration_ms: 372.7948
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.6125011Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:36.6125329Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4594063Z # Subtest: hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4595514Z ok 53 - hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4596319Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4596637Z   duration_ms: 3865.2317
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4596990Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4597295Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4773654Z # Subtest: experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4775190Z ok 54 - experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4776056Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4776791Z   duration_ms: 10.4575
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4777255Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4777628Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4778411Z # Subtest: experiment proof binds the current receipt to the successful lease and attempt
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4779645Z ok 55 - experiment proof binds the current receipt to the successful lease and attempt
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4780788Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4781132Z   duration_ms: 4.6751
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4781892Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4782897Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4783629Z # Subtest: the six original public recordings still pass shared experiment proof
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4784657Z ok 56 - the six original public recordings still pass shared experiment proof
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4785196Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4785409Z   duration_ms: 1.0469
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4785657Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4785864Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4786339Z # Subtest: unfinished experiments remain pending; real completion passes their checks
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4787091Z ok 57 - unfinished experiments remain pending; real completion passes their checks
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4787567Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4787769Z   duration_ms: 4.6903
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4787988Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4788316Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4789014Z # Subtest: dead-letter proof remains available after a successful new generation
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4790386Z ok 58 - dead-letter proof remains available after a successful new generation
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4791121Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4791516Z   duration_ms: 7.0056
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4791906Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4792228Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4793419Z # Subtest: missing stale-worker rejection becomes a failed proof, never an endless green pending state
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4794285Z ok 59 - missing stale-worker rejection becomes a failed proof, never an endless green pending state
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4794756Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4794952Z   duration_ms: 4.6374
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4795175Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4795356Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4796043Z # Subtest: expired experiment records are pruned together with their retained jobs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4796656Z ok 60 - expired experiment records are pruned together with their retained jobs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4797038Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4797280Z   duration_ms: 3.369
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4797637Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4797869Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4798320Z # Subtest: portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4799030Z ok 61 - portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4799450Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4799630Z   duration_ms: 3.6341
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4799833Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4800012Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4800427Z # Subtest: a concurrent commit cannot splice two database versions into one experiment proof
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4802045Z ok 62 - a concurrent commit cannot splice two database versions into one experiment proof
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4802470Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4802661Z   duration_ms: 503.0344
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4802890Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4803077Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4803423Z # Subtest: same intent creates one durable task across two connections
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4803936Z ok 63 - same intent creates one durable task across two connections
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4804270Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4804447Z   duration_ms: 399.3361
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4804654Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4804829Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4805160Z # Subtest: same idempotency key with different content is a conflict
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4805672Z ok 64 - same idempotency key with different content is a conflict
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4806004Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4806187Z   duration_ms: 473.4447
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4806393Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4806579Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4806931Z # Subtest: canonical defaults and property order identify the same request
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4807488Z ok 65 - canonical defaults and property order identify the same request
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4807836Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4808008Z   duration_ms: 506.0319
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4808209Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4808381Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4808664Z # Subtest: invalid data does not overwrite or append a job
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4809082Z ok 66 - invalid data does not overwrite or append a job
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4809370Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4809853Z   duration_ms: 463.7634
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4810204Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4810389Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4810778Z # Subtest: priority applies only to due jobs; delayed tasks cannot be claimed early
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4811378Z ok 67 - priority applies only to due jobs; delayed tasks cannot be claimed early
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4811749Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4811927Z   duration_ms: 775.089
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4812130Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4812305Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4812597Z # Subtest: two connections cannot claim the same live lease
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4813021Z ok 68 - two connections cannot claim the same live lease
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4813311Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4813488Z   duration_ms: 552.8293
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4813689Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4813870Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4814143Z # Subtest: wrong owner and token cannot renew or commit
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4814527Z ok 69 - wrong owner and token cannot renew or commit
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4814805Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4814979Z   duration_ms: 506.6843
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4815200Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4815378Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4815759Z # Subtest: lease expiry is recovered and a stale worker cannot overwrite a new owner
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4816351Z ok 70 - lease expiry is recovered and a stale worker cannot overwrite a new owner
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4816731Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4816908Z   duration_ms: 696.2653
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4817123Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4817443Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4817802Z # Subtest: expired lease cannot be renewed or committed before a sweeper runs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4818351Z ok 71 - expired lease cannot be renewed or committed before a sweeper runs
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4818702Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4818883Z   duration_ms: 491.9141
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4819101Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4819282Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4819518Z # Subtest: heartbeat extends an active lease
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4819849Z ok 72 - heartbeat extends an active lease
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4820101Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4820273Z   duration_ms: 631.0166
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4820479Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4820655Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4820978Z # Subtest: retry budget, exponential delay and jitter are enforced
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4821444Z ok 73 - retry budget, exponential delay and jitter are enforced
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4821854Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4822031Z   duration_ms: 669.8788
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4822254Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4822435Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4822797Z # Subtest: revision conflict rejects a stale action without changing the job
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4823341Z ok 74 - revision conflict rejects a stale action without changing the job
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4823696Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4823904Z   duration_ms: 627.8603
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4824117Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4824295Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4824624Z # Subtest: cancel fences in-flight work; repeated cancel is idempotent
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4909566Z ok 75 - cancel fences in-flight work; repeated cancel is idempotent
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4910609Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4910929Z   duration_ms: 837.8049
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4911291Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4911611Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4912242Z # Subtest: dead-letter replay retains history and advances the generation
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4913646Z ok 76 - dead-letter replay retains history and advances the generation
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4914381Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4914705Z   duration_ms: 685.3966
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4915076Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4915395Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4916357Z # Subtest: successful task cannot be replayed into duplicate side effects
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4917650Z ok 77 - successful task cannot be replayed into duplicate side effects
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4918293Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4918606Z   duration_ms: 488.8389
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4918962Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4919273Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4919851Z # Subtest: pause prevents new claims but permits in-flight commits
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4920686Z ok 78 - pause prevents new claims but permits in-flight commits
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4921250Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4921914Z   duration_ms: 677.3947
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4922749Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4923409Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4924143Z # Subtest: duplicate experiment invokes actual deduplication and yields one job
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4925193Z ok 79 - duplicate experiment invokes actual deduplication and yields one job
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4925783Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4925980Z   duration_ms: 537.8337
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4926213Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4926499Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4927028Z # Subtest: receipt and success commit atomically, and duplicate completion is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4927684Z ok 80 - receipt and success commit atomically, and duplicate completion is rejected
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4928432Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4928627Z   duration_ms: 622.6473
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4928858Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4929101Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4929365Z # Subtest: event chain detects modified payloads
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4929737Z ok 81 - event chain detects modified payloads
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4930081Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4930406Z   duration_ms: 549.9248
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4930821Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4931015Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4931721Z # Subtest: retention preserves live jobs and advances the chain anchor
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4933093Z ok 82 - retention preserves live jobs and advances the chain anchor
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4933634Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4933826Z   duration_ms: 679.8615
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4934045Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4934383Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4935029Z # Subtest: keyset pagination returns disjoint pages and supports state filters
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4936020Z ok 83 - keyset pagination returns disjoint pages and supports state filters
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4936410Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4936596Z   duration_ms: 1604.286
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4936813Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4937002Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4937256Z # Subtest: SQL-looking labels remain data
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4937578Z ok 84 - SQL-looking labels remain data
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4938036Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4938224Z   duration_ms: 550.2159
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4938436Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4938624Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4938975Z # Subtest: handlers return real summaries and reject invalid numeric input
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4939518Z ok 85 - handlers return real summaries and reject invalid numeric input
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4939868Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4940043Z   duration_ms: 0.5719
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4940249Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4940426Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4940807Z # Subtest: a real SQLite writer lock cannot renew a lease that expires while waiting
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4941403Z ok 86 - a real SQLite writer lock cannot renew a lease that expires while waiting
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4941771Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4941948Z   duration_ms: 2340.9892
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4942158Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4942332Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4942736Z # Subtest: SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4943382Z ok 87 - SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4943784Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4943964Z   duration_ms: 615.2875
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4944173Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4944451Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4945004Z # Subtest: a standalone task detail cannot splice running state with a concurrently committed receipt
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4945742Z ok 88 - a standalone task detail cannot splice running state with a concurrently committed receipt
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4946177Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4946354Z   duration_ms: 634.098
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4946558Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4946739Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4947123Z # Subtest: pruning invalidates a cached experiment even in the same clock bucket
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4947712Z ok 89 - pruning invalidates a cached experiment even in the same clock bucket
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4948391Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4948668Z   duration_ms: 618.0663
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4948881Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4949060Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4949447Z # Subtest: conditional snapshots observe workers going offline without a new event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4950043Z ok 90 - conditional snapshots observe workers going offline without a new event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4950412Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4950587Z   duration_ms: 589.0444
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4950790Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4950965Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4951320Z # Subtest: conditional snapshots observe retention without an appended event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4951874Z ok 91 - conditional snapshots observe retention without an appended event
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4952259Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4952439Z   duration_ms: 642.9025
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4952643Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4952817Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4953295Z # Subtest: concurrent close calls await the same completed shutdown
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4954075Z ok 92 - concurrent close calls await the same completed shutdown
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4954946Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4956172Z   duration_ms: 462.4885
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4956504Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4956700Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4957138Z # Subtest: a request whose body finishes during shutdown is rejected without a durable write
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4957805Z ok 93 - a request whose body finishes during shutdown is rejected without a durable write
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4958210Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4958392Z   duration_ms: 477.4215
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4958602Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4958779Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4959098Z # Subtest: failed port binding closes the real SQLite file handles
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4959767Z ok 94 - failed port binding closes the real SQLite file handles # SKIP Linux file-descriptor verification.
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4960244Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4960433Z   duration_ms: 0.3943
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4960644Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4960944Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4961452Z # Subtest: a real worker storage-commit error is not reported as a handler failure
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4962502Z ok 95 - a real worker storage-commit error is not reported as a handler failure
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4962907Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4963096Z   duration_ms: 4282.8297
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4963314Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4963495Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4963924Z # Subtest: HTTP page exhaustion returns STORAGE_FULL and the same request key can recover
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4964608Z ok 96 - HTTP page exhaustion returns STORAGE_FULL and the same request key can recover
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4965097Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4965394Z   duration_ms: 554.9245
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4965695Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4965944Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4966422Z # Subtest: HTTP writer contention returns STORAGE_BUSY without saving a false success
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4967102Z ok 97 - HTTP writer contention returns STORAGE_BUSY without saving a false success
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4967587Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4967847Z   duration_ms: 1235.7179
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4968144Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4968769Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4978338Z # Subtest: worker-stop metadata failure still releases processes, IPC and SQLite
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4979028Z ok 98 - worker-stop metadata failure still releases processes, IPC and SQLite
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4979423Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4979614Z   duration_ms: 615.385
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4979838Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4980019Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4980476Z # Subtest: invalid live-verification configuration does not start workers or create artifacts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4981173Z ok 99 - invalid live-verification configuration does not start workers or create artifacts
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4981599Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4981785Z   duration_ms: 2.7437
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4981989Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4982171Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4982636Z # Subtest: a real experiment deadline retains a failed report and shuts down its server and workers
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4983368Z ok 100 - a real experiment deadline retains a failed report and shuts down its server and workers
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4983801Z   ---
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4983987Z   duration_ms: 350.0182
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4984199Z   type: 'test'
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4984380Z   ...
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4984544Z 1..100
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4984715Z # tests 100
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4984883Z # suites 0
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4985053Z # pass 98
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4985231Z # fail 1
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4985403Z # cancelled 0
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4985581Z # skipped 1
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4985750Z # todo 0
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4985939Z # duration_ms 47903.2455
+core (windows-latest)	Core tests with retained raw evidence	2026-10-05T12:05:40.4996118Z ##[error]Process completed with exit code 1.
+browser (webkit)	Run node tests/browser-network.mjs	﻿2026-10-05T12:05:18.6354706Z ##[group]Run node tests/browser-network.mjs
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:18.6355111Z ^[[36;1mnode tests/browser-network.mjs^[[0m
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:18.6419333Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:18.6419694Z env:
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:18.6419899Z   FAULTLINE_BROWSER: webkit
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:18.6420142Z ##[endgroup]
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1159289Z node:internal/modules/run_main:107
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1160155Z     triggerUncaughtException(
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1160675Z     ^
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1160971Z 
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1161517Z page.waitForFunction: Timeout 10000ms exceeded.
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1162080Z     at /home/runner/work/faultline-lab/faultline-lab/tests/browser-network.mjs:59:14 {
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1162524Z   log: [],
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1162916Z   name: 'TimeoutError'
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1163247Z }
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1163449Z 
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1164033Z Node.js v24.21.0
+browser (webkit)	Run node tests/browser-network.mjs	2026-10-05T12:05:56.1309178Z ##[error]Process completed with exit code 1.

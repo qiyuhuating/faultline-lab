@@ -36,7 +36,7 @@ test('a live stalled worker submits after takeover and is actually fenced out', 
   assert.ok(job.events.find(e => e.type === 'job.succeeded').seq < rejected.seq, 'The obsolete process really wakes after the new owner commits.');
 });
 
-test('four independent processes drain 240 tasks with no missing or duplicate receipts', { timeout: 25000 }, async t => {
+test('four independent processes drain 240 tasks with no missing or duplicate receipts', { timeout: 60000 }, async t => {
   const directory = mkdtempSync(join(tmpdir(), 'faultline-process-'));
   const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 4, quiet: true });
   t.after(async () => { await instance.close(); rmSync(directory, { recursive: true, force: true }); });
@@ -47,7 +47,7 @@ test('four independent processes drain 240 tasks with no missing or duplicate re
   assert.equal(instance.queue.db.prepare('SELECT COUNT(*) n FROM jobs WHERE attempt!=0').get().n, 0);
   // Stage the backlog before timing worker competition; submission itself holds writer locks.
   instance.queue.setPaused(false, 'process-resume-backlog');
-  await until(() => instance.queue.snapshot().counts.succeeded === 240);
+  await until(() => instance.queue.snapshot().counts.succeeded === 240, 40000);
   assert.equal(instance.queue.db.prepare('SELECT COUNT(*) n FROM receipts').get().n, 240);
   assert.equal(instance.queue.db.prepare("SELECT COUNT(*) n FROM jobs WHERE attempt!=1").get().n, 0);
   const owners = instance.queue.db.prepare('SELECT DISTINCT worker_id FROM attempts').all();
