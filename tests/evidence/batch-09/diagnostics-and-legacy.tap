@@ -1,0 +1,166 @@
+TAP version 13
+# Subtest: v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+ok 1 - v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+  ---
+  duration_ms: 98.3998
+  type: 'test'
+  ...
+# Subtest: audit failure after repository completion rolls back receipt, state and attempt together
+ok 2 - audit failure after repository completion rolls back receipt, state and attempt together
+  ---
+  duration_ms: 96.8843
+  type: 'test'
+  ...
+# Subtest: experiment ledger failure rolls back nested idempotency, jobs and experiment record
+ok 3 - experiment ledger failure rolls back nested idempotency, jobs and experiment record
+  ---
+  duration_ms: 87.3282
+  type: 'test'
+  ...
+# Subtest: inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+ok 4 - inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+  ---
+  duration_ms: 90.4928
+  type: 'test'
+  ...
+# Subtest: doctor rejects stored job kind that disagrees with its definition
+ok 5 - doctor rejects stored job kind that disagrees with its definition
+  ---
+  duration_ms: 98.4583
+  type: 'test'
+  ...
+# Subtest: doctor rejects stored job label that disagrees with its definition
+ok 6 - doctor rejects stored job label that disagrees with its definition
+  ---
+  duration_ms: 99.7398
+  type: 'test'
+  ...
+# Subtest: doctor rejects stored job priority that disagrees with its definition
+ok 7 - doctor rejects stored job priority that disagrees with its definition
+  ---
+  duration_ms: 95.3562
+  type: 'test'
+  ...
+# Subtest: doctor rejects stored job max_attempts that disagrees with its definition
+ok 8 - doctor rejects stored job max_attempts that disagrees with its definition
+  ---
+  duration_ms: 82.512
+  type: 'test'
+  ...
+# Subtest: doctor rejects unreadable definition even when it is valid JSON
+ok 9 - doctor rejects unreadable definition even when it is valid JSON
+  ---
+  duration_ms: 73.3093
+  type: 'test'
+  ...
+# Subtest: doctor rejects unreadable last_error even when it is valid JSON
+ok 10 - doctor rejects unreadable last_error even when it is valid JSON
+  ---
+  duration_ms: 75.4834
+  type: 'test'
+  ...
+# Subtest: doctor detects a missing failed attempt and an incorrect successful attempt counter
+ok 11 - doctor detects a missing failed attempt and an incorrect successful attempt counter
+  ---
+  duration_ms: 92.1024
+  type: 'test'
+  ...
+# Subtest: doctor detects attempt records from a future generation
+ok 12 - doctor detects attempt records from a future generation
+  ---
+  duration_ms: 76.8677
+  type: 'test'
+  ...
+# Subtest: read-only doctor checks a healthy database without changing any logical record
+ok 13 - read-only doctor checks a healthy database without changing any logical record
+  ---
+  duration_ms: 68.4275
+  type: 'test'
+  ...
+# Subtest: read-only doctor does not create a missing database or its parent directory
+ok 14 - read-only doctor does not create a missing database or its parent directory
+  ---
+  duration_ms: 51.6615
+  type: 'test'
+  ...
+# Subtest: read-only doctor leaves legacy schema metadata untouched
+ok 15 - read-only doctor leaves legacy schema metadata untouched
+  ---
+  duration_ms: 66.328
+  type: 'test'
+  ...
+# Subtest: missing successful receipt is detected even while event hashes remain valid
+ok 16 - missing successful receipt is detected even while event hashes remain valid
+  ---
+  duration_ms: 71.6277
+  type: 'test'
+  ...
+# Subtest: a receipt from a losing token and a dangling running attempt fail distinct checks
+ok 17 - a receipt from a losing token and a dangling running attempt fail distinct checks
+  ---
+  duration_ms: 75.7154
+  type: 'test'
+  ...
+# Subtest: expired leases warn without recovering or consuming attempts
+ok 18 - expired leases warn without recovering or consuming attempts
+  ---
+  duration_ms: 68.8343
+  type: 'test'
+  ...
+# Subtest: deleting every retained event cannot be mistaken for an empty valid ledger
+ok 19 - deleting every retained event cannot be mistaken for an empty valid ledger
+  ---
+  duration_ms: 67.2169
+  type: 'test'
+  ...
+# Subtest: an exactly pruned empty chain stays valid and the next append keeps its boundary
+ok 20 - an exactly pruned empty chain stays valid and the next append keeps its boundary
+  ---
+  duration_ms: 61.8848
+  type: 'test'
+  ...
+# Subtest: unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+ok 21 - unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+  ---
+  duration_ms: 59.2007
+  type: 'test'
+  ...
+# Subtest: portable evidence rejects forged range start and truncated tail even with matching counts
+ok 22 - portable evidence rejects forged range start and truncated tail even with matching counts
+  ---
+  duration_ms: 60.9484
+  type: 'test'
+  ...
+# Subtest: malformed event JSON is diagnosed as failure rather than rewritten
+ok 23 - malformed event JSON is diagnosed as failure rather than rewritten
+  ---
+  duration_ms: 67.0399
+  type: 'test'
+  ...
+# Subtest: untyped callers cannot commit a result that violates the typed successful state
+ok 24 - untyped callers cannot commit a result that violates the typed successful state
+  ---
+  duration_ms: 58.1076
+  type: 'test'
+  ...
+# Subtest: HTTP diagnostics is observation only and exposes no inputs, control token or database path
+ok 25 - HTTP diagnostics is observation only and exposes no inputs, control token or database path
+  ---
+  duration_ms: 91.3072
+  type: 'test'
+  ...
+# Subtest: nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+ok 26 - nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+  ---
+  duration_ms: 70.1757
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1790.9251

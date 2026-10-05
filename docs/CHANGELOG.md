@@ -1,5 +1,12 @@
 # Release history
 
+## v1.2.2 — 2026-10-05
+
+- Make read-only Doctor reject task kind, label, priority or retry budget that disagrees with its persisted normalized JSON definition. Valid JSON and an unchanged event chain alone cannot establish this consistency.
+- Add four failing-before regressions that preserve every database record during inspection and require diagnostics to expose no original or altered labels or task text.
+
+The task engine, schema and report shape are unchanged. Exact-commit release gates retain Linux/Windows core, independent model, live faults and all three browser engines; local reproduction is retained in batch-09.
+
 ## v1.2.1 — 2026-10-05
 
 - Invalidate experiment reports after writes from either SQLite connection, including renewals and retention without an event. Bypass shared report caching inside existing transactions so rolled-back data cannot retain a false pass or failure.

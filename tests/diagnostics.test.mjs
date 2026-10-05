@@ -46,6 +46,29 @@ function succeed(queue) {
 }
 const status = (report, id) => report.checks.find((c) => c.id === id).status;
 for (const [field, value] of [
+  ['kind', 'csv_summary'],
+  ['label', 'changed private label'],
+  ['priority', 99],
+  ['max_attempts', 99],
+]) {
+  test(`doctor rejects stored job ${field} that disagrees with its definition`, (t) => {
+    const { queue, path, clock } = fixture(t);
+    const { jobId } = queue.submit(
+      { label: 'original private label', text: 'private payload', priority: 0, maxAttempts: 4 },
+      `definition-${field}-intent`,
+    );
+    queue.db.prepare(`UPDATE jobs SET ${field}=? WHERE id=?`).run(value, jobId);
+    const before = databaseState(queue.db);
+    const report = diagnose(path, clock);
+    assert.equal(report.verdict, 'fail');
+    assert.equal(status(report, 'json-records'), 'fail');
+    assert.equal(status(report, 'event-chain'), 'pass');
+    assert.deepEqual(databaseState(queue.db), before);
+    for (const text of ['private payload', 'original private label', 'changed private label'])
+      assert.equal(JSON.stringify(report).includes(text), false);
+  });
+}
+for (const [field, value] of [
   ['definition', '{"priority":99}'],
   ['last_error', '{}'],
 ]) {

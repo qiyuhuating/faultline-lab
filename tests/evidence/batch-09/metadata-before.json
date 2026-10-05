@@ -1,0 +1,26 @@
+[
+  {
+    "field": "kind",
+    "value": "csv_summary",
+    "verdict": "pass",
+    "failed": []
+  },
+  {
+    "field": "label",
+    "value": "altered label",
+    "verdict": "pass",
+    "failed": []
+  },
+  {
+    "field": "priority",
+    "value": 99,
+    "verdict": "pass",
+    "failed": []
+  },
+  {
+    "field": "max_attempts",
+    "value": 99,
+    "verdict": "pass",
+    "failed": []
+  }
+]

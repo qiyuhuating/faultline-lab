@@ -1,0 +1,58 @@
+{
+  "format": "faultline-local-evidence-v1",
+  "version": "1.2.2",
+  "baseCommit": "5c682aff75e28ec6349788a1a404eeb28c5f349c",
+  "core": {
+    "tests": 104,
+    "passed": 103,
+    "failed": 0,
+    "skipped": 1
+  },
+  "records": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "before.tap",
+      "bytes": 4625,
+      "sha256": "0ec98778e07ae8d0ff2178d78a0b49d0e7bf0e76eb3ff3c8d4f9127912126557"
+    },
+    {
+      "path": "core-final.tap",
+      "bytes": 21724,
+      "sha256": "8e003a20d0cac9af498141cfe2e1d7a40a8f3741e639633123d0264e7359832e"
+    },
+    {
+      "path": "diagnostics-and-legacy.tap",
+      "bytes": 5868,
+      "sha256": "4b3b9c14085c772a3ec7b4e9172fa7e499bf82b14795a047257be5ee1ddc780a"
+    },
+    {
+      "path": "format-check.log",
+      "bytes": 381,
+      "sha256": "b796730a832d489eaec489a1f92b9080c4ae9f2a9fd294829bbf6cd99bd2607f"
+    },
+    {
+      "path": "metadata-before.json",
+      "bytes": 388,
+      "sha256": "95cefce6157f6cafcab5f0859cb43867a7ae05dd847ae93752655047f8d45009"
+    },
+    {
+      "path": "runtime.json",
+      "bytes": 719,
+      "sha256": "b588845a71f24659251c59ef6462b04fa0998378036f124e096e70bf806a578e"
+    },
+    {
+      "path": "static-check.log",
+      "bytes": 292,
+      "sha256": "6563ad7c08c78007c3ce882ef603cfd9d34ebe09aef36dd4ee82079232fca33e"
+    },
+    {
+      "path": "type-contracts.log",
+      "bytes": 64,
+      "sha256": "19be70b5e8301cceca436acf684423da45493ac7ad3751ac93d6bf79f9a24950"
+    }
+  ]
+}

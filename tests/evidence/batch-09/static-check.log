@@ -1,0 +1,6 @@
+
+> faultline-lab@1.2.2 check
+> node tools/check.mjs && tsc -p tsconfig.json && node tools/check-architecture.mjs
+
+Syntax checked: 39 modules; frontend uses DOM text nodes.
+Architecture: 19 typed modules; no runtime cycles, layer violations, explicit any or distributed transaction ownership.

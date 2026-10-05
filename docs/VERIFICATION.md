@@ -1,6 +1,14 @@
-# Faultline v1.2.1 — verification record
+# Faultline v1.2.2 — verification record
 
 Updated 2026-10-05. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+
+## v1.2.2 persisted definition and task metadata
+
+On frozen v1.2.1, independently changing a task's kind to another valid handler, its label, its priority to 99 or its retry budget to 99 left Doctor's verdict at PASS. The original JSON definition and event hashes remained valid. Batch-09 retains all four observations and failing tests.
+
+Doctor now compares the readable task's four indexed fields with its normalized definition inside the existing read snapshot. The existing `json-records` check fails on disagreement, samples only affected IDs and retains the same response shape and bounded scan. It neither repairs metadata nor changes execution policy. The four regressions require an unchanged logical database and absence of original/altered private labels and task text from the report. The diagnostic and legacy architecture subset passes 26 cases locally.
+
+Core acceptance now contains 104 tests; the exact-commit workflow retains 12 negative compile contracts, 32,768 model transitions, seven live fault scenarios with four supporting checks and 84 browser checks. Windows explicitly skips the Linux-only file-descriptor assertion. Publication remains conditional on every gate and the extracted source smoke passing.
 
 ## v1.2.1 report correctness, browser recovery and Windows acceptance
 

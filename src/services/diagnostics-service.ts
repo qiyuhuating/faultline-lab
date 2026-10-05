@@ -104,14 +104,22 @@ export class DiagnosticsService {
       const unreadable: string[] = [];
       for (const row of this.store.iterate<JobRow>('SELECT * FROM jobs')) {
         try {
-          serialize(row, true);
+          const job = serialize(row, true);
+          if (
+            (job.kind !== job.definition.kind ||
+              job.label !== job.definition.label ||
+              job.priority !== job.definition.priority ||
+              job.maxAttempts !== job.definition.maxAttempts) &&
+            unreadable.length < 20
+          )
+            unreadable.push(row.id);
         } catch {
           if (unreadable.length < 20) unreadable.push(row.id);
         }
       }
       checks.push({
         id: 'json-records',
-        label: '持久化任务与 JSON 结构可读取',
+        label: '持久化任务与 JSON 定义可读取且一致',
         status: unreadable.length ? 'fail' : 'pass',
         evidence: { sampleIds: unreadable, sampleLimit: 20, atLeast: unreadable.length },
       });
