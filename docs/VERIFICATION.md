@@ -12,6 +12,8 @@ Five regressions cover all six orders of positive/negative normal and subnormal 
 
 Core acceptance contains 116 cases. Exact-commit Linux/Windows, compilation/contracts/formatting, 32,768 model transitions, seven real fault scenarios with four supporting checks, all 84 browser checks and the extracted source smoke remain required release gates. Raw failures and successful evidence stay separate in batch-12 and the collected CI archives.
 
+The first complete candidate [CI 37429774559](https://github.com/qiyuhuating/faultline-lab/actions/runs/37429774559) passed all 116 Linux core cases and 115 Windows cases plus the explicit skip; its other six gates passed. Windows then failed the separate 500-task benchmark during synchronous bulk submission with active worker writers (`database is locked`). The benchmark now stages its backlog before starting four workers, retaining 500 jobs, WAL/FULL, the 60-second total budget, receipts and chain assertions. Reported elapsed time includes submission, startup and completion, and `submissionMode` identifies the changed workload. These measurements are not directly comparable with the earlier overlapping-submission benchmark. Production transaction/lease policy is unchanged; the original failed CI log is retained.
+
 ## v1.2.4 Unicode task-label persistence
 
 On frozen v1.2.3, real HTTP submissions with lone high or low surrogate labels returned 201. SQLite stored U+FFFD in the indexed label, but the JSON definition preserved the escaped surrogate. Doctor correctly flagged the task immediately afterward. Valid emoji and embedded NUL did not exhibit this mismatch. Batch-11 retains the original responses and failing-before tests.
@@ -163,6 +165,8 @@ The release collector saves every completed main-branch verification batch up to
 | Environment | Node 24.19.0, SQLite 3.53.3, Linux x64, 8 available CPUs |
 
 Original result: `docs/benchmarks/local-2026-09-30.json`. CI reruns retain their separate measurements. This is a single-host microbenchmark using the internal submission primitive and tiny computation, including worker startup and polling granularity. It is not HTTP QPS, external delivery capacity or a production SLA.
+
+From v1.2.5, the benchmark stages the backlog before starting workers and records this in `submissionMode`; elapsed time still includes submission, startup and completion. Historical overlapping-submission results are not directly comparable.
 
 ## Practical scope
 

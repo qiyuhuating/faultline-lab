@@ -1,0 +1,23 @@
+{
+  "measuredAt": "2026-10-06T07:33:48.459Z",
+  "scope": "single-host local microbenchmark, tiny SHA-256 tasks, no external I/O",
+  "environment": {
+    "node": "v24.16.0",
+    "sqlite": "3.53.0",
+    "platform": "win32",
+    "arch": "x64",
+    "availableCPUs": 20
+  },
+  "workers": 4,
+  "jobs": 500,
+  "submissionMs": 612,
+  "endToEndMs": 6309,
+  "jobsPerSecond": 79.3,
+  "succeeded": 500,
+  "receipts": 500,
+  "attempts": 500,
+  "eventChainValid": true,
+  "durability": "SQLite WAL, synchronous=FULL",
+  "submissionMode": "backlog staged before worker startup",
+  "note": "Not a production capacity claim; rerun on the target hardware."
+}

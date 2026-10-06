@@ -20,6 +20,16 @@
       "sha256": "9b5f918cff826ca5f4737d93cedc5b9fe20d337a607ee560ff21619663bd1c94"
     },
     {
+      "path": "benchmark-500.json",
+      "bytes": 641,
+      "sha256": "487d1b1d0a80618e4af5795ebb042b2522c02043379a2ce73fcab7f3c4c737cd"
+    },
+    {
+      "path": "ci-benchmark-before.log",
+      "bytes": 3556,
+      "sha256": "b3ced7a16246129ffd882503bee4bec5552cdfb42c3653493ccd46c141c0dc9e"
+    },
+    {
       "path": "core-final.tap",
       "bytes": 25314,
       "sha256": "12fa51c6e2a7f6addb36cf9b808572faeaff5d1ae1e478d2cc86187afaa554d1"

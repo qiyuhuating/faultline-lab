@@ -1,0 +1,21 @@
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	﻿2026-10-06T07:29:15.5687901Z ##[group]Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:15.5688558Z ^[[36;1mnode tools/benchmark.mjs --jobs=500 --output=benchmark-result.json^[[0m
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:15.5698132Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:15.5698504Z ##[endgroup]
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7209655Z file:///D:/a/faultline-lab/faultline-lab/src/storage/sqlite-store.ts:62
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7210866Z     this.db.exec('BEGIN IMMEDIATE');
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7211288Z             ^
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7211451Z 
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7211623Z Error: database is locked
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7212201Z     at SqliteStore.transaction (file:///D:/a/faultline-lab/faultline-lab/src/storage/sqlite-store.ts:62:13)
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7212982Z     at JobService.submit (file:///D:/a/faultline-lab/faultline-lab/src/services/job-service.ts:56:23)
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7213657Z     at Queue.submit (file:///D:/a/faultline-lab/faultline-lab/src/queue.ts:84:22)
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7214349Z     at file:///D:/a/faultline-lab/faultline-lab/tools/benchmark.mjs:14:50
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7214951Z     at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7215432Z   code: 'ERR_SQLITE_ERROR',
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7215725Z   errcode: 5,
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7216018Z   errstr: 'database is locked'
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7216325Z }
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7216455Z 
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7216582Z Node.js v24.21.0
+core (windows-latest)	Run node tools/benchmark.mjs --jobs=500 --output=benchmark-result.json	2026-10-06T07:29:38.7391532Z ##[error]Process completed with exit code 1.
