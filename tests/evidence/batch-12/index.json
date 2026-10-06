@@ -1,0 +1,78 @@
+{
+  "format": "faultline-local-evidence-v1",
+  "version": "1.2.5",
+  "baseCommit": "9a8a9aeef55b7ee6268c901e4775bd4d2f29a028",
+  "core": {
+    "tests": 116,
+    "passed": 115,
+    "failed": 0,
+    "skipped": 1
+  },
+  "records": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "before.tap",
+      "bytes": 9844,
+      "sha256": "9b5f918cff826ca5f4737d93cedc5b9fe20d337a607ee560ff21619663bd1c94"
+    },
+    {
+      "path": "core-final.tap",
+      "bytes": 25314,
+      "sha256": "12fa51c6e2a7f6addb36cf9b808572faeaff5d1ae1e478d2cc86187afaa554d1"
+    },
+    {
+      "path": "format-check.log",
+      "bytes": 387,
+      "sha256": "824d8a117bed55b9f25e2f657418b2b9a6869ede65d44abaac24a943a37c21c2"
+    },
+    {
+      "path": "fraction-inputs.json",
+      "bytes": 571319,
+      "sha256": "753438cb57d27ede2a1b681e0eb84bb0931d9d4300034dbc938abaa3952f8084"
+    },
+    {
+      "path": "fraction-reference.json",
+      "bytes": 306,
+      "sha256": "b28924dee1259c2dd94cd17f44106433b2c5cd7d292037e63d7e4cf6247e10fa"
+    },
+    {
+      "path": "observations-before.json",
+      "bytes": 1201,
+      "sha256": "5fb4573f598703946dd9a1088f480dbacf2fa5c3211db7b3235f7f3d8c88157a"
+    },
+    {
+      "path": "process-drain.json",
+      "bytes": 739052,
+      "sha256": "3bbb8b8f761abc329ab9523e9d2c7aafbc4727deb53a5d1c6e8f6bf09263793c"
+    },
+    {
+      "path": "runtime.json",
+      "bytes": 719,
+      "sha256": "b588845a71f24659251c59ef6462b04fa0998378036f124e096e70bf806a578e"
+    },
+    {
+      "path": "static-check.log",
+      "bytes": 298,
+      "sha256": "83a3d603bc4e7d5ef92b152ec30c0a72f6c6f2dd97810d05fdf066c5a566bd25"
+    },
+    {
+      "path": "summation-final.tap",
+      "bytes": 1324,
+      "sha256": "114c9bef8c11df3a178b6f697e35b3b3e234038d0a90b272f85e80d5f09f03db"
+    },
+    {
+      "path": "type-contracts.log",
+      "bytes": 68,
+      "sha256": "0e9e01e197cb1ef2f6ba6dea6a2706c40aaecf388c3329ef6bb641b1dba41985"
+    },
+    {
+      "path": "writer-lock-recovery.json",
+      "bytes": 6690,
+      "sha256": "e790f5021e982d8c98fb1a91f415d6a74373d69015a7b8689b6f51dbe47e2017"
+    }
+  ]
+}

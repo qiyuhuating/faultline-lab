@@ -1,0 +1,53 @@
+{
+  "baseCommit": "9a8a9aeef55b7ee6268c901e4775bd4d2f29a028",
+  "cases": [
+    {
+      "values": [
+        1000000000000,
+        0.000001,
+        -1000000000000
+      ],
+      "result": {
+        "count": 3,
+        "min": -1000000000000,
+        "max": 1000000000000,
+        "sum": 0,
+        "mean": 0,
+        "sha256": "4f746094ad88a3c6ce2aef8ed66501a80ee2ff6aa57689e70424a0cce0a9b38a"
+      }
+    },
+    {
+      "values": [
+        1000000000000,
+        -1000000000000,
+        0.000001
+      ],
+      "result": {
+        "count": 3,
+        "min": -1000000000000,
+        "max": 1000000000000,
+        "sum": 0.000001,
+        "mean": 3.333333333333333e-7,
+        "sha256": "4d6e04485de6029c521f3cba1d83755fab4fa6c6673fe68cd22328433302c558"
+      }
+    },
+    {
+      "values": [
+        1,
+        1.1102230246251565e-16,
+        5e-324
+      ],
+      "result": {
+        "count": 3,
+        "min": 5e-324,
+        "max": 1,
+        "sum": 1,
+        "mean": 0.3333333333333333,
+        "sha256": "4c575b4b514949546093ec702924ba50d70aa6e527f48d10e45ad1abab33e15d"
+      }
+    }
+  ],
+  "compensatedBalancedSum": -7.157428404298838e-20,
+  "expectedBalancedSum": 0,
+  "balancedCount": 2000
+}

@@ -1,0 +1,249 @@
+TAP version 13
+# Subtest: numeric summaries retain a small residual in every order of large cancelling inputs
+not ok 1 - numeric summaries retain a small residual in every order of large cancelling inputs
+  ---
+  duration_ms: 2.1242
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\summation.test.mjs:28:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    1000000000000,9.5367431640625e-7,-1000000000000
+    + actual - expected
+    
+      {
+        count: 3,
+        max: 1000000000000,
+    +   mean: 0,
+    -   mean: 3.178914388020833e-7,
+        min: -1000000000000,
+        sha256: '806fca1e24d65f6bc0a574ee64cc0c411ebb40a7dff8201b3a9732fb3bd62f83',
+    +   sum: 0
+    -   sum: 9.5367431640625e-7
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    count: 3
+    min: -1000000000000
+    max: 1000000000000
+    sum: 9.5367431640625e-7
+    mean: 3.178914388020833e-7
+    sha256: '806fca1e24d65f6bc0a574ee64cc0c411ebb40a7dff8201b3a9732fb3bd62f83'
+  actual:
+    count: 3
+    min: -1000000000000
+    max: 1000000000000
+    sum: 0
+    mean: 0
+    sha256: '806fca1e24d65f6bc0a574ee64cc0c411ebb40a7dff8201b3a9732fb3bd62f83'
+  operator: 'deepStrictEqual'
+  stack: |-
+    verify (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:13:10)
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:30:63)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.start (node:internal/test_runner/test:1177:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+  ...
+# Subtest: numeric summaries round the exact binary sum once, including ties and subnormal values
+not ok 2 - numeric summaries round the exact binary sum once, including ties and subnormal values
+  ---
+  duration_ms: 0.2723
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\summation.test.mjs:34:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    1,1.1102230246251565e-16,5e-324
+    + actual - expected
+    
+      {
+        count: 3,
+        max: 1,
+    +   mean: 0.3333333333333333,
+    -   mean: 0.3333333333333334,
+        min: 5e-324,
+        sha256: '4c575b4b514949546093ec702924ba50d70aa6e527f48d10e45ad1abab33e15d',
+    +   sum: 1
+    -   sum: 1.0000000000000002
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    count: 3
+    min: 5e-324
+    max: 1
+    sum: 1.0000000000000002
+    mean: 0.3333333333333334
+    sha256: '4c575b4b514949546093ec702924ba50d70aa6e527f48d10e45ad1abab33e15d'
+  actual:
+    count: 3
+    min: 5e-324
+    max: 1
+    sum: 1
+    mean: 0.3333333333333333
+    sha256: '4c575b4b514949546093ec702924ba50d70aa6e527f48d10e45ad1abab33e15d'
+  operator: 'deepStrictEqual'
+  stack: |-
+    verify (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:13:10)
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:49:43)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+    Test.postRun (node:internal/test_runner/test:1447:19)
+    Test.run (node:internal/test_runner/test:1372:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+  ...
+# Subtest: the 2,000-value limit preserves repeated residuals and exact cancellation
+not ok 3 - the 2,000-value limit preserves repeated residuals and exact cancellation
+  ---
+  duration_ms: 1.3587
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\summation.test.mjs:52:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    1e12,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,1e-6,
+    + actual - expected
+    
+      {
+        count: 2000,
+        max: 1000000000000,
+    +   mean: 0,
+    -   mean: 9.989999999999999e-7,
+        min: -1000000000000,
+        sha256: '70313dadbfba275bb3402c639d4ddd21ff189235e47400983ac7b729da4838d2',
+    +   sum: 0
+    -   sum: 0.0019979999999999998
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    count: 2000
+    min: -1000000000000
+    max: 1000000000000
+    sum: 0.0019979999999999998
+    mean: 9.989999999999999e-7
+    sha256: '70313dadbfba275bb3402c639d4ddd21ff189235e47400983ac7b729da4838d2'
+  actual:
+    count: 2000
+    min: -1000000000000
+    max: 1000000000000
+    sum: 0
+    mean: 0
+    sha256: '70313dadbfba275bb3402c639d4ddd21ff189235e47400983ac7b729da4838d2'
+  operator: 'deepStrictEqual'
+  stack: |-
+    verify (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:13:10)
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:55:3)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+    Test.postRun (node:internal/test_runner/test:1447:19)
+    Test.run (node:internal/test_runner/test:1372:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
+  ...
+# Subtest: seeded numeric permutations agree with an independent fixed-grid integer oracle
+not ok 4 - seeded numeric permutations agree with an independent fixed-grid integer oracle
+  ---
+  duration_ms: 1.0458
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\summation.test.mjs:65:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    -901898009694,-0.0008640289306640625,0.0009088516235351562,-903697481916,-901420083438,0.00048542022705078125,-901009643
+    + actual - expected
+    
+      {
+        count: 192,
+        max: 904284257952,
+    +   mean: 0.0000286102294921875,
+    -   mean: 0.00005225837230682373,
+        min: -904284257952,
+        sha256: '53b3fafe6cdba0374d56198b042a894e72d71df7ba1c85dbe86b0dcaf0efb2d2',
+    +   sum: 0.0054931640625
+    -   sum: 0.010033607482910156
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    count: 192
+    min: -904284257952
+    max: 904284257952
+    sum: 0.010033607482910156
+    mean: 0.00005225837230682373
+    sha256: '53b3fafe6cdba0374d56198b042a894e72d71df7ba1c85dbe86b0dcaf0efb2d2'
+  actual:
+    count: 192
+    min: -904284257952
+    max: 904284257952
+    sum: 0.0054931640625
+    mean: 0.0000286102294921875
+    sha256: '53b3fafe6cdba0374d56198b042a894e72d71df7ba1c85dbe86b0dcaf0efb2d2'
+  operator: 'deepStrictEqual'
+  stack: |-
+    verify (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:13:10)
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:83:7)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+    Test.postRun (node:internal/test_runner/test:1447:19)
+    Test.run (node:internal/test_runner/test:1372:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
+  ...
+# Subtest: a real HTTP worker commits the corrected numeric result once and retains it after restart
+not ok 5 - a real HTTP worker commits the corrected numeric result once and retains it after restart
+  ---
+  duration_ms: 216.6772
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\summation.test.mjs:88:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+        count: 2000,
+        max: 1000000000000,
+    +   mean: 0,
+    -   mean: 9.989999999999999e-7,
+        min: -1000000000000,
+        sha256: '70313dadbfba275bb3402c639d4ddd21ff189235e47400983ac7b729da4838d2',
+    +   sum: 0
+    -   sum: 0.0019979999999999998
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    count: 2000
+    min: -1000000000000
+    max: 1000000000000
+    sum: 0.0019979999999999998
+    mean: 9.989999999999999e-7
+    sha256: '70313dadbfba275bb3402c639d4ddd21ff189235e47400983ac7b729da4838d2'
+  actual:
+    count: 2000
+    max: 1000000000000
+    mean: 0
+    min: -1000000000000
+    sha256: '70313dadbfba275bb3402c639d4ddd21ff189235e47400983ac7b729da4838d2'
+    sum: 0
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/summation.test.mjs:113:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1313:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 0
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 337.5676

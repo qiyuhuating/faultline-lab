@@ -1,6 +1,16 @@
-# Faultline v1.2.4 — verification record
+# Faultline v1.2.5 — verification record
 
 Updated 2026-10-06. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+
+## v1.2.5 numeric summary accuracy
+
+Frozen v1.2.4 returns zero for `1e12,0.000001,-1e12` but a nonzero sum for the same values in another order. It also rounds a halfway value before a later subnormal input can affect the final rounding decision. Batch-12 preserves the observations and all five failing-before regressions. A trial of simple compensated summation introduced a nonzero residual for a balanced 2,000-value sequence; that observation is retained too.
+
+The handler now accumulates parsed binary64 values exactly in a BigInt fixed-point total and rounds once to nearest, ties to even. The input bounds keep the accumulator small. Count, extrema, source-text hash, accepted syntax and limits are unchanged; mean remains the rounded sum divided by count. This is exact summation of parsed Number values, not arbitrary-precision decimal arithmetic, and old results are not recomputed. The fixed-point approach is motivated by the primary research on [exact floating-point summation](https://arxiv.org/abs/1505.05571); this bounded BigInt implementation is specific to the handler.
+
+Five regressions cover all six orders of positive/negative normal and subnormal residuals, even/odd rounding ties and values just above a tie, 2,000 values including balanced cancellation, 128 seeds with four permutations each against an independent 2^-20 integer-grid oracle, and an actual HTTP worker followed by controller restart. The HTTP check independently verifies the stored receipt result and its winning token/time. An additional Python Fraction oracle agrees on 256 cases of 96 values spanning exponents -1074 through 39, retaining inputs and their digest. Reproduce it optionally with `python tests/summation-reference.py` (use `--node` to select Node 24).
+
+Core acceptance contains 116 cases. Exact-commit Linux/Windows, compilation/contracts/formatting, 32,768 model transitions, seven real fault scenarios with four supporting checks, all 84 browser checks and the extracted source smoke remain required release gates. Raw failures and successful evidence stay separate in batch-12 and the collected CI archives.
 
 ## v1.2.4 Unicode task-label persistence
 

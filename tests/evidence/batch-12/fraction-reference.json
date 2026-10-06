@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "seed": 1251074,
+  "cases": 256,
+  "valuesPerCase": 96,
+  "exponents": [
+    -1074,
+    39
+  ],
+  "oracle": "Python fractions.Fraction.from_float; exact rational sum then float once",
+  "inputSha256": "753438cb57d27ede2a1b681e0eb84bb0931d9d4300034dbc938abaa3952f8084"
+}

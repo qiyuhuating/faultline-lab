@@ -1,5 +1,11 @@
 # Release history
 
+## v1.2.5 — 2026-10-06
+
+- Fix numeric summaries that lose small residuals between large cancelling values. Accumulate the parsed binary64 inputs as integer multiples of 2^-1074 and round once to nearest, ties to even; preserve count/min/max/hash and existing input limits.
+- Add five failing-before regressions covering input permutations, subnormal values, rounding boundaries, the 2,000-value limit, an independent fixed-grid oracle and a real HTTP worker's receipt/result after restart. Preserve balanced zero and ordinary decimal Number semantics.
+- Retain an optional Python rational cross-check of 256 cases spanning exponents -1074 through 39. Neither Python nor a new package is required by the server or core tests. Existing successful results and receipts are not rewritten.
+
 ## v1.2.4 — 2026-10-06
 
 - Reject ill-formed Unicode task labels at the insertion boundary before any record is written. Previously an HTTP-accepted lone surrogate was replaced by SQLite while remaining escaped in the JSON definition, creating a task that immediately failed consistency diagnosis.
