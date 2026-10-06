@@ -1,6 +1,6 @@
 # Faultline v1.2.2 — verification record
 
-Updated 2026-10-05. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+Updated 2026-10-06. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
 
 ## v1.2.2 persisted definition and task metadata
 
@@ -8,7 +8,11 @@ On frozen v1.2.1, independently changing a task's kind to another valid handler,
 
 Doctor now compares the readable task's four indexed fields with its normalized definition inside the existing read snapshot. The existing `json-records` check fails on disagreement, samples only affected IDs and retains the same response shape and bounded scan. It neither repairs metadata nor changes execution policy. The four regressions require an unchanged logical database and absence of original/altered private labels and task text from the report. The diagnostic and legacy architecture subset passes 26 cases locally.
 
-Core acceptance now contains 104 tests; the exact-commit workflow retains 12 negative compile contracts, 32,768 model transitions, seven live fault scenarios with four supporting checks and 84 browser checks. Windows explicitly skips the Linux-only file-descriptor assertion. Publication remains conditional on every gate and the extracted source smoke passing.
+Core acceptance now contains 105 tests; the exact-commit workflow retains 12 negative compile contracts, 32,768 model transitions, seven live fault scenarios with four supporting checks and 84 browser checks. Windows explicitly skips the Linux-only file-descriptor assertion. Publication remains conditional on every gate and the extracted source smoke passing.
+
+The first candidate's [CI run 37313762328](https://github.com/qiyuhuating/faultline-lab/actions/runs/37313762328) passed six gates. Windows completed all 240 tasks with 240 receipts but one task needed a replacement lease, failing the incidental one-attempt assertion. Ordinary work can legitimately be retried after a lease expires; only the internal receipt has an at-most-once commit guarantee per generation. The four-process test now checks every expected digest, complete consecutive attempt/token history, matching expiry events and one receipt matching the winning attempt and completion time. It still requires four distinct starting process IDs, multiple participating owners, all 240 unique jobs and a valid chain. No production lease or workload limit changed.
+
+A separate real-process regression holds an actual SQLite writer lock beyond the 2.4-second lease while an ordinary digest task is running. With no configured task fault, its expired attempt must be replaced, the correct receipt committed once and the old token rejected. Both tests retain job-level JSON evidence before assertions; raw failed CI and local harness attempts remain in batch-09.
 
 ## v1.2.1 report correctness, browser recovery and Windows acceptance
 

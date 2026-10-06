@@ -3,8 +3,8 @@
   "version": "1.2.2",
   "baseCommit": "5c682aff75e28ec6349788a1a404eeb28c5f349c",
   "core": {
-    "tests": 104,
-    "passed": 103,
+    "tests": 105,
+    "passed": 104,
     "failed": 0,
     "skipped": 1
   },
@@ -20,9 +20,19 @@
       "sha256": "0ec98778e07ae8d0ff2178d78a0b49d0e7bf0e76eb3ff3c8d4f9127912126557"
     },
     {
+      "path": "ci-37313762328-failed.log",
+      "bytes": 87753,
+      "sha256": "9865aed3a35bd4627549b30de695bd5575bf29e8676253c9b291c13a82e21d43"
+    },
+    {
       "path": "core-final.tap",
       "bytes": 21724,
       "sha256": "8e003a20d0cac9af498141cfe2e1d7a40a8f3741e639633123d0264e7359832e"
+    },
+    {
+      "path": "core-lease-final.tap",
+      "bytes": 22605,
+      "sha256": "a4a97ddb69c62d833fbe8332044636d91fd78ac926da69afdcd605b6523493b0"
     },
     {
       "path": "diagnostics-and-legacy.tap",
@@ -40,6 +50,21 @@
       "sha256": "95cefce6157f6cafcab5f0859cb43867a7ae05dd847ae93752655047f8d45009"
     },
     {
+      "path": "process-drain.json",
+      "bytes": 739052,
+      "sha256": "44c1a458682bb3cf879fd3d916c4dc9e3850f176d6497381c9e3c33ad0efe28d"
+    },
+    {
+      "path": "process-final.tap",
+      "bytes": 1552,
+      "sha256": "a51de370ee147668baf0ac2c66ab1e9fbcf867ad845efc174892f4298b9e1165"
+    },
+    {
+      "path": "process-harness-before.tap",
+      "bytes": 3916,
+      "sha256": "ddf17860d718edc440547e4ce1a8f255e68c2959d5faa7e9958d1d337c3dc02c"
+    },
+    {
       "path": "runtime.json",
       "bytes": 719,
       "sha256": "b588845a71f24659251c59ef6462b04fa0998378036f124e096e70bf806a578e"
@@ -50,9 +75,19 @@
       "sha256": "6563ad7c08c78007c3ce882ef603cfd9d34ebe09aef36dd4ee82079232fca33e"
     },
     {
+      "path": "static-lease-check.log",
+      "bytes": 298,
+      "sha256": "efe4c621c6638998e4f81d5fa71af4ace773bfaee87dd5bf8f2d67ba2f38e468"
+    },
+    {
       "path": "type-contracts.log",
       "bytes": 64,
       "sha256": "19be70b5e8301cceca436acf684423da45493ac7ad3751ac93d6bf79f9a24950"
+    },
+    {
+      "path": "writer-lock-recovery.json",
+      "bytes": 6690,
+      "sha256": "c8e1a06e214f8e6a3cc9b14274caa35c4d7c3cdc3bf146e047f33e3a1068d1f0"
     }
   ]
 }

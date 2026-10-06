@@ -1,9 +1,10 @@
 # Release history
 
-## v1.2.2 — 2026-10-05
+## v1.2.2 — 2026-10-06
 
 - Make read-only Doctor reject task kind, label, priority or retry budget that disagrees with its persisted normalized JSON definition. Valid JSON and an unchanged event chain alone cannot establish this consistency.
 - Add four failing-before regressions that preserve every database record during inspection and require diagnostics to expose no original or altered labels or task text.
+- Verify all 240 four-process results, complete lease histories and unique winning receipts, including legitimate expired leases. Add a real writer-lock recovery regression without task fault flags and retain job-level evidence.
 
 The task engine, schema and report shape are unchanged. Exact-commit release gates retain Linux/Windows core, independent model, live faults and all three browser engines; local reproduction is retained in batch-09.
 

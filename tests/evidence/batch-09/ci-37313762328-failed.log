@@ -1,0 +1,853 @@
+core (windows-latest)	UNKNOWN STEP	﻿2026-10-05T13:02:24.9779611Z Current runner version: '2.337.0'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9796682Z ##[group]Runner Image Provisioner
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9797165Z Hosted Compute Agent
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9797464Z Version: 20260901.588
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9797782Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9798185Z Build Date: 2026-09-01T19:56:44Z
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9798567Z Worker ID: {c4ec02bd-7780-4446-a5fa-3cb682bd2026}
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9798938Z Azure Region: centralus
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9799384Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9800104Z ##[group]Operating System
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9800456Z Microsoft Windows Server 2025
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9800939Z 10.0.26100
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9801198Z Datacenter
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9801470Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9801759Z ##[group]Runner Image
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9802078Z Image: windows-2025-vs2026
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9802386Z Version: 20260925.250.1
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9803332Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20260925.250/images/windows/Windows2025-VS2026-Readme.md
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9804137Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20260925.250
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9804661Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9805248Z ##[group]GITHUB_TOKEN Permissions
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9806345Z Contents: read
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9806629Z Metadata: read
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9806906Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9808126Z Secret source: Actions
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9808603Z Cache mode: write
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:24.9808971Z Prepare workflow directory
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:25.0081621Z Prepare all required actions
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:25.0112144Z Getting action download info
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:25.2647527Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:25.3875125Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:25.5213396Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:25.8670401Z Complete job name: core (windows-latest)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1088116Z ##[group]Run actions/checkout@v4
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1088852Z with:
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1089091Z   repository: qiyuhuating/faultline-lab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1091749Z   token: ***
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1091973Z   ssh-strict: true
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1092195Z   ssh-user: git
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1092425Z   persist-credentials: true
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1092676Z   clean: true
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1092905Z   sparse-checkout-cone-mode: true
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1093175Z   fetch-depth: 1
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1093398Z   fetch-tags: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1093795Z   show-progress: true
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1094025Z   lfs: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1094234Z   submodules: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1094463Z   set-safe-directory: true
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1094727Z   allow-unsafe-pr-checkout: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.1095106Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.2641687Z Syncing repository: qiyuhuating/faultline-lab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.2643191Z ##[group]Getting Git version info
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.2643605Z Working directory is 'D:\a\faultline-lab\faultline-lab'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:26.3003020Z [command]"C:\Program Files\Git\bin\git.exe" version
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.0180631Z git version 2.55.0.windows.5
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.0219517Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.0234053Z Temporarily overriding HOME='D:\a\_temp\41423512-fe52-420b-8042-e9bf5f889d6f' before making global git config changes
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.0235359Z Adding repository directory to the temporary git global config as a safe directory
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.0242704Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\faultline-lab\faultline-lab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.2166925Z Deleting the contents of 'D:\a\faultline-lab\faultline-lab'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.2170917Z ##[group]Initializing the repository
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.2176946Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\faultline-lab\faultline-lab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.5548404Z Initialized empty Git repository in D:/a/faultline-lab/faultline-lab/.git/
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.5583954Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/qiyuhuating/faultline-lab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.7297667Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.7298040Z ##[group]Disabling automatic garbage collection
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.7305163Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.7502165Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.7502450Z ##[group]Setting up auth
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.7511322Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:28.7707416Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:33.7739452Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:33.7935971Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:34.1365197Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:34.1547427Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:34.4941243Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:34.5139975Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:34.5152789Z ##[group]Fetching the repository
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:34.5155599Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +81d36908960df2ceccde617c3e448ed770a0b6a5:refs/remotes/origin/main
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.2214061Z From https://github.com/qiyuhuating/faultline-lab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.2214606Z  * [new ref]         81d36908960df2ceccde617c3e448ed770a0b6a5 -> origin/main
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.2245957Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.2246519Z ##[group]Determining the checkout info
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.2248053Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.2257753Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.3129261Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.3322695Z ##[group]Checking out the ref
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.3328801Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.5867453Z Switched to a new branch 'main'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.6122044Z branch 'main' set up to track 'origin/main'.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.6160363Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.6907248Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7152253Z 81d36908960df2ceccde617c3e448ed770a0b6a5
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7497219Z ##[group]Run actions/setup-node@v4
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7497419Z with:
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7497522Z   node-version: 24
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7497636Z   always-auth: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7497743Z   check-latest: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7499217Z   token: ***
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.7499322Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.8539267Z Found in cache @ C:\hostedtoolcache\windows\node\24.21.0\x64
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.8544456Z (node:4208) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.8544825Z (Use `node --trace-deprecation ...` to show where the warning was created)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:02:38.8546295Z ##[group]Environment details
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8174964Z node: v24.21.0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8175243Z npm: 11.19.0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8175362Z yarn: 1.22.22
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8176400Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8392435Z ##[group]Run npm ci --ignore-scripts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8392711Z ^[[36;1mnpm ci --ignore-scripts^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8405653Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:10.8405893Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:27.0634112Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:27.0639901Z added 4 packages, and audited 5 packages in 16s
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:27.0640275Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:27.0640439Z 1 package is looking for funding
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:27.0640692Z   run `npm fund` for details
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:27.0642019Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:27.0642165Z found 0 vulnerabilities
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:35.8497071Z ##[group]Run npm run check
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:35.8497269Z ^[[36;1mnpm run check^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:35.8504810Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:35.8505050Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:36.2147552Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:36.2148076Z > faultline-lab@1.2.2 check
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:36.2148434Z > node tools/check.mjs && tsc -p tsconfig.json && node tools/check-architecture.mjs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:36.2148618Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:37.5721745Z Syntax checked: 39 modules; frontend uses DOM text nodes.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4294727Z Architecture: 19 typed modules; no runtime cycles, layer violations, explicit any or distributed transaction ownership.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4742904Z ##[group]Run mkdir -p test-results/core
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4743153Z ^[[36;1mmkdir -p test-results/core^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4743307Z ^[[36;1mset -o pipefail^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4743496Z ^[[36;1mnpm run test:types | tee test-results/core/type-contracts.log^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4743740Z ^[[36;1mnpm run format:check | tee test-results/core/format.log^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4750857Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.4751092Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.8737482Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.8738901Z > faultline-lab@1.2.2 test:types
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.8739279Z > tsc -p tests/tsconfig.json
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:39.8739435Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:41.7586972Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:41.7588065Z > faultline-lab@1.2.2 format:check
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:41.7589495Z > prettier --check "src/**/*.ts" "tests/types/*.ts" "tools/check-architecture.mjs" "tools/doctor.mjs" "tools/verify-lab.mjs" "tests/model/**/*.mjs" "tests/model-runner.mjs" "tests/model.test.mjs" "tests/cache.test.mjs" "tests/diagnostics.test.mjs" "tests/verification.test.mjs"
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:41.7590382Z 
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.1812394Z Checking formatting...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.6567952Z All matched files use Prettier code style!
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.7623088Z ##[group]Run cp package-lock.json test-results/core/type-dependency-lock.json
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.7623433Z ^[[36;1mcp package-lock.json test-results/core/type-dependency-lock.json^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.7631092Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.7631324Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.8821766Z ##[group]Run set -o pipefail
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.8822024Z ^[[36;1mset -o pipefail^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.8822232Z ^[[36;1mmkdir -p test-results/core^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.8822508Z ^[[36;1mnode -p 'JSON.stringify(process.versions, null, 2)' > test-results/core/runtime.json^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.8822883Z ^[[36;1mnode --test --test-concurrency=1 --test-reporter=tap tests/*.test.mjs | tee test-results/core/core.tap^[[0m
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.8830565Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:42.8830789Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:43.5680480Z TAP version 13
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4291719Z # Subtest: v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4292387Z ok 1 - v1.0.1 database reopens with unchanged durable request, receipt and fencing token
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4293049Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4293245Z   duration_ms: 1626.3316
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4293517Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4293668Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4294054Z # Subtest: audit failure after repository completion rolls back receipt, state and attempt together
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4294652Z ok 2 - audit failure after repository completion rolls back receipt, state and attempt together
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4294991Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4295149Z   duration_ms: 517.6717
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4295337Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4296635Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4297085Z # Subtest: experiment ledger failure rolls back nested idempotency, jobs and experiment record
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4297712Z ok 3 - experiment ledger failure rolls back nested idempotency, jobs and experiment record
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4298088Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4298270Z   duration_ms: 432.3727
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4298516Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4298674Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4299165Z # Subtest: inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4299778Z ok 4 - inconsistent persisted lease is rejected by both detail and snapshot without rewriting it
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4300178Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4300357Z   duration_ms: 442.0685
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4300534Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:51.4300695Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4160233Z # Subtest: another connection pruning invalidates a cached experiment in the same clock bucket
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4161221Z ok 5 - another connection pruning invalidates a cached experiment in the same clock bucket
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4161498Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4161621Z   duration_ms: 510.3539
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4161759Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4161867Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4162114Z # Subtest: same connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4162476Z ok 6 - same connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4162728Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4162844Z   duration_ms: 434.3003
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4162974Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4163077Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4163308Z # Subtest: other connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4163710Z ok 7 - other connection lease renewal invalidates a cached experiment without a new event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4164026Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4164168Z   duration_ms: 622.3863
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4164351Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4164500Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4164839Z # Subtest: another connection deleting a receipt cannot reuse a cached passing verdict
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4165380Z ok 8 - another connection deleting a receipt cannot reuse a cached passing verdict
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4165677Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4165814Z   duration_ms: 462.5788
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4165983Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4166124Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4168165Z # Subtest: a report computed after a temporary deletion cannot survive transaction rollback
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4168854Z ok 9 - a report computed after a temporary deletion cannot survive transaction rollback
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4169214Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4169384Z   duration_ms: 432.784
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4169595Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4169863Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4170237Z # Subtest: a report computed after a temporary repair cannot survive transaction rollback
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4170787Z ok 10 - a report computed after a temporary repair cannot survive transaction rollback
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4171137Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4171376Z   duration_ms: 442.7337
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4171593Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:03:54.4171755Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7538144Z # Subtest: doctor rejects stored job kind that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7538646Z ok 11 - doctor rejects stored job kind that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7539651Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7540100Z   duration_ms: 394.2681
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7540357Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7540517Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7540851Z # Subtest: doctor rejects stored job label that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7541346Z ok 12 - doctor rejects stored job label that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7541654Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7541813Z   duration_ms: 377.5976
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7542000Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7542162Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7542493Z # Subtest: doctor rejects stored job priority that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7542993Z ok 13 - doctor rejects stored job priority that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7543311Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7543450Z   duration_ms: 560.1406
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7543616Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7543756Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7544040Z # Subtest: doctor rejects stored job max_attempts that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7544354Z ok 14 - doctor rejects stored job max_attempts that disagrees with its definition
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7544542Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7544634Z   duration_ms: 397.4915
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7544741Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7544832Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7545014Z # Subtest: doctor rejects unreadable definition even when it is valid JSON
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7545421Z ok 15 - doctor rejects unreadable definition even when it is valid JSON
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7545706Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7545851Z   duration_ms: 464.544
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7546022Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7546168Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7546456Z # Subtest: doctor rejects unreadable last_error even when it is valid JSON
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7546902Z ok 16 - doctor rejects unreadable last_error even when it is valid JSON
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7547187Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7547335Z   duration_ms: 490.3421
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7547510Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7547659Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7548038Z # Subtest: doctor detects a missing failed attempt and an incorrect successful attempt counter
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7548620Z ok 17 - doctor detects a missing failed attempt and an incorrect successful attempt counter
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7548972Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7549115Z   duration_ms: 500.4172
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7549291Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7549447Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7549730Z # Subtest: doctor detects attempt records from a future generation
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7550137Z ok 18 - doctor detects attempt records from a future generation
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7550409Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7550558Z   duration_ms: 447.6954
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7550733Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7550884Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7551247Z # Subtest: read-only doctor checks a healthy database without changing any logical record
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7551793Z ok 19 - read-only doctor checks a healthy database without changing any logical record
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7552135Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7560645Z   duration_ms: 422.6587
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7560927Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7561085Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7561419Z # Subtest: read-only doctor does not create a missing database or its parent directory
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7561918Z ok 20 - read-only doctor does not create a missing database or its parent directory
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7562554Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7562725Z   duration_ms: 347.9707
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7562897Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7563040Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7563297Z # Subtest: read-only doctor leaves legacy schema metadata untouched
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7563673Z ok 21 - read-only doctor leaves legacy schema metadata untouched
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7563922Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7564018Z   duration_ms: 440.1362
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7564124Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7564269Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7564483Z # Subtest: missing successful receipt is detected even while event hashes remain valid
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7565233Z ok 22 - missing successful receipt is detected even while event hashes remain valid
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7565430Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7565528Z   duration_ms: 490.9835
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7565633Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7565724Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7565939Z # Subtest: a receipt from a losing token and a dangling running attempt fail distinct checks
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7566272Z ok 23 - a receipt from a losing token and a dangling running attempt fail distinct checks
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7566472Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7566568Z   duration_ms: 458.4708
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7566674Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7567587Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7567761Z # Subtest: expired leases warn without recovering or consuming attempts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7568019Z ok 24 - expired leases warn without recovering or consuming attempts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7568283Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7568437Z   duration_ms: 401.0876
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7568579Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7568672Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7568870Z # Subtest: deleting every retained event cannot be mistaken for an empty valid ledger
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7569173Z ok 25 - deleting every retained event cannot be mistaken for an empty valid ledger
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7569362Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7569455Z   duration_ms: 408.5364
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7569561Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7569652Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7569861Z # Subtest: an exactly pruned empty chain stays valid and the next append keeps its boundary
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7570184Z ok 26 - an exactly pruned empty chain stays valid and the next append keeps its boundary
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7570383Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7570480Z   duration_ms: 437.6882
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7570586Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7570678Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7570895Z # Subtest: unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7571226Z ok 27 - unknown legacy empty prefixes stay unverified instead of blessing lost tail data
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7571427Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7571523Z   duration_ms: 419.824
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7571632Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7571724Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7571956Z # Subtest: portable evidence rejects forged range start and truncated tail even with matching counts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7572319Z ok 28 - portable evidence rejects forged range start and truncated tail even with matching counts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7572538Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7572636Z   duration_ms: 513.9361
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7572740Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7572836Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7573020Z # Subtest: malformed event JSON is diagnosed as failure rather than rewritten
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7573294Z ok 29 - malformed event JSON is diagnosed as failure rather than rewritten
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7573471Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7573572Z   duration_ms: 385.9208
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7573684Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7573877Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7574090Z # Subtest: untyped callers cannot commit a result that violates the typed successful state
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7574460Z ok 30 - untyped callers cannot commit a result that violates the typed successful state
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7574736Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7574826Z   duration_ms: 437.1234
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7574932Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:04.7575025Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5236773Z # Subtest: HTTP diagnostics is observation only and exposes no inputs, control token or database path
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5237218Z ok 31 - HTTP diagnostics is observation only and exposes no inputs, control token or database path
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5237452Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5237567Z   duration_ms: 774.8576
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5237686Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5237787Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5238051Z # Subtest: nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5238713Z ok 32 - nonempty legacy retained prefixes remain readable and explicitly warn about inferred boundaries
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5238944Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5239040Z   duration_ms: 446.4495
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5239149Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:05.5239242Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2806079Z # Subtest: committed POST with a lost response is resolved from its durable request key
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2807404Z ok 33 - committed POST with a lost response is resolved from its durable request key
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2807761Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2807927Z   duration_ms: 137.4336
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2808103Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2808261Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2808499Z # Subtest: static UI, bootstrap and CSP are served
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2808833Z ok 34 - static UI, bootstrap and CSP are served
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2809055Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2809207Z   duration_ms: 2.6293
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2809424Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2809573Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2964799Z # Subtest: write without control token is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2965235Z ok 35 - write without control token is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2965485Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2965658Z   duration_ms: 1.639
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2965844Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2965996Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2966311Z # Subtest: non-ASCII control token is rejected without a server exception
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2966794Z ok 36 - non-ASCII control token is rejected without a server exception
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2967088Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2967249Z   duration_ms: 1.3251
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2967425Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2967581Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2967832Z # Subtest: cross-site write is rejected even with a token
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2968156Z ok 37 - cross-site write is rejected even with a token
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2968385Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2968548Z   duration_ms: 1.4256
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2968732Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2968884Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2969084Z # Subtest: DNS-rebinding Host is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2969357Z ok 38 - DNS-rebinding Host is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2969570Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2969672Z   duration_ms: 3.8537
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2969825Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2969959Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2970089Z # Subtest: missing idempotency key is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2970272Z ok 39 - missing idempotency key is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2970407Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2970503Z   duration_ms: 1.8641
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2970611Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2970705Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2970875Z # Subtest: malformed JSON and unsupported body fields fail explicitly
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2971132Z ok 40 - malformed JSON and unsupported body fields fail explicitly
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2971302Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2971397Z   duration_ms: 2.5068
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2971506Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.2971598Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3123963Z # Subtest: body size limit returns 413 without creating a task
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3124238Z ok 41 - body size limit returns 413 without creating a task
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3124404Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3124513Z   duration_ms: 3.2195
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3124622Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3124720Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3904842Z # Subtest: three parallel HTTP submissions with same key create one task
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3905300Z ok 42 - three parallel HTTP submissions with same key create one task
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3905491Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3905600Z   duration_ms: 93.2524
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3905719Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.3905823Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4688099Z # Subtest: stale revision receives 409 and original data survives
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4688414Z ok 43 - stale revision receives 409 and original data survives
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4688588Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4688910Z   duration_ms: 66.6805
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4689027Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4689141Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4689329Z # Subtest: snapshot supports conditional reads and validates pagination
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4689591Z ok 44 - snapshot supports conditional reads and validates pagination
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4689765Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4689858Z   duration_ms: 4.1894
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4689964Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.4690058Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7495758Z # Subtest: SSE resumes from a persisted cursor
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7496018Z ok 45 - SSE resumes from a persisted cursor
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7496174Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7496291Z   duration_ms: 273.6442
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7496408Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7496505Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7496674Z # Subtest: evidence export contains a valid retained event chain
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7497016Z ok 46 - evidence export contains a valid retained event chain
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7497216Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7497320Z   duration_ms: 3.2595
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7497443Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:06.7497539Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6341927Z # Subtest: independent state oracle checks 16 deterministic seeds across connections and restart
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6342957Z ok 47 - independent state oracle checks 16 deterministic seeds across connections and restart
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6343361Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6343519Z   duration_ms: 21269.3237
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6347504Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6347678Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6348005Z # Subtest: the independent oracle detects a worker accepting every stale renewal
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6348486Z ok 48 - the independent oracle detects a worker accepting every stale renewal
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6348773Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6348926Z   duration_ms: 642.598
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6349090Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6349231Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6349578Z # Subtest: the independent oracle detects successful responses fabricated for stale commits
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6350180Z ok 49 - the independent oracle detects successful responses fabricated for stale commits
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6350505Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6350647Z   duration_ms: 581.636
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6350807Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6350944Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6351219Z # Subtest: a seed reproduces the same logical transcript despite different UUIDs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6351661Z ok 50 - a seed reproduces the same logical transcript despite different UUIDs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6351952Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6352089Z   duration_ms: 3448.355
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6352251Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6352388Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6352683Z # Subtest: the independent oracle detects a service bypassing expectedRevision
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6353108Z ok 51 - the independent oracle detects a service bypassing expectedRevision
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6353394Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6353538Z   duration_ms: 585.9765
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6353697Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6353836Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6354882Z # Subtest: a failed campaign preserves a repeatable command prefix and reproduction command
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6355410Z ok 52 - a failed campaign preserves a repeatable command prefix and reproduction command
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6355709Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6355847Z   duration_ms: 1190.3305
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6356013Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:38.6356152Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:44.7269746Z # Subtest: a live stalled worker submits after takeover and is actually fenced out
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:44.7301447Z ok 53 - a live stalled worker submits after takeover and is actually fenced out
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:44.7391177Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:44.7407688Z   duration_ms: 5578.1438
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:44.7408239Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:04:44.7417146Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6862512Z # Subtest: four independent processes drain 240 tasks with no missing or duplicate receipts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6863641Z not ok 54 - four independent processes drain 240 tasks with no missing or duplicate receipts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6864066Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6864292Z   duration_ms: 21805.1083
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6864574Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6864956Z   location: 'D:\\a\\faultline-lab\\faultline-lab\\tests\\process.test.mjs:39:1'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6865388Z   failureType: 'testCodeFailure'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6865695Z   error: |-
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6865948Z     Expected values to be strictly equal:
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6866231Z     
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6866424Z     1 !== 0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6866616Z     
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6866814Z   code: 'ERR_ASSERTION'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6867046Z   name: 'AssertionError'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6867281Z   expected: 0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6867497Z   actual: 1
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6867705Z   operator: 'strictEqual'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6867945Z   stack: |-
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6868414Z     TestContext.<anonymous> (file:///D:/a/faultline-lab/faultline-lab/tests/process.test.mjs:52:10)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6868969Z     runNextTicks (node:internal/process/task_queues:65:5)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6869354Z     process.processTimers (node:internal/timers:615:9)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6869748Z     async Test.run (node:internal/test_runner/test:1409:7)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6870211Z     async Test.processPendingSubtests (node:internal/test_runner/test:974:7)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:06.6870581Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.0484621Z # Subtest: SIGKILL is real: expired attempt is replaced and only one receipt is committed
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.0644401Z ok 55 - SIGKILL is real: expired attempt is replaced and only one receipt is committed
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.0644807Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.0645048Z   duration_ms: 4534.65
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.0645236Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.0645393Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.3616260Z # Subtest: controller restart preserves tasks, pause state and idempotency records
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.3616925Z ok 56 - controller restart preserves tasks, pause state and idempotency records
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.3617289Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.3617457Z   duration_ms: 694.3643
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.3617645Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:11.3617821Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.3287726Z # Subtest: hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.3288413Z ok 57 - hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.3288802Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.3288963Z   duration_ms: 3967.108
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.3289142Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.3289292Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9239999Z # Subtest: experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9240664Z ok 58 - experiment proof rejects unrelated, repeated and non-successful jobs with receipts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9241029Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9241199Z   duration_ms: 5.8069
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9241411Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9241572Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9242193Z # Subtest: experiment proof binds the current receipt to the successful lease and attempt
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9242715Z ok 59 - experiment proof binds the current receipt to the successful lease and attempt
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9243034Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9243177Z   duration_ms: 2.4983
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9243344Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9243487Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9243806Z # Subtest: the six original public recordings still pass shared experiment proof
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9244296Z ok 60 - the six original public recordings still pass shared experiment proof
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9244612Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9244758Z   duration_ms: 0.9014
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9244931Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9245067Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9245394Z # Subtest: unfinished experiments remain pending; real completion passes their checks
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9245885Z ok 61 - unfinished experiments remain pending; real completion passes their checks
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9246999Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9247154Z   duration_ms: 2.6739
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9247317Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9247464Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9247781Z # Subtest: dead-letter proof remains available after a successful new generation
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9248239Z ok 62 - dead-letter proof remains available after a successful new generation
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9248533Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9248677Z   duration_ms: 3.2246
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9248848Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9249002Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9249414Z # Subtest: missing stale-worker rejection becomes a failed proof, never an endless green pending state
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9250066Z ok 63 - missing stale-worker rejection becomes a failed proof, never an endless green pending state
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9250453Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9250601Z   duration_ms: 2.0149
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9250772Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9250959Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9251294Z # Subtest: expired experiment records are pruned together with their retained jobs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9251813Z ok 64 - expired experiment records are pruned together with their retained jobs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9252133Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9252275Z   duration_ms: 1.6147
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9252441Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9252584Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9252966Z # Subtest: portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9253565Z ok 65 - portable verifier rejects changed payloads, wrong counts, gaps and missing structure
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9253917Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9254065Z   duration_ms: 1.6217
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9254235Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9254387Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9254723Z # Subtest: a concurrent commit cannot splice two database versions into one experiment proof
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9255281Z ok 66 - a concurrent commit cannot splice two database versions into one experiment proof
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9255635Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9255796Z   duration_ms: 472.8553
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9255987Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:15.9256135Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1662481Z # Subtest: same intent creates one durable task across two connections
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1662846Z ok 67 - same intent creates one durable task across two connections
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1663045Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1663172Z   duration_ms: 498.7614
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1663313Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1663424Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1663687Z # Subtest: same idempotency key with different content is a conflict
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1664099Z ok 68 - same idempotency key with different content is a conflict
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1664350Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1664458Z   duration_ms: 422.6342
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1664577Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1664686Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1683166Z # Subtest: canonical defaults and property order identify the same request
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1683970Z ok 69 - canonical defaults and property order identify the same request
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1684257Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1684411Z   duration_ms: 456.7152
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1684588Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1684737Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1684977Z # Subtest: invalid data does not overwrite or append a job
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1685340Z ok 70 - invalid data does not overwrite or append a job
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1685582Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1685729Z   duration_ms: 424.0772
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1685908Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1686061Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1686392Z # Subtest: priority applies only to due jobs; delayed tasks cannot be claimed early
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1686910Z ok 71 - priority applies only to due jobs; delayed tasks cannot be claimed early
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1687227Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1687381Z   duration_ms: 591.6412
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1687559Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1687943Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1688205Z # Subtest: two connections cannot claim the same live lease
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1688571Z ok 72 - two connections cannot claim the same live lease
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1688826Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1688979Z   duration_ms: 503.094
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1689168Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1689364Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1689603Z # Subtest: wrong owner and token cannot renew or commit
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1689943Z ok 73 - wrong owner and token cannot renew or commit
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1690199Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1690366Z   duration_ms: 506.4592
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1690551Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1690707Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1691034Z # Subtest: lease expiry is recovered and a stale worker cannot overwrite a new owner
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1691550Z ok 74 - lease expiry is recovered and a stale worker cannot overwrite a new owner
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1691875Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1692032Z   duration_ms: 545.8566
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1692219Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1692369Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1692686Z # Subtest: expired lease cannot be renewed or committed before a sweeper runs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1693170Z ok 75 - expired lease cannot be renewed or committed before a sweeper runs
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1693475Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1693627Z   duration_ms: 547.9325
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1693809Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1693958Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1694163Z # Subtest: heartbeat extends an active lease
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1694448Z ok 76 - heartbeat extends an active lease
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1694642Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1694780Z   duration_ms: 547.0759
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1694953Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1695105Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1695359Z # Subtest: retry budget, exponential delay and jitter are enforced
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1695747Z ok 77 - retry budget, exponential delay and jitter are enforced
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1695934Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1696097Z   duration_ms: 580.1308
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1696257Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1696399Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1696683Z # Subtest: revision conflict rejects a stale action without changing the job
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1697103Z ok 78 - revision conflict rejects a stale action without changing the job
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1697379Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1697515Z   duration_ms: 509.2607
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1697683Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1697822Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1698088Z # Subtest: cancel fences in-flight work; repeated cancel is idempotent
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1698496Z ok 79 - cancel fences in-flight work; repeated cancel is idempotent
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1698773Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1698918Z   duration_ms: 503.0289
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1699084Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1699234Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1699520Z # Subtest: dead-letter replay retains history and advances the generation
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1699990Z ok 80 - dead-letter replay retains history and advances the generation
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1700450Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1700601Z   duration_ms: 561.3868
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1700767Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1701276Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1701569Z # Subtest: successful task cannot be replayed into duplicate side effects
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1701996Z ok 81 - successful task cannot be replayed into duplicate side effects
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1702270Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1702412Z   duration_ms: 517.1531
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1702568Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1702717Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1702969Z # Subtest: pause prevents new claims but permits in-flight commits
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1703345Z ok 82 - pause prevents new claims but permits in-flight commits
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1703605Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1703749Z   duration_ms: 602.0296
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1703922Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1704073Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1704385Z # Subtest: duplicate experiment invokes actual deduplication and yields one job
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1705058Z ok 83 - duplicate experiment invokes actual deduplication and yields one job
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1817577Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1818061Z   duration_ms: 461.4458
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1818266Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1818427Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1818694Z # Subtest: receipt and success commit atomically, and duplicate completion is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1819195Z ok 84 - receipt and success commit atomically, and duplicate completion is rejected
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1819405Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1819518Z   duration_ms: 600.2692
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1819634Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1819738Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1819884Z # Subtest: event chain detects modified payloads
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1820085Z ok 85 - event chain detects modified payloads
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1820237Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1820342Z   duration_ms: 431.3597
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1820481Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1820586Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1820779Z # Subtest: retention preserves live jobs and advances the chain anchor
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1821057Z ok 86 - retention preserves live jobs and advances the chain anchor
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1821241Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1821347Z   duration_ms: 574.4023
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1821474Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1821576Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1821779Z # Subtest: keyset pagination returns disjoint pages and supports state filters
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1822084Z ok 87 - keyset pagination returns disjoint pages and supports state filters
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1822282Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1822385Z   duration_ms: 1308.7856
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1822519Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1822625Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1822788Z # Subtest: SQL-looking labels remain data
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1822964Z ok 88 - SQL-looking labels remain data
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1823103Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1823253Z   duration_ms: 456.0205
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1823372Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1823473Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1823664Z # Subtest: handlers return real summaries and reject invalid numeric input
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1823953Z ok 89 - handlers return real summaries and reject invalid numeric input
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1824142Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1824239Z   duration_ms: 0.5032
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1824355Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:28.1824453Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3852712Z # Subtest: a real SQLite writer lock cannot renew a lease that expires while waiting
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3853244Z ok 90 - a real SQLite writer lock cannot renew a lease that expires while waiting
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3853608Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3853810Z   duration_ms: 2109.292
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3854031Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3854281Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3854669Z # Subtest: SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3855264Z ok 91 - SQLite page exhaustion preserves SQLITE_FULL, rolls back and permits recovery
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3856524Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3856812Z   duration_ms: 532.0773
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3857020Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3857167Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3857455Z # Subtest: a standalone task detail cannot splice running state with a concurrently committed receipt
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3857882Z ok 92 - a standalone task detail cannot splice running state with a concurrently committed receipt
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3858151Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3858297Z   duration_ms: 536.1524
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3858458Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3866112Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3866453Z # Subtest: pruning invalidates a cached experiment even in the same clock bucket
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3866896Z ok 93 - pruning invalidates a cached experiment even in the same clock bucket
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3867245Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3867382Z   duration_ms: 498.1835
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3867745Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.3867873Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.8712757Z # Subtest: conditional snapshots observe workers going offline without a new event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.8713142Z ok 94 - conditional snapshots observe workers going offline without a new event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.8713350Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.8713464Z   duration_ms: 447.9866
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.8713588Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:32.8713692Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.3249931Z # Subtest: conditional snapshots observe retention without an appended event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.3568087Z ok 95 - conditional snapshots observe retention without an appended event
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.3568443Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.3568609Z   duration_ms: 491.1011
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.3568793Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.3568955Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.7331752Z # Subtest: concurrent close calls await the same completed shutdown
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.7332253Z ok 96 - concurrent close calls await the same completed shutdown
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.7332584Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.7332753Z   duration_ms: 442.7491
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.7332951Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:33.7333114Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1581446Z # Subtest: a request whose body finishes during shutdown is rejected without a durable write
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1583096Z ok 97 - a request whose body finishes during shutdown is rejected without a durable write
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1583410Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1583526Z   duration_ms: 411.7025
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1583655Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1583766Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1583953Z # Subtest: failed port binding closes the real SQLite file handles
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1584317Z ok 98 - failed port binding closes the real SQLite file handles # SKIP Linux file-descriptor verification.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1584568Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1584668Z   duration_ms: 0.2586
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1584785Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:34.1584892Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.2743335Z # Subtest: a real worker storage-commit error is not reported as a handler failure
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.2743762Z ok 99 - a real worker storage-commit error is not reported as a handler failure
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.2743978Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.2744099Z   duration_ms: 4057.8074
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.2744233Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.2744340Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.7438282Z # Subtest: HTTP page exhaustion returns STORAGE_FULL and the same request key can recover
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.7438843Z ok 100 - HTTP page exhaustion returns STORAGE_FULL and the same request key can recover
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.7439142Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.7439253Z   duration_ms: 499.9712
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.7439378Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:38.7439478Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:39.9047167Z # Subtest: HTTP writer contention returns STORAGE_BUSY without saving a false success
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:39.9047777Z ok 101 - HTTP writer contention returns STORAGE_BUSY without saving a false success
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:39.9048167Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:39.9048335Z   duration_ms: 1209.0462
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:39.9048517Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:39.9048914Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.0491951Z # Subtest: worker-stop metadata failure still releases processes, IPC and SQLite
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.0492346Z ok 102 - worker-stop metadata failure still releases processes, IPC and SQLite
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.0492554Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.0492671Z   duration_ms: 523.9162
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.0492796Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.0492900Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.5650125Z # Subtest: invalid live-verification configuration does not start workers or create artifacts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.5650811Z ok 103 - invalid live-verification configuration does not start workers or create artifacts
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.5651177Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.5651342Z   duration_ms: 1.2976
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.5651541Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.5651706Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7850929Z # Subtest: a real experiment deadline retains a failed report and shuts down its server and workers
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7851944Z ok 104 - a real experiment deadline retains a failed report and shuts down its server and workers
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7852327Z   ---
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7852492Z   duration_ms: 607.9259
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7852674Z   type: 'test'
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7852836Z   ...
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7852976Z 1..104
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7853112Z # tests 104
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7853262Z # suites 0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7853397Z # pass 102
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7853527Z # fail 1
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7853660Z # cancelled 0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7853804Z # skipped 1
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7853946Z # todo 0
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.7854100Z # duration_ms 117421.3541
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8042713Z ##[error]Process completed with exit code 1.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8186248Z ##[group]Run actions/upload-artifact@v4
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8186440Z with:
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8186561Z   name: core-evidence-windows-latest
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8186764Z   path: test-results/core/
+core (windows-latest)	UNKNOWN STEP	benchmark-result.json
+core (windows-latest)	UNKNOWN STEP	
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8186950Z   if-no-files-found: warn
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8187074Z   compression-level: 6
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8187191Z   overwrite: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8187306Z   include-hidden-files: false
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.8187434Z ##[endgroup]
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.9375553Z (node:9456) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.9376001Z (Use `node --trace-deprecation ...` to show where the warning was created)
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.9421328Z Multiple search paths detected. Calculating the least common ancestor of all paths
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.9422848Z The least common ancestor is D:\a\faultline-lab\faultline-lab. This will be the root directory of the artifact
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.9423387Z With the provided path, there will be 5 files uploaded
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.9425876Z Artifact name is valid!
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:40.9426563Z Root directory input is valid!
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.2256737Z Beginning upload of artifact content to blob storage
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.2415345Z (node:9456) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.3747338Z Uploaded bytes 7138
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.4127889Z Finished uploading artifact content to blob storage!
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.4147432Z SHA256 digest of uploaded artifact zip is 128c16e791fcf2cd92440ae005ca06fe91fa047f2472bdfeee50c8fcad874eab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.4147894Z Finalizing artifact upload
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.7107098Z Artifact core-evidence-windows-latest.zip successfully finalized. Artifact ID 11347260864
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.7107626Z Artifact core-evidence-windows-latest has been successfully uploaded! Final size is 7138 bytes. Artifact ID is 11347260864
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.7115014Z Artifact download URL: https://github.com/qiyuhuating/faultline-lab/actions/runs/37313762328/artifacts/11347260864
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.7381005Z Post job cleanup.
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.8354229Z [command]"C:\Program Files\Git\bin\git.exe" version
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.8531673Z git version 2.55.0.windows.5
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.8569983Z Temporarily overriding HOME='D:\a\_temp\24c966c2-f078-493f-b37a-4aac96e80a9b' before making global git config changes
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.8570412Z Adding repository directory to the temporary git global config as a safe directory
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.8575956Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\faultline-lab\faultline-lab
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.8758546Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:41.8939674Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:42.2980830Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:42.3153532Z http.https://github.com/.extraheader
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:42.3187822Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:42.3387035Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:42.7158486Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:42.7369523Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:43.1319960Z Cleaning up orphan processes
+core (windows-latest)	UNKNOWN STEP	2026-10-05T13:05:43.1343555Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,13 +1,14 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, rmSync } from 'node:fs';
-import { join } from 'node:path';
+import { mkdtempSync, rmSync, mkdirSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { startServer } from '../src/server.mjs';
 import { fork } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { Queue } from '../src/queue.mjs';
+import { Queue, LEASE_MS } from '../src/queue.mjs';
 import { evaluateExperiment } from '../public/proof.mjs';
 
 async function until(predicate, timeout = 14000) {
@@ -18,6 +19,39 @@ async function until(predicate, timeout = 14000) {
     await sleep(30);
   }
   throw new Error('Timed out waiting for a real worker process.');
+}
+
+function saveProcessEvidence(name, data) {
+  const directory = resolve('test-results/core');
+  mkdirSync(directory, { recursive: true });
+  writeFileSync(join(directory, `${name}.json`), JSON.stringify({ platform: process.platform, node: process.version, ...data }, null, 2) + '\n');
+}
+
+function assertDigestReceipt(queue, job, text) {
+  assert.equal(job.state, 'succeeded', job.id);
+  assert.equal(job.generation, 0);
+  assert.ok(job.attempts.length > 0);
+  assert.equal(job.attempt, job.attempts.length);
+  const expected = { sha256: createHash('sha256').update(text).digest('hex'), bytes: Buffer.byteLength(text), characters: [...text].length, words: text.trim() ? text.trim().split(/\s+/u).length : 0 };
+  assert.deepEqual(job.result, expected);
+  for (const [index, attempt] of job.attempts.entries()) {
+    assert.equal(attempt.generation, 0);
+    assert.equal(attempt.number, index + 1);
+    assert.equal(attempt.token, index + 1);
+    assert.ok(attempt.ended_at >= attempt.started_at);
+    if (index < job.attempts.length - 1) {
+      assert.equal(attempt.state, 'expired');
+      assert.ok(job.events.some(event => event.type === 'lease.expired' && event.data.token === attempt.token && event.data.workerId === attempt.worker_id));
+    } else {
+      assert.equal(attempt.state, 'succeeded');
+      assert.equal(attempt.token, job.token);
+      assert.equal(attempt.ended_at, job.completedAt);
+    }
+  }
+  assert.equal(job.receipts.length, 1);
+  assert.deepEqual({ ...job.receipts[0] }, { generation: 0, token: job.token, committed_at: job.completedAt });
+  const receipt = queue.db.prepare('SELECT result FROM receipts WHERE job_id=? AND generation=0').get(job.id);
+  assert.deepEqual(JSON.parse(receipt.result), expected);
 }
 
 test('a live stalled worker submits after takeover and is actually fenced out', { timeout: 15000 }, async t => {
@@ -41,19 +75,69 @@ test('four independent processes drain 240 tasks with no missing or duplicate re
   const instance = await startServer({ port: 0, database: join(directory, 'queue.sqlite'), workers: 4, quiet: true });
   t.after(async () => { await instance.close(); rmSync(directory, { recursive: true, force: true }); });
   instance.queue.setPaused(true, 'process-stage-backlog');
-  await until(() => instance.queue.snapshot().workers.filter(w => w.online).length === 4);
+  const workers = await until(() => {
+    const online = instance.queue.snapshot().workers.filter(w => w.online);
+    return online.length === 4 ? online : null;
+  });
   const ids = [];
   for (let i = 0; i < 240; i++) ids.push(instance.queue.submit({ label: `race ${i}`, text: `${i}`, delayMs: 0 }, `process-job-${i}`).jobId);
   assert.equal(instance.queue.db.prepare('SELECT COUNT(*) n FROM jobs WHERE attempt!=0').get().n, 0);
   // Stage the backlog before timing worker competition; submission itself holds writer locks.
   instance.queue.setPaused(false, 'process-resume-backlog');
   await until(() => instance.queue.snapshot().counts.succeeded === 240, 40000);
+  const jobs = ids.map(id => instance.queue.detail(id));
+  saveProcessEvidence('process-drain', { workers, jobs, integrity: instance.queue.evidence().integrity });
   assert.equal(instance.queue.db.prepare('SELECT COUNT(*) n FROM receipts').get().n, 240);
-  assert.equal(instance.queue.db.prepare("SELECT COUNT(*) n FROM jobs WHERE attempt!=1").get().n, 0);
+  assert.equal(new Set(workers.map(worker => worker.pid)).size, 4);
+  for (const [index, job] of jobs.entries()) assertDigestReceipt(instance.queue, job, String(index));
   const owners = instance.queue.db.prepare('SELECT DISTINCT worker_id FROM attempts').all();
   assert.ok(owners.length >= 2, 'Multiple independent processes actually participate.');
   assert.equal(instance.queue.evidence().integrity.valid, true);
   assert.equal(new Set(ids).size, 240);
+});
+
+test('a real writer lock expires an ordinary task lease and recovery commits one correct receipt', { timeout: 30000 }, async t => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-process-lock-'));
+  const database = join(directory, 'queue.sqlite');
+  const instance = await startServer({ port: 0, database, workers: 1, quiet: true });
+  let holder;
+  t.after(async () => {
+    if (holder && holder.exitCode === null && holder.signalCode === null) {
+      await new Promise(resolve => { holder.once('exit', resolve); holder.kill(); });
+    }
+    await instance.close();
+    rmSync(directory, { recursive: true, force: true });
+  });
+  const message = type => new Promise((resolve, reject) => {
+    const cleanup = () => { holder.off('message', receive); holder.off('exit', gone); holder.off('error', failed); };
+    const receive = value => { if (value.type === type) { cleanup(); resolve(value); } };
+    const gone = () => { cleanup(); reject(new Error(`Lock holder exited before ${type}.`)); };
+    const failed = error => { cleanup(); reject(error); };
+    holder.on('message', receive);
+    holder.on('exit', gone);
+    holder.on('error', failed);
+  });
+  holder = fork(fileURLToPath(new URL('./helpers/lock-holder.mjs', import.meta.url)), [database], { stdio: ['ignore', 'ignore', 'ignore', 'ipc'] });
+  await message('ready');
+  const text = 'ordinary work survives a real writer lock';
+  const { jobId } = instance.queue.submit({ text, delayMs: 4000 }, 'ordinary-writer-lock');
+  const first = await until(() => {
+    const job = instance.queue.detail(jobId);
+    return job.state === 'running' ? job : null;
+  });
+  const locked = message('locked');
+  holder.send({ type: 'lock', holdMs: LEASE_MS + 500 });
+  await locked;
+  assert.ok(first.leaseUntil > Date.now(), 'The real writer lock starts while the original lease is valid.');
+  await until(() => instance.queue.detail(jobId).state === 'succeeded', 20000);
+  const job = instance.queue.detail(jobId);
+  saveProcessEvidence('writer-lock-recovery', { holdMs: LEASE_MS + 500, first, job, integrity: instance.queue.evidence().integrity });
+  assert.deepEqual(job.attempts.map(attempt => attempt.state), ['expired', 'succeeded']);
+  assertDigestReceipt(instance.queue, job, text);
+  assert.equal(instance.queue.complete(jobId, first.owner, first.token, { stale: true }).accepted, false);
+  assert.equal(instance.queue.detail(jobId).receipts.length, 1);
+  assert.equal(instance.queue.evidence().integrity.valid, true);
+  assert.equal(instance.queue.diagnostics().verdict, 'pass');
 });
 
 test('SIGKILL is real: expired attempt is replaced and only one receipt is committed', { timeout: 20000 }, async t => {

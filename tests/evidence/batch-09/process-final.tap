@@ -1,0 +1,46 @@
+TAP version 13
+# Subtest: a live stalled worker submits after takeover and is actually fenced out
+ok 1 - a live stalled worker submits after takeover and is actually fenced out
+  ---
+  duration_ms: 5118.1985
+  type: 'test'
+  ...
+# Subtest: four independent processes drain 240 tasks with no missing or duplicate receipts
+ok 2 - four independent processes drain 240 tasks with no missing or duplicate receipts
+  ---
+  duration_ms: 3926.6503
+  type: 'test'
+  ...
+# Subtest: a real writer lock expires an ordinary task lease and recovery commits one correct receipt
+ok 3 - a real writer lock expires an ordinary task lease and recovery commits one correct receipt
+  ---
+  duration_ms: 8195.2428
+  type: 'test'
+  ...
+# Subtest: SIGKILL is real: expired attempt is replaced and only one receipt is committed
+ok 4 - SIGKILL is real: expired attempt is replaced and only one receipt is committed
+  ---
+  duration_ms: 3746.7344
+  type: 'test'
+  ...
+# Subtest: controller restart preserves tasks, pause state and idempotency records
+ok 5 - controller restart preserves tasks, pause state and idempotency records
+  ---
+  duration_ms: 167.027
+  type: 'test'
+  ...
+# Subtest: hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+ok 6 - hard controller death disconnects orphan workers; a new controller resumes persisted jobs
+  ---
+  duration_ms: 3524.6052
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24792.576

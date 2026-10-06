@@ -1,0 +1,240 @@
+{
+  "platform": "win32",
+  "node": "v24.16.0",
+  "holdMs": 2900,
+  "first": {
+    "id": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+    "seq": 1,
+    "kind": "digest",
+    "label": "Untitled task",
+    "priority": 0,
+    "attempt": 1,
+    "maxAttempts": 4,
+    "generation": 0,
+    "revision": 2,
+    "token": 1,
+    "runAt": 1791266205310,
+    "createdAt": 1791266205310,
+    "updatedAt": 1791266205355,
+    "error": null,
+    "state": "running",
+    "owner": "worker-1-b09dcdc7",
+    "leaseUntil": 1791266207755,
+    "completedAt": null,
+    "result": null,
+    "definition": {
+      "kind": "digest",
+      "label": "Untitled task",
+      "text": "ordinary work survives a real writer lock",
+      "priority": 0,
+      "maxAttempts": 4,
+      "delayMs": 4000,
+      "scheduleMs": 0,
+      "fault": {
+        "failFirst": 0,
+        "crashOnce": false,
+        "stallOnce": false
+      }
+    },
+    "attempts": [
+      {
+        "job_id": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "generation": 0,
+        "number": 1,
+        "worker_id": "worker-1-b09dcdc7",
+        "token": 1,
+        "state": "running",
+        "started_at": 1791266205355,
+        "ended_at": null,
+        "error": null
+      }
+    ],
+    "receipts": [],
+    "events": [
+      {
+        "seq": 1,
+        "jobId": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "type": "job.created",
+        "at": 1791266205310,
+        "data": {
+          "kind": "digest",
+          "label": "Untitled task",
+          "maxAttempts": 4
+        },
+        "previousHash": "GENESIS",
+        "hash": "9f3daf6b183e51cbad3a7f81ff0318f50100c71125c1cafdd55824f7f7424ca4"
+      },
+      {
+        "seq": 3,
+        "jobId": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "type": "lease.claimed",
+        "at": 1791266205355,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-1-b09dcdc7"
+        },
+        "previousHash": "81065fb7f83d7584b34959df1a120a205ebb413fe9afe59c5c1683c864fb46a6",
+        "hash": "edcfdff56382241eae122ba7cf8200e41b1c17de11fa030668a4b26f2ae10935"
+      }
+    ]
+  },
+  "job": {
+    "id": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+    "seq": 1,
+    "kind": "digest",
+    "label": "Untitled task",
+    "priority": 0,
+    "attempt": 2,
+    "maxAttempts": 4,
+    "generation": 0,
+    "revision": 5,
+    "token": 2,
+    "runAt": 1791266208812,
+    "createdAt": 1791266205310,
+    "updatedAt": 1791266213376,
+    "error": {
+      "code": "LEASE_EXPIRED",
+      "message": "Worker 未在租约内完成或续约。"
+    },
+    "state": "succeeded",
+    "owner": null,
+    "leaseUntil": null,
+    "completedAt": 1791266213376,
+    "result": {
+      "bytes": 41,
+      "characters": 41,
+      "sha256": "468903d76ac4a3b0276b042532bb63a160578ee25f86262d34195597b9823c68",
+      "words": 7
+    },
+    "definition": {
+      "kind": "digest",
+      "label": "Untitled task",
+      "text": "ordinary work survives a real writer lock",
+      "priority": 0,
+      "maxAttempts": 4,
+      "delayMs": 4000,
+      "scheduleMs": 0,
+      "fault": {
+        "failFirst": 0,
+        "crashOnce": false,
+        "stallOnce": false
+      }
+    },
+    "attempts": [
+      {
+        "job_id": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "generation": 0,
+        "number": 1,
+        "worker_id": "worker-1-b09dcdc7",
+        "token": 1,
+        "state": "expired",
+        "started_at": 1791266205355,
+        "ended_at": 1791266208295,
+        "error": "{\"code\":\"LEASE_EXPIRED\",\"message\":\"Worker 未在租约内完成或续约。\"}"
+      },
+      {
+        "job_id": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "generation": 0,
+        "number": 2,
+        "worker_id": "worker-1-b09dcdc7",
+        "token": 2,
+        "state": "succeeded",
+        "started_at": 1791266209369,
+        "ended_at": 1791266213376,
+        "error": null
+      }
+    ],
+    "receipts": [
+      {
+        "generation": 0,
+        "token": 2,
+        "committed_at": 1791266213376
+      }
+    ],
+    "events": [
+      {
+        "seq": 1,
+        "jobId": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "type": "job.created",
+        "at": 1791266205310,
+        "data": {
+          "kind": "digest",
+          "label": "Untitled task",
+          "maxAttempts": 4
+        },
+        "previousHash": "GENESIS",
+        "hash": "9f3daf6b183e51cbad3a7f81ff0318f50100c71125c1cafdd55824f7f7424ca4"
+      },
+      {
+        "seq": 3,
+        "jobId": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "type": "lease.claimed",
+        "at": 1791266205355,
+        "data": {
+          "attempt": 1,
+          "generation": 0,
+          "token": 1,
+          "workerId": "worker-1-b09dcdc7"
+        },
+        "previousHash": "81065fb7f83d7584b34959df1a120a205ebb413fe9afe59c5c1683c864fb46a6",
+        "hash": "edcfdff56382241eae122ba7cf8200e41b1c17de11fa030668a4b26f2ae10935"
+      },
+      {
+        "seq": 4,
+        "jobId": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "type": "lease.expired",
+        "at": 1791266208295,
+        "data": {
+          "attempt": 1,
+          "nextState": "retry_wait",
+          "token": 1,
+          "workerId": "worker-1-b09dcdc7"
+        },
+        "previousHash": "edcfdff56382241eae122ba7cf8200e41b1c17de11fa030668a4b26f2ae10935",
+        "hash": "76c72009e4a898bd87bc2452bdf6971699e72ae87a452f0a315feb066d5cde3a"
+      },
+      {
+        "seq": 5,
+        "jobId": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "type": "lease.claimed",
+        "at": 1791266209369,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "token": 2,
+          "workerId": "worker-1-b09dcdc7"
+        },
+        "previousHash": "76c72009e4a898bd87bc2452bdf6971699e72ae87a452f0a315feb066d5cde3a",
+        "hash": "2201cece6236423b576123e354e6e484ab858a8615ac870a44374f185a053639"
+      },
+      {
+        "seq": 6,
+        "jobId": "9b62a280-8211-4864-8ca1-21b50fdede3c",
+        "type": "job.succeeded",
+        "at": 1791266213376,
+        "data": {
+          "attempt": 2,
+          "generation": 0,
+          "resultHash": "c31b7aaea865bc4dd039657904c12e0f4ae2b8daffc42d2adca1794247f607a9",
+          "token": 2,
+          "workerId": "worker-1-b09dcdc7"
+        },
+        "previousHash": "2201cece6236423b576123e354e6e484ab858a8615ac870a44374f185a053639",
+        "hash": "3cb1938d3339e8eded433b613194a4bb41538b363bc5cfc00fd392ca0e6cf47b"
+      }
+    ]
+  },
+  "integrity": {
+    "valid": true,
+    "count": 6,
+    "anchor": "GENESIS",
+    "head": "3cb1938d3339e8eded433b613194a4bb41538b363bc5cfc00fd392ca0e6cf47b",
+    "range": {
+      "anchorSequence": 0,
+      "headSequence": 6,
+      "source": "stored"
+    }
+  }
+}
