@@ -1,5 +1,10 @@
 # Release history
 
+## v1.2.3 — 2026-10-06
+
+- Keep malformed event JSON at FAIL while replacing its parser exception with a fixed, content-free diagnostic message. JavaScript parse errors can include the private input that caused them.
+- Add failing-before regressions for direct/CLI diagnosis and the real HTTP endpoint. Require no private event content and no logical database writes; preserve the existing report shape.
+
 ## v1.2.2 — 2026-10-06
 
 - Make read-only Doctor reject task kind, label, priority or retry budget that disagrees with its persisted normalized JSON definition. Valid JSON and an unchanged event chain alone cannot establish this consistency.

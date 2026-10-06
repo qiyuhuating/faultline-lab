@@ -1,6 +1,12 @@
-# Faultline v1.2.2 — verification record
+# Faultline v1.2.3 — verification record
 
 Updated 2026-10-06. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+
+## v1.2.3 malformed-event diagnostic privacy
+
+On frozen v1.2.2, malformed event data containing the private marker `HUSH_731` appeared in Doctor's event-chain error because JavaScript's parser exception quotes its input. The HTTP diagnostic endpoint exposed the same issue. Batch-10 retains the reproduction and two failing-before regressions.
+
+Unreadable event records still produce an event-chain FAIL, but its evidence uses a fixed message without parser input. Direct diagnosis, CLI inspection and a real HTTP response must omit private markers; logical records remain unchanged. Healthy reports and the existing schema are unchanged. Core acceptance contains 107 cases; exact-commit Linux/Windows, model, real faults and 84 browser checks remain release gates.
 
 ## v1.2.2 persisted definition and task metadata
 

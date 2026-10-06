@@ -45,6 +45,42 @@ function succeed(queue) {
   return id;
 }
 const status = (report, id) => report.checks.find((c) => c.id === id).status;
+test('unreadable event JSON fails read-only diagnosis without exposing its parse input', (t) => {
+  const { queue, path, clock } = fixture(t);
+  queue.submit({ label: 'private label', text: 'private payload' }, 'private-event-intent');
+  queue.db.prepare('UPDATE events SET data=? WHERE seq=1').run('HUSH_731');
+  const before = databaseState(queue.db);
+  for (const report of [queue.diagnostics(), diagnose(path, clock)]) {
+    assert.equal(report.verdict, 'fail');
+    assert.equal(status(report, 'event-chain'), 'fail');
+    for (const secret of ['HUSH_731', 'private label', 'private payload'])
+      assert.equal(JSON.stringify(report).includes(secret), false);
+  }
+  assert.deepEqual(databaseState(queue.db), before);
+});
+test('HTTP diagnostics do not return private malformed event content', async (t) => {
+  const directory = mkdtempSync(join(tmpdir(), 'faultline-doctor-private-http-'));
+  const instance = await startServer({
+    port: 0,
+    database: join(directory, 'queue.sqlite'),
+    workers: 0,
+    quiet: true,
+  });
+  t.after(async () => {
+    await instance.close();
+    rmSync(directory, { recursive: true, force: true });
+  });
+  instance.queue.submit({}, 'http-private-event-intent');
+  instance.queue.db.prepare('UPDATE events SET data=? WHERE seq=1').run('HUSH_732');
+  const before = databaseState(instance.queue.db);
+  const response = await fetch(`${instance.url}/api/diagnostics`);
+  assert.equal(response.status, 200);
+  const report = await response.json();
+  assert.equal(report.verdict, 'fail');
+  assert.equal(status(report, 'event-chain'), 'fail');
+  assert.equal(JSON.stringify(report).includes('HUSH_732'), false);
+  assert.deepEqual(databaseState(instance.queue.db), before);
+});
 for (const [field, value] of [
   ['kind', 'csv_summary'],
   ['label', 'changed private label'],

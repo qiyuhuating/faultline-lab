@@ -2,7 +2,6 @@ import type { SQLInputValue } from 'node:sqlite';
 import type { Clock, JsonObject, JobRow } from '../domain/types.ts';
 import type { SqliteStore } from '../storage/sqlite-store.ts';
 import type { EventLedger } from './event-ledger.ts';
-import { errorMessage } from '../validation.ts';
 import { serialize } from '../domain/job.ts';
 
 export interface DiagnosticCheck {
@@ -157,12 +156,12 @@ export class DiagnosticsService {
             rangeSource: integrity.range.source,
           },
         });
-      } catch (error) {
+      } catch {
         checks.push({
           id: 'event-chain',
           label: '事件链内容与保留区间完整',
           status: 'fail',
-          evidence: { error: errorMessage(error).slice(0, 200) },
+          evidence: { error: '事件链记录无法读取。' },
         });
       }
       const now = this.clock();

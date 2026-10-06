@@ -1,0 +1,48 @@
+TAP version 13
+# Subtest: unreadable event JSON fails read-only diagnosis without exposing its parse input
+not ok 1 - unreadable event JSON fails read-only diagnosis without exposing its parse input
+  ---
+  duration_ms: 45.1913
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\diagnostics.test.mjs:48:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:57:14)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+    Test.start (node:internal/test_runner/test:1177:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+  ...
+# Subtest: HTTP diagnostics do not return private malformed event content
+not ok 2 - HTTP diagnostics do not return private malformed event content
+  ---
+  duration_ms: 65.8763
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\diagnostics.test.mjs:61:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    true !== false
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: false
+  actual: true
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/diagnostics.test.mjs:73:10)
+    process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    async Test.run (node:internal/test_runner/test:1313:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
+  ...

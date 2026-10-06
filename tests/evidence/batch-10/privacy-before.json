@@ -1,0 +1,13 @@
+{
+  "baseCommit": "c36914e9c064baddc8a66dac28c8fdc92b1253b1",
+  "verdict": "fail",
+  "eventCheck": {
+    "id": "event-chain",
+    "label": "事件链内容与保留区间完整",
+    "status": "fail",
+    "evidence": {
+      "error": "Unexpected token 'H', \"HUSH_731\" is not valid JSON"
+    }
+  },
+  "leaksPrivateEvent": true
+}
