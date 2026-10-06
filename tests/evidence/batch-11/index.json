@@ -1,0 +1,83 @@
+{
+  "format": "faultline-local-evidence-v1",
+  "version": "1.2.4",
+  "baseCommit": "b6c40bc4c844ffd1a49f6858ebe7641a7297c2e0",
+  "core": {
+    "tests": 111,
+    "passed": 110,
+    "failed": 0,
+    "skipped": 1
+  },
+  "records": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "before-write-boundary.tap",
+      "bytes": 3022,
+      "sha256": "9a437721fda9078d6a7b2c8e5b5cd8dcfd3b5e1c2e9572eaaf46b6e9f194afb6"
+    },
+    {
+      "path": "before.tap",
+      "bytes": 2441,
+      "sha256": "28bcd497e3d72769d5d838faecdbf7feac0b77addbc73bc4767ff77d209c2f33"
+    },
+    {
+      "path": "core-before-harness-fix.tap",
+      "bytes": 24724,
+      "sha256": "40fc5d2438a6935506cfd88dbb9c1a2c6c5495d1c7723bbd61d2bd46625e2c49"
+    },
+    {
+      "path": "core-final.tap",
+      "bytes": 24111,
+      "sha256": "34581a961fbf85b76b0e5c7c4a4684f25ff7228ef6a3337bbd9039213f01a7e4"
+    },
+    {
+      "path": "encoding-before.json",
+      "bytes": 2269,
+      "sha256": "825427713372b8a078619c7f93a99d39dd2261dd6966986ce545556521cd63fe"
+    },
+    {
+      "path": "format-check.log",
+      "bytes": 387,
+      "sha256": "c756a4bfa256fc7c59444ba01ddca0cf7629e55fc92041f34137fcc12b8ba56f"
+    },
+    {
+      "path": "http-harness-before.tap",
+      "bytes": 1793,
+      "sha256": "03a2071e661c9e87b1afc326debc3483db3497d70cbd44a24bd550e81f9f10ad"
+    },
+    {
+      "path": "process-drain.json",
+      "bytes": 739051,
+      "sha256": "ce664692dc36f289fc95587fd0281a879f7f2a13aa50459ac3825921245723dd"
+    },
+    {
+      "path": "runtime.json",
+      "bytes": 719,
+      "sha256": "b588845a71f24659251c59ef6462b04fa0998378036f124e096e70bf806a578e"
+    },
+    {
+      "path": "static-check.log",
+      "bytes": 298,
+      "sha256": "fcf10e120c340ebf91492b4f0e455dc64f6f2ce666e534a9457557d902db1b55"
+    },
+    {
+      "path": "type-contracts.log",
+      "bytes": 68,
+      "sha256": "4c307f406c7cce708e115123bc48024e7177194606a7618d78be51fd30171592"
+    },
+    {
+      "path": "unicode-final.tap",
+      "bytes": 1176,
+      "sha256": "8efd58e5374d631ff6023239a542ada1e15a09ab86af250aeb27f3e221bbcbd3"
+    },
+    {
+      "path": "writer-lock-recovery.json",
+      "bytes": 6690,
+      "sha256": "4798cdce5d1656ee342967890aaf4514e0661f7876e1b65b6acbcdf7706e126b"
+    }
+  ]
+}

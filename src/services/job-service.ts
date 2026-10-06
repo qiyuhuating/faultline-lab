@@ -27,6 +27,11 @@ export class JobService {
     this.clock = clock;
   }
   insert(definition: JobDefinition) {
+    insist(
+      !/[\uD800-\uDFFF]/u.test(definition.label),
+      'VALIDATION',
+      '任务名称不能包含不完整的 Unicode 字符。',
+    );
     const count = this.repository.count();
     insist(
       count < 10000,

@@ -1,5 +1,11 @@
 # Release history
 
+## v1.2.4 — 2026-10-06
+
+- Reject ill-formed Unicode task labels at the insertion boundary before any record is written. Previously an HTTP-accepted lone surrogate was replaced by SQLite while remaining escaped in the JSON definition, creating a task that immediately failed consistency diagnosis.
+- Preserve valid emoji, supplementary characters, embedded NUL, the replacement character and normalized request replay. Require rejected HTTP requests to reserve no request key and allow that key to submit valid content afterward.
+- Keep legacy definitions readable and claimable; existing mismatched records remain diagnostic failures without repair. Four regressions retain the original failures, positive round trips and a legacy task followed by healthy work.
+
 ## v1.2.3 — 2026-10-06
 
 - Keep malformed event JSON at FAIL while replacing its parser exception with a fixed, content-free diagnostic message. JavaScript parse errors can include the private input that caused them.

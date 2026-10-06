@@ -1,6 +1,14 @@
-# Faultline v1.2.3 — verification record
+# Faultline v1.2.4 — verification record
 
 Updated 2026-10-06. Evidence includes local engine tests and actual GitHub Actions browser runs. The hosted site plays recorded traces; the downloadable application runs real worker processes.
+
+## v1.2.4 Unicode task-label persistence
+
+On frozen v1.2.3, real HTTP submissions with lone high or low surrogate labels returned 201. SQLite stored U+FFFD in the indexed label, but the JSON definition preserved the escaped surrogate. Doctor correctly flagged the task immediately afterward. Valid emoji and embedded NUL did not exhibit this mismatch. Batch-11 retains the original responses and failing-before tests.
+
+The task insertion boundary now rejects unpaired surrogate code units with VALIDATION before writing any job, request, event or sequence record. Six malformed patterns are rejected through both Queue and actual HTTP requests; a rejected key remains free for a valid submission. Well-formed supplementary characters, a 40-emoji label at the existing 80-code-unit limit, embedded NUL, the replacement character and multilingual names round-trip through normalization, deduplication and database reopen.
+
+Validation remains at the new-write boundary. Existing legacy records stay readable and claimable, and a previously accepted malformed label cannot block healthy work behind it. Existing metadata disagreement still produces Doctor FAIL without rewriting the old label or definition. Core acceptance contains 111 cases; the exact-commit platform, model, live-fault and browser gates remain required.
 
 ## v1.2.3 malformed-event diagnostic privacy
 

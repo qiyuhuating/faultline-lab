@@ -41,7 +41,7 @@ Base: `http://127.0.0.1:8787`。所有响应为 JSON，SSE 与静态资源除外
 | 字段 | 默认与范围 |
 | --- | --- |
 | kind | digest；可选 csv_summary（只接受逗号/空白/分号分隔的有限数值，不是通用 CSV 解析器） |
-| label | Untitled task；去除首尾空白后 1–80 字符 |
+| label | Untitled task；去除首尾空白后 1–80 个 UTF-16 代码单元；新任务名称必须是完整 Unicode 字符，未配对的代理项返回 VALIDATION |
 | text | 内置示例文字；最多 12,000 UTF-8 bytes |
 | priority | 0；0–5，越高越先领取，但不能绕过 due 时间 |
 | maxAttempts | 4；1–5 |

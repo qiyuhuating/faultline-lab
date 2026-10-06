@@ -1,0 +1,49 @@
+TAP version 13
+# Subtest: ill-formed Unicode task labels are rejected without changing any record or reserving their request key
+ok 1 - ill-formed Unicode task labels are rejected without changing any record or reserving their request key
+  ---
+  duration_ms: 57.3887
+  type: 'test'
+  ...
+# Subtest: HTTP rejects ill-formed labels before persistence and the same key can submit a valid Unicode label
+ok 2 - HTTP rejects ill-formed labels before persistence and the same key can submit a valid Unicode label
+  ---
+  duration_ms: 104.0661
+  type: 'test'
+  ...
+# Subtest: well-formed Unicode labels survive normalization, request replay and database reopen
+ok 3 - well-formed Unicode labels survive normalization, request replay and database reopen
+  ---
+  duration_ms: 82.5077
+  type: 'test'
+  ...
+# Subtest: an existing legacy ill-formed label remains readable and cannot block later healthy work
+not ok 4 - an existing legacy ill-formed label remains readable and cannot block later healthy work
+  ---
+  duration_ms: 53.9078
+  type: 'test'
+  location: 'D:\\Codex存储文件夹\\2026-10-04\\https-chatgpt-com-share-6ac25f8f-b1f0-2\\work\\faultline-lab\\tests\\unicode.test.mjs:81:1'
+  failureType: 'testCodeFailure'
+  error: '任务名称不能包含不完整的 Unicode 字符。'
+  code: 'VALIDATION'
+  stack: |-
+    insist (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/src/validation.ts:21:25)
+    jobDefinition (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/src/validation.ts:96:3)
+    serialize (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/src/domain/job.ts:107:42)
+    file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/src/services/query-service.ts:41:19
+    SqliteStore.readTransaction (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/src/storage/sqlite-store.ts:75:21)
+    QueryService.detail (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/src/services/query-service.ts:38:23)
+    Queue.detail (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/src/queue.ts:129:25)
+    TestContext.<anonymous> (file:///D:/Codex%E5%AD%98%E5%82%A8%E6%96%87%E4%BB%B6%E5%A4%B9/2026-10-04/https-chatgpt-com-share-6ac25f8f-b1f0-2/work/faultline-lab/tests/unicode.test.mjs:92:22)
+    Test.runInAsyncScope (node:async_hooks:227:14)
+    Test.run (node:internal/test_runner/test:1306:25)
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 3
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 425.6894
